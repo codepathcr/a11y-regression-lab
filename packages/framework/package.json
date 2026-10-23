@@ -1,0 +1,13 @@
+{
+  "name": "@a11y-lab/framework",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Captura, normalizacion y comparacion diferencial de trazas de interaccion accesible",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "playwright": "1.48.2"
+  }
+}

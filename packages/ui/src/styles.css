@@ -1,0 +1,176 @@
+/**
+ * Estilos de las primitivas. Las apps del benchmark importan este archivo.
+ *
+ * Regla que no se negocia: el indicador de foco es visible y tiene contraste
+ * suficiente. Quitarlo es un defecto de accesibilidad, de modo que una base con
+ * el foco invisible invalidaría todos los pares que la usan.
+ */
+
+:root {
+  --a11y-ink: #111418;
+  --a11y-ink-soft: #4a5260;
+  --a11y-line: #c4cad4;
+  --a11y-accent: #1a4fd6;
+  --a11y-danger: #a8111f;
+  --a11y-surface: #ffffff;
+  --a11y-radius: 6px;
+}
+
+*:focus-visible {
+  outline: 3px solid var(--a11y-accent);
+  outline-offset: 2px;
+}
+
+body {
+  margin: 0;
+  padding: 1.5rem;
+  font: 1rem/1.5 system-ui, sans-serif;
+  color: var(--a11y-ink);
+  background: var(--a11y-surface);
+}
+
+.a11y-button {
+  font: inherit;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--a11y-line);
+  border-radius: var(--a11y-radius);
+  background: var(--a11y-surface);
+  color: var(--a11y-ink);
+  cursor: pointer;
+}
+.a11y-button--primary {
+  background: var(--a11y-accent);
+  border-color: var(--a11y-accent);
+  color: #ffffff;
+}
+.a11y-button--ghost {
+  border-color: transparent;
+  text-align: left;
+}
+.a11y-button[disabled] {
+  color: var(--a11y-ink-soft);
+  cursor: not-allowed;
+}
+
+.a11y-field {
+  display: grid;
+  gap: 0.25rem;
+  margin-block-end: 1rem;
+  max-width: 28rem;
+}
+.a11y-field input {
+  font: inherit;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--a11y-line);
+  border-radius: var(--a11y-radius);
+}
+.a11y-field input[aria-invalid='true'] {
+  border-color: var(--a11y-danger);
+}
+.a11y-field__hint {
+  margin: 0;
+  color: var(--a11y-ink-soft);
+  font-size: 0.875rem;
+}
+.a11y-field__error:not(:empty) {
+  color: var(--a11y-danger);
+  font-size: 0.875rem;
+}
+
+.a11y-disclosure__panel {
+  padding: 0.5rem 1rem;
+  border-inline-start: 2px solid var(--a11y-line);
+}
+
+.a11y-dialog {
+  border: 1px solid var(--a11y-line);
+  border-radius: var(--a11y-radius);
+  padding: 1.25rem;
+  max-width: 32rem;
+}
+.a11y-dialog::backdrop {
+  background: rgb(17 20 24 / 45%);
+}
+
+.a11y-menu {
+  position: relative;
+  display: inline-block;
+}
+.a11y-menu__list {
+  position: absolute;
+  z-index: 10;
+  margin: 0.25rem 0 0;
+  padding: 0.25rem;
+  min-width: 12rem;
+  list-style: none;
+  border: 1px solid var(--a11y-line);
+  border-radius: var(--a11y-radius);
+  background: var(--a11y-surface);
+}
+.a11y-menu__item {
+  display: block;
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  padding: 0.4rem 0.6rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.a11y-tabs__list {
+  display: flex;
+  gap: 0.25rem;
+  border-block-end: 1px solid var(--a11y-line);
+}
+.a11y-tabs__tab {
+  font: inherit;
+  padding: 0.5rem 0.9rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.a11y-tabs__tab[aria-selected='true'] {
+  box-shadow: inset 0 -3px 0 var(--a11y-accent);
+  font-weight: 600;
+}
+.a11y-tabs__panel {
+  padding: 1rem 0;
+}
+
+.a11y-combobox {
+  position: relative;
+  display: grid;
+  gap: 0.25rem;
+  max-width: 28rem;
+}
+.a11y-combobox input {
+  font: inherit;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--a11y-line);
+  border-radius: var(--a11y-radius);
+}
+.a11y-combobox__list {
+  position: absolute;
+  inset-block-start: 100%;
+  z-index: 10;
+  width: 100%;
+  margin: 0.25rem 0 0;
+  padding: 0.25rem;
+  list-style: none;
+  border: 1px solid var(--a11y-line);
+  border-radius: var(--a11y-radius);
+  background: var(--a11y-surface);
+}
+.a11y-combobox__option[aria-selected='true'] {
+  background: var(--a11y-accent);
+  color: #ffffff;
+}
+
+/* Las regiones live son visibles a propósito: durante el desarrollo de los
+   fixtures conviene ver lo que se anuncia. */
+.a11y-live {
+  font-size: 0.875rem;
+  color: var(--a11y-ink-soft);
+  min-height: 1.5em;
+}

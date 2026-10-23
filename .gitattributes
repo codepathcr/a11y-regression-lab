@@ -1,0 +1,6 @@
+# Normaliza fines de linea: el repo guarda LF, Windows trabaja como quiera.
+# Sin esto, cada archivo creado en Windows aparece como modificado.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary

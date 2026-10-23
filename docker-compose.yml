@@ -1,0 +1,31 @@
+services:
+  lab:
+    build: .
+    image: a11y-regression-lab:dev
+    working_dir: /app
+    init: true
+    stdin_open: true
+    tty: true
+    command: bash
+    # Chromium se cae con la memoria compartida que Docker asigna por defecto
+    # (64 MB). Esto no es opcional.
+    shm_size: 1gb
+    ports:
+      # Servidor estático del harness, sobre el que se hace la medición.
+      - '5273:5273'
+      # Servidor de desarrollo, solo para construir fixtures.
+      - '5272:5272'
+    volumes:
+      - .:/app
+      # node_modules vive DENTRO del contenedor. El del host puede tener
+      # binarios de otra plataforma y taparía los correctos.
+      - lab-root-modules:/app/node_modules
+      - lab-framework-modules:/app/packages/framework/node_modules
+      - lab-ui-modules:/app/packages/ui/node_modules
+      - lab-benchmark-modules:/app/packages/benchmark/node_modules
+
+volumes:
+  lab-root-modules:
+  lab-framework-modules:
+  lab-ui-modules:
+  lab-benchmark-modules:

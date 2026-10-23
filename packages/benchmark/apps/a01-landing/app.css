@@ -1,0 +1,56 @@
+/* Maquetación propia de esta app. No aporta semántica: todo lo que importa
+   para la accesibilidad vive en los componentes. */
+
+.landing {
+  max-width: 54rem;
+  margin-inline: auto;
+}
+
+/* Enlace de salto: oculto hasta recibir el foco, nunca retirado del orden de
+   tabulación. Usar display:none o visibility:hidden lo volvería inalcanzable. */
+.landing__skip {
+  position: absolute;
+  inset-inline-start: -9999px;
+}
+.landing__skip:focus-visible {
+  position: static;
+  display: inline-block;
+  margin-block-end: 0.5rem;
+}
+
+.landing__nav {
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  list-style: none;
+  border-block-end: 1px solid var(--a11y-line);
+  padding-block-end: 0.75rem;
+}
+
+.landing__lead {
+  font-size: 1.125rem;
+  color: var(--a11y-ink-soft);
+  max-width: 44ch;
+}
+
+.landing__cards {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+.landing__cards h3 {
+  margin-block: 0 0.25rem;
+}
+.landing__cards p {
+  margin: 0;
+  color: var(--a11y-ink-soft);
+}
+
+.landing__field-group {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+}

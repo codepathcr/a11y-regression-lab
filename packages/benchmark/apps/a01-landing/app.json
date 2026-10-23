@@ -1,0 +1,94 @@
+{
+  "id": "a01-landing",
+  "title": "Landing informativa de una consultoría de accesibilidad",
+  "stratum": "small",
+  "primitives": ["Button", "Disclosure", "TextField", "LiveRegion"],
+  "scenario": {
+    "provisional": true,
+    "note": "Escenario provisional para desbloquear la tubería. El diseño definitivo de los escenarios de interacción se aborda al final, según lo acordado.",
+    "steps": [
+      { "action": "press", "key": "Tab" },
+      { "action": "press", "key": "Tab" },
+      { "action": "click", "selector": "#preguntas .a11y-disclosure:first-of-type > *:first-child" },
+      { "action": "focus", "selector": "[data-testid=email]" },
+      { "action": "fill", "selector": "[data-testid=email]", "value": "correo-sin-arroba" },
+      { "action": "click", "selector": "[data-testid=enviar]" },
+      { "action": "fill", "selector": "[data-testid=email]", "value": "persona@ejemplo.com" },
+      { "action": "click", "selector": "[data-testid=enviar]" },
+      { "action": "settle", "ms": 200 }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos."
+    },
+    {
+      "id": "m01-kbd-activation",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "kbd-activation-removal",
+        "source": "propio",
+        "description": "Eliminación de activación mediante teclado",
+        "target": "FaqSection",
+        "locality": "componente de la app",
+        "transformation": "El disparador del acordeón pasa de <button> a <div> con manejador de clic, sin atributos ARIA."
+      },
+      "wcag": ["2.1.1"],
+      "groundTruth": {
+        "regression": true,
+        "category": "operación mediante teclado",
+        "expectedStep": 3,
+        "expectedEvidence": "ausencia de evento de foco y de cambio de aria-expanded al intentar activar por teclado",
+        "staticallyDetectable": false,
+        "rationale": "Un div con manejador de clic es marcado válido; axe-core no reporta nada. El defecto solo se manifiesta al intentar la interacción por teclado."
+      }
+    },
+    {
+      "id": "m02-status-silent",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "status-announcement-removal",
+        "source": "propio",
+        "description": "Eliminación del anuncio accesible de un mensaje de estado",
+        "target": "ContactForm",
+        "locality": "componente de la app",
+        "transformation": "La confirmación de envío pasa de una región live (role=status, aria-live=polite) a un div sin semántica."
+      },
+      "wcag": ["4.1.3"],
+      "groundTruth": {
+        "regression": true,
+        "category": "comunicación accesible de actualizaciones dinámicas",
+        "expectedStep": 8,
+        "expectedEvidence": "ausencia del evento de anuncio que la versión base produce al confirmar el envío",
+        "staticallyDetectable": false,
+        "rationale": "Un div con texto es marcado válido. La diferencia existe solo en la traza, como un evento de anuncio que falta."
+      }
+    },
+    {
+      "id": "m03-neutral-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorización que preserva la accesibilidad",
+        "target": "ContactForm",
+        "locality": "componente de la app",
+        "transformation": "La validación se extrae a una función pura y los campos se envuelven en un contenedor de maquetación."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "No hay cambio semántico alguno. El contenedor adicional sí desplaza la ruta en el DOM de los elementos que envuelve, de modo que este caso pone a prueba la normalización: si la identidad de un elemento se construye desde su ruta estructural, el detector va a reportar un falso positivo."
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+node_modules/
+.pnpm-store/
+dist/
+out/
+.venv/
+__pycache__/
+*.log
+.DS_Store
+Thumbs.db
