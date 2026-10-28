@@ -23,9 +23,11 @@ services:
       - lab-framework-modules:/app/packages/framework/node_modules
       - lab-ui-modules:/app/packages/ui/node_modules
       - lab-benchmark-modules:/app/packages/benchmark/node_modules
+      - lab-analysis-modules:/app/packages/analysis/node_modules
 
 volumes:
   lab-root-modules:
   lab-framework-modules:
   lab-ui-modules:
   lab-benchmark-modules:
+  lab-analysis-modules:

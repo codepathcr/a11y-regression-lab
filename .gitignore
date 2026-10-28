@@ -16,3 +16,21 @@ packages/benchmark/data/traces/
 
 # Corridas en seco: artefactos de prueba del ejecutor, no datos del estudio.
 packages/benchmark/data/results/dry-*.jsonl
+
+# Reporte del flujo de Pull Requests: salida regenerable del simulador local.
+# El del workflow vive en el comentario del Pull Request, no en el repositorio.
+packages/benchmark/data/pr-report.md
+
+# Los reportes de análisis SÍ se versionan, a pesar de la regla `out/` de
+# arriba: son el artefacto del que salen las cifras del documento y permiten
+# verificarlas sin ejecutar nada. La bitácora de ejecución también está
+# versionada, de modo que son recalculables; esto evita tener que recalcularlos.
+#
+# Las cuatro líneas van juntas y en este orden. No alcanza con reincluir los
+# archivos: la regla `out/` excluye el DIRECTORIO, y git no desciende a un
+# directorio excluido. Hay que reincluir el directorio, volver a excluir todo su
+# contenido y reincluir solo los reportes.
+!analysis/out/
+analysis/out/*
+!analysis/out/reporte-*.txt
+!analysis/out/reporte-*.json

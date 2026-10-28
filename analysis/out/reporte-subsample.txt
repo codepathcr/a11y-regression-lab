@@ -1,0 +1,271 @@
+BLOQUE subsample · 720 filas · 720 claves unicas · 4 modelos
+
+Configuracion unica de la corrida:
+  charsPerToken    3.3
+  evidenceFormat   json
+  numCtx           26624
+  numPredict       2048
+  seed             7
+  systemHash       ca4a8f6693bd
+  temperature      0
+
+Respuestas por modelo:
+  modelo           llamadas  falladas  no interpretables
+  llama31-8b           180         0                  0
+  mistral-nemo         180         0                  0
+  phi35                180        10                 12
+  qwen25-7b            180         0                  0
+
+ADVERTENCIA DE LECTURA PARA UN BLOQUE CON REPETICIONES
+  Este bloque tiene 3 repeticiones por condicion, de modo que cada par
+  aparece varias veces. Las metricas de deteccion, los contrastes de hipotesis y
+  los intervalos que siguen tratan cada repeticion como una observacion, y no lo
+  es: inflan los conteos y violan la independencia que esas pruebas suponen.
+  Para este bloque son DESCRIPTIVOS y no citables. Las estimaciones citables de
+  deteccion son las del bloque completo. Lo que este bloque mide es la seccion
+  de consistencia entre repeticiones, al final del reporte.
+
+==============================================================================
+DESEMPENO AGREGADO DE LOS CUATRO MODELOS
+==============================================================================
+
+  estrategia     det/punt    TP  FP  TN  FN   precision  recall    F1      TFP
+  static        121/228     34  15  87  92   0.694      0.270   0.389   0.147
+  state-diff    162/237     81  27  81  48   0.750      0.628   0.684   0.250
+  trace-diff    185/233     95  18  90  30   0.841      0.760   0.798   0.167
+
+  Las tres estrategias ven los MISMOS pares. El incremento de informacion entre
+  ellas es de una sola variable: la base primero, los eventos de transicion despues.
+
+==============================================================================
+POR MODELO Y ESTRATEGIA
+==============================================================================
+
+  F1
+  modelo                  static   state-diff   trace-diff
+  llama31-8b              0.565        0.783        0.818
+  mistral-nemo            0.468        0.533        0.900
+  phi35                   0.408        0.817        0.813
+  qwen25-7b               0.000        0.500        0.625
+
+  RECALL
+  modelo                  static   state-diff   trace-diff
+  llama31-8b              0.394        0.818        0.818
+  mistral-nemo            0.333        0.364        0.818
+  phi35                   0.370        0.967        1.000
+  qwen25-7b               0.000        0.394        0.455
+
+  PRECISION
+  modelo                  static   state-diff   trace-diff
+  llama31-8b              1.000        0.750        0.818
+  mistral-nemo            0.786        1.000        1.000
+  phi35                   0.455        0.707        0.684
+  qwen25-7b                 n/d        0.684        1.000
+
+  FPR
+  modelo                  static   state-diff   trace-diff
+  llama31-8b              0.000        0.333        0.222
+  mistral-nemo            0.111        0.000        0.000
+  phi35                   0.571        0.444        0.444
+  qwen25-7b               0.000        0.222        0.000
+
+==============================================================================
+CONTRASTE DE HIPOTESIS
+==============================================================================
+
+  McNemar exacto sobre la deteccion. Observaciones pareadas: las tres estrategias
+  se aplican a los mismos pares, de modo que las pruebas respetan el apareamiento.
+
+  hip.   comparacion                  solo 2o  solo 1o   discord.   p        p (Holm)
+  H0-1   static      vs state-diff       22        9        31   2.94e-02  5.89e-02
+  H0-2   state-diff  vs trace-diff       12        3        15   3.52e-02  5.89e-02
+  extra  static      vs trace-diff       25        4        29   1.04e-04       —  
+
+  H0-1: NO se rechaza. Lo que aporta: tener una version base con que comparar.
+  H0-2: NO se rechaza. Lo que aporta: los eventos de transicion: el contexto temporal.
+
+  Los valores p llevan la correccion de Holm declarada en 3.7.3 antes de ver los
+  datos. El contraste 'extra' no entra en la familia: es descriptivo.
+
+  H0-2 por modelo, para ver si el agregado esconde heterogeneidad:
+
+  modelo           solo trace   solo state   discord.    p        direccion
+  llama31-8b               3            2          5    1.0000   trace-diff
+  mistral-nemo             5            0          5    0.0625   trace-diff
+  phi35                    0            0          0    1.0000   empate
+  qwen25-7b                4            1          5    0.3750   trace-diff
+
+  Con quince a veinte pares discordantes por modelo, cada contraste individual
+  carece de potencia. Lo que sostiene el resultado es el agregado mas la
+  consistencia de la direccion, no cada modelo por separado.
+
+  Q de Cochran sobre las tres estrategias: Q=18.00, gl=2, p=1.234e-04
+    casos con las tres puntuadas: 75 · aciertos: static=39, state-diff=51, trace-diff=60
+
+==============================================================================
+MAGNITUD DEL EFECTO CON INTERVALOS POR CONGLOMERADO
+==============================================================================
+
+  Los pares proceden de diez aplicaciones y no son independientes: los de una
+  misma aplicacion comparten escenario, componentes y estilo de marcado. El
+  remuestreo toma APLICACIONES completas, no pares.
+
+  diferencia de F1                        observada   IC 95%                excluye 0
+  state-diff menos static               +0.295      [+0.191, +0.416]       si
+  trace-diff menos state-diff           +0.115      [-0.019, +0.224]       NO
+  trace-diff menos static               +0.410      [+0.261, +0.567]       si
+
+  10 conglomerados remuestreados. Con diez, la potencia efectiva es menor
+  que la nominal, y eso se declara junto al resultado.
+
+==============================================================================
+FALSOS POSITIVOS POR CLASE DE PAR
+==============================================================================
+
+  Es el desglose que justifica haber construido las clases de divergencia benigna
+  y defecto preexistente: sin ellas, la tasa de falsos positivos de las dos
+  estrategias diferenciales sale CERO por construccion, porque la compuerta
+  determinista resuelve los negativos de divergencia nula sin consultar al modelo.
+
+  estrategia                 positive            negative    benign-divergent         preexisting
+  static                       0/126                6/33                6/45                3/24
+  state-diff                   0/129                0/36               15/48               12/24
+  trace-diff                   0/125                0/36               12/48                6/24
+
+  Casos resueltos por la compuerta sin inferencia: 72
+
+==============================================================================
+EXACTITUD DE CATEGORIA CONTRA SU LINEA BASE
+==============================================================================
+
+  Linea base (H0-6): responder siempre la categoria mas frecuente del benchmark
+    = 16/42 = 0.381  ("orden y continuidad del foco")
+
+  estrategia     aciertos   exactitud   contra la linea base
+  static          16/34        0.471   por encima
+  state-diff      30/81        0.370   POR DEBAJO
+  trace-diff      39/95        0.411   por encima
+
+  Una exactitud cercana a la linea base es compatible con un sesgo hacia una
+  etiqueta y no con discriminacion entre categorias. De ahi la matriz que sigue.
+
+  MATRIZ DE CONFUSION DE CATEGORIA (trace-diff, los cuatro modelos)
+  verdad \ respuesta            orden  operaci  cambios  comunic     nula
+  orden                            36        3        0        0        0
+  operación                        17        0        1        0        0
+  cambios                          25        4        0        0        0
+  comunicación                      0        3        3        3        0
+
+==============================================================================
+LOCALIZACION DE LA TRANSICION, EN SUS DOS LECTURAS
+==============================================================================
+
+  estrategia     paso exacto      dentro de la evidencia
+  static          3/34    0.088    17/34    0.500
+  state-diff     41/81    0.506    78/81    0.963
+  trace-diff     42/95    0.442    95/95    1.000
+
+  La lectura tolerante se interpreta POR ESTRATEGIA y no como cifra global: en las
+  dos diferenciales la evidencia contiene unicamente los pasos divergentes, de modo
+  que nombrar uno de ellos esta casi forzado. En la estrategia sin version base, que
+  recibe todos los pasos, la misma medida si discrimina.
+
+==============================================================================
+EFICIENCIA
+==============================================================================
+
+  estrategia     tokens prompt (mediana)   latencia (mediana)   rango intercuartil
+  static                         11700                 2.1s   [0.7s, 11.3s]
+  state-diff                      1315                 1.0s   [0.8s, 1.9s]
+  trace-diff                      2167                 1.1s   [0.7s, 1.7s]
+
+  Delta de Cliff de la latencia, sin version base contra diferencial de trazas: +0.264
+  La compuerta determinista no solo evita llamadas: abarata las que hace.
+
+==============================================================================
+DESGLOSE POR OPERADOR Y POR ESTRATO (solo pares positivos)
+==============================================================================
+
+  SENSIBILIDAD POR OPERADOR
+  operador                                   static   state-diff   trace-diff
+  ccb                                         10/24        22/24        17/20
+  ccs                                          6/12         6/12        12/12
+  cto                                          8/24        15/24        18/24
+  focus-loss-after-update                      1/21        12/24        21/24
+  kbd-activation-removal                       3/21        15/21        18/21
+  status-announcement-removal                  6/24        11/24         9/24
+
+  SENSIBILIDAD POR ESTRATO
+  estrato            static   state-diff   trace-diff
+  small               14/48        34/48        31/43
+  medium              17/48        32/48        37/46
+  large                3/30        15/33        27/36
+
+==============================================================================
+DISCORDANCIAS PAR POR PAR entre diferencial de estados y de trazas
+==============================================================================
+
+  Regla de reporte de 3.7.3: toda comparacion entre condiciones se acompana de los
+  pares en que discrepan. Un cuadro resumen puede mostrar totales identicos para
+  dos condiciones que fallan en pares distintos, y con pocas observaciones esa
+  coincidencia es probable.
+
+  par                                                clase              gana        modelos
+  a03-panel/m04-ccs-focus-steal                     positive           trace-diff  2
+  a09-tienda/m07-focus-loss-on-remove               positive           trace-diff  2
+  a10-tramites/n01-benign-count-and-caption         benign-divergent   trace-diff  2
+  a10-tramites/p01-preexisting-cto-defect           preexisting        trace-diff  2
+  a01-landing/m01-kbd-activation                    positive           state-diff  1
+  a01-landing/m01-kbd-activation                    positive           trace-diff  1
+  a02-piscina/m01-cto-slot-tab-order                positive           trace-diff  1
+  a04-multipaso/m01-focus-loss-step-change          positive           trace-diff  1
+  a06-equipo/m05-status-silent                      positive           state-diff  1
+  a06-equipo/n01-benign-better-label                benign-divergent   state-diff  1
+  a09-tienda/m04-kbd-activation-removed             positive           trace-diff  1
+
+==============================================================================
+CONSISTENCIA ENTRE REPETICIONES
+==============================================================================
+
+  Mide la estabilidad de la respuesta ante la misma entrada, con temperatura
+  cero y semilla fija. Cualquier discrepancia observada es atribuible al
+  servidor de inferencia y no al muestreo del modelo, de modo que esta cifra
+  es un techo: la consistencia exigible a un detector construido sobre estos
+  modelos, no una propiedad del metodo.
+
+  Un grupo es una condicion completa: par, estrategia y modelo. Se excluyen
+  los casos resueltos por la compuerta determinista, que no consultan al
+  modelo y por construccion coinciden siempre.
+
+  Grupos evaluables: 208 de 216
+  Grupos descartados por respuesta faltante o fallida: 8
+
+  Unanimidad de la decision de regresion: 202/208   0.971
+  Kappa de Fleiss: 0.959   (observado 0.981, esperado 0.535)
+
+  Por modelo
+  modelo           grupos   unanimes   proporcion
+  llama31-8b          54         53   0.981
+  mistral-nemo        54         52   0.963
+  phi35               46         44   0.957
+  qwen25-7b           54         53   0.981
+
+  Por estrategia
+  estrategia       grupos   unanimes   proporcion
+  static              76         72   0.947
+  state-diff          67         65   0.970
+  trace-diff          65         65   1.000
+
+  Entre los grupos que detectaron la regresion en las tres ejecuciones:
+    misma categoria en las tres:  129/129   1.000
+    misma transicion en las tres: 129/129   1.000
+
+  Grupos con decision discordante entre repeticiones:
+  modelo           estrategia     par
+  llama31-8b      static         a04-multipaso/m01-focus-loss-step-change
+  mistral-nemo    static         a02-piscina/m01-cto-slot-tab-order
+  mistral-nemo    static         a05-blog/m02-ccb-search-on-blur
+  phi35           state-diff     a06-equipo/m05-status-silent
+  phi35           static         a02-piscina/m01-cto-slot-tab-order
+  qwen25-7b       state-diff     a07-perfil/m01-ccb-autosave-on-blur
+

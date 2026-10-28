@@ -19,7 +19,9 @@
     "pilot-format": "tsx scripts/pilot-format.ts",
     "capture-all": "tsx scripts/capture-all.ts",
     "run-analysis": "tsx scripts/run-analysis.ts",
-    "token-probe": "tsx scripts/token-probe.ts"
+    "token-probe": "tsx scripts/token-probe.ts",
+    "pr-check": "tsx scripts/pr-check.ts",
+    "pr-selftest": "tsx scripts/pr-selftest.ts"
   },
   "dependencies": {
     "@a11y-lab/framework": "workspace:*",

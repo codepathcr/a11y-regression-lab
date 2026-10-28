@@ -1,0 +1,910 @@
+{
+  "block": "full",
+  "config": {
+    "charsPerToken": 3.3,
+    "evidenceFormat": "json",
+    "numCtx": 26624,
+    "numPredict": 2048,
+    "seed": 7,
+    "systemHash": "ca4a8f6693bd",
+    "temperature": 0
+  },
+  "models": [
+    "llama31-8b",
+    "mistral-nemo",
+    "phi35",
+    "qwen25-7b"
+  ],
+  "aggregate": {
+    "static": {
+      "calls": 304,
+      "scored": 292,
+      "failed": 1,
+      "invalid": 11,
+      "tp": 44,
+      "fp": 37,
+      "tn": 93,
+      "fn": 118,
+      "detection": 137,
+      "precision": 0.5432098765432098,
+      "recall": 0.2716049382716049,
+      "f1": 0.3621399176954732,
+      "fpr": 0.2846153846153846,
+      "gated": 0
+    },
+    "state-diff": {
+      "calls": 304,
+      "scored": 302,
+      "failed": 2,
+      "invalid": 0,
+      "tp": 97,
+      "fp": 24,
+      "tn": 112,
+      "fn": 69,
+      "detection": 209,
+      "precision": 0.8016528925619835,
+      "recall": 0.5843373493975904,
+      "f1": 0.6759581881533102,
+      "fpr": 0.17647058823529413,
+      "gated": 72
+    },
+    "trace-diff": {
+      "calls": 304,
+      "scored": 301,
+      "failed": 3,
+      "invalid": 0,
+      "tp": 113,
+      "fp": 20,
+      "tn": 116,
+      "fn": 52,
+      "detection": 229,
+      "precision": 0.849624060150376,
+      "recall": 0.6848484848484848,
+      "f1": 0.7583892617449663,
+      "fpr": 0.14705882352941177,
+      "gated": 72
+    }
+  },
+  "by_model": {
+    "llama31-8b": {
+      "static": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 11,
+        "fp": 9,
+        "tn": 25,
+        "fn": 31,
+        "detection": 36,
+        "precision": 0.55,
+        "recall": 0.2619047619047619,
+        "f1": 0.3548387096774194,
+        "fpr": 0.2647058823529412,
+        "gated": 0
+      },
+      "state-diff": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 33,
+        "fp": 10,
+        "tn": 24,
+        "fn": 9,
+        "detection": 57,
+        "precision": 0.7674418604651163,
+        "recall": 0.7857142857142857,
+        "f1": 0.7764705882352941,
+        "fpr": 0.29411764705882354,
+        "gated": 18
+      },
+      "trace-diff": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 37,
+        "fp": 9,
+        "tn": 25,
+        "fn": 5,
+        "detection": 62,
+        "precision": 0.8043478260869565,
+        "recall": 0.8809523809523809,
+        "f1": 0.8409090909090908,
+        "fpr": 0.2647058823529412,
+        "gated": 18
+      }
+    },
+    "mistral-nemo": {
+      "static": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 15,
+        "fp": 13,
+        "tn": 21,
+        "fn": 27,
+        "detection": 36,
+        "precision": 0.5357142857142857,
+        "recall": 0.35714285714285715,
+        "f1": 0.4285714285714286,
+        "fpr": 0.38235294117647056,
+        "gated": 0
+      },
+      "state-diff": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 12,
+        "fp": 0,
+        "tn": 34,
+        "fn": 30,
+        "detection": 46,
+        "precision": 1.0,
+        "recall": 0.2857142857142857,
+        "f1": 0.4444444444444445,
+        "fpr": 0.0,
+        "gated": 18
+      },
+      "trace-diff": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 22,
+        "fp": 0,
+        "tn": 34,
+        "fn": 20,
+        "detection": 56,
+        "precision": 1.0,
+        "recall": 0.5238095238095238,
+        "f1": 0.6875000000000001,
+        "fpr": 0.0,
+        "gated": 18
+      }
+    },
+    "phi35": {
+      "static": {
+        "calls": 76,
+        "scored": 64,
+        "failed": 1,
+        "invalid": 11,
+        "tp": 17,
+        "fp": 14,
+        "tn": 14,
+        "fn": 19,
+        "detection": 31,
+        "precision": 0.5483870967741935,
+        "recall": 0.4722222222222222,
+        "f1": 0.5074626865671641,
+        "fpr": 0.5,
+        "gated": 0
+      },
+      "state-diff": {
+        "calls": 76,
+        "scored": 74,
+        "failed": 2,
+        "invalid": 0,
+        "tp": 36,
+        "fp": 12,
+        "tn": 22,
+        "fn": 4,
+        "detection": 58,
+        "precision": 0.75,
+        "recall": 0.9,
+        "f1": 0.8181818181818182,
+        "fpr": 0.35294117647058826,
+        "gated": 18
+      },
+      "trace-diff": {
+        "calls": 76,
+        "scored": 73,
+        "failed": 3,
+        "invalid": 0,
+        "tp": 37,
+        "fp": 9,
+        "tn": 25,
+        "fn": 2,
+        "detection": 62,
+        "precision": 0.8043478260869565,
+        "recall": 0.9487179487179487,
+        "f1": 0.8705882352941177,
+        "fpr": 0.2647058823529412,
+        "gated": 18
+      }
+    },
+    "qwen25-7b": {
+      "static": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 1,
+        "fp": 1,
+        "tn": 33,
+        "fn": 41,
+        "detection": 34,
+        "precision": 0.5,
+        "recall": 0.023809523809523808,
+        "f1": 0.04545454545454545,
+        "fpr": 0.029411764705882353,
+        "gated": 0
+      },
+      "state-diff": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 16,
+        "fp": 2,
+        "tn": 32,
+        "fn": 26,
+        "detection": 48,
+        "precision": 0.8888888888888888,
+        "recall": 0.38095238095238093,
+        "f1": 0.5333333333333333,
+        "fpr": 0.058823529411764705,
+        "gated": 18
+      },
+      "trace-diff": {
+        "calls": 76,
+        "scored": 76,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 17,
+        "fp": 2,
+        "tn": 32,
+        "fn": 25,
+        "detection": 49,
+        "precision": 0.8947368421052632,
+        "recall": 0.40476190476190477,
+        "f1": 0.5573770491803278,
+        "fpr": 0.058823529411764705,
+        "gated": 18
+      }
+    }
+  },
+  "tests": {
+    "H0-1": {
+      "a": "static",
+      "b": "state-diff",
+      "what": "tener una version base con que comparar",
+      "only_b": 91,
+      "only_a": 27,
+      "p": 2.6899026850690616e-09,
+      "p_holm": 5.379805370138123e-09,
+      "verdict": "RECHAZADA"
+    },
+    "H0-2": {
+      "a": "state-diff",
+      "b": "trace-diff",
+      "what": "los eventos de transicion: el contexto temporal",
+      "only_b": 40,
+      "only_a": 19,
+      "p": 0.008641499683281734,
+      "p_holm": 0.008641499683281734,
+      "verdict": "RECHAZADA"
+    },
+    "extra": {
+      "a": "static",
+      "b": "trace-diff",
+      "what": "el efecto acumulado de las dos variables",
+      "only_b": 104,
+      "only_a": 19,
+      "p": 2.219868911451848e-15,
+      "p_holm": null,
+      "verdict": "RECHAZADA"
+    }
+  },
+  "h0_2_by_model": {
+    "llama31-8b": {
+      "only_trace": 10,
+      "only_state": 5,
+      "p": 0.3017578125
+    },
+    "mistral-nemo": {
+      "only_trace": 14,
+      "only_state": 4,
+      "p": 0.0308837890625
+    },
+    "phi35": {
+      "only_trace": 6,
+      "only_state": 1,
+      "p": 0.125
+    },
+    "qwen25-7b": {
+      "only_trace": 10,
+      "only_state": 9,
+      "p": 1.0
+    }
+  },
+  "cochran": {
+    "q": 77.47297297297297,
+    "df": 2,
+    "p": 1.5029954664199458e-17,
+    "hits": [
+      135,
+      198,
+      219
+    ],
+    "n": 288
+  },
+  "bootstrap": {
+    "state-diff-static": {
+      "observed": 0.313818270457837,
+      "low": 0.20456089277049982,
+      "high": 0.4503866300823147,
+      "excludes_zero": true,
+      "clusters": 10,
+      "draws": 4000
+    },
+    "trace-diff-state-diff": {
+      "observed": 0.08243107359165613,
+      "low": 0.028630091748388264,
+      "high": 0.13590733590733584,
+      "excludes_zero": true,
+      "clusters": 10,
+      "draws": 4000
+    },
+    "trace-diff-static": {
+      "observed": 0.39624934404949314,
+      "low": 0.28509168216848246,
+      "high": 0.5193448061372591,
+      "excludes_zero": true,
+      "clusters": 10,
+      "draws": 4000
+    }
+  },
+  "fp_by_label": {
+    "static": {
+      "positive": {
+        "fp": 0,
+        "n": 162
+      },
+      "negative": {
+        "fp": 18,
+        "n": 69
+      },
+      "benign-divergent": {
+        "fp": 10,
+        "n": 38
+      },
+      "preexisting": {
+        "fp": 9,
+        "n": 23
+      }
+    },
+    "state-diff": {
+      "positive": {
+        "fp": 0,
+        "n": 166
+      },
+      "negative": {
+        "fp": 0,
+        "n": 72
+      },
+      "benign-divergent": {
+        "fp": 15,
+        "n": 40
+      },
+      "preexisting": {
+        "fp": 9,
+        "n": 24
+      }
+    },
+    "trace-diff": {
+      "positive": {
+        "fp": 0,
+        "n": 165
+      },
+      "negative": {
+        "fp": 0,
+        "n": 72
+      },
+      "benign-divergent": {
+        "fp": 13,
+        "n": 40
+      },
+      "preexisting": {
+        "fp": 7,
+        "n": 24
+      }
+    }
+  },
+  "category": {
+    "baseline": 0.38095238095238093,
+    "baseline_label": "orden y continuidad del foco",
+    "by_strategy": {
+      "static": {
+        "hits": 17,
+        "n": 44,
+        "accuracy": 0.38636363636363635
+      },
+      "state-diff": {
+        "hits": 36,
+        "n": 97,
+        "accuracy": 0.3711340206185567
+      },
+      "trace-diff": {
+        "hits": 46,
+        "n": 113,
+        "accuracy": 0.40707964601769914
+      }
+    },
+    "matrix": {
+      "operación mediante teclado|orden y continuidad del foco": 11,
+      "comunicación accesible de actualizaciones dinámicas|cambios inesperados de contexto": 4,
+      "orden y continuidad del foco|orden y continuidad del foco": 39,
+      "cambios inesperados de contexto|orden y continuidad del foco": 17,
+      "comunicación accesible de actualizaciones dinámicas|orden y continuidad del foco": 9,
+      "operación mediante teclado|cambios inesperados de contexto": 3,
+      "cambios inesperados de contexto|cambios inesperados de contexto": 3,
+      "orden y continuidad del foco|cambios inesperados de contexto": 3,
+      "cambios inesperados de contexto|operación mediante teclado": 9,
+      "operación mediante teclado|operación mediante teclado": 3,
+      "orden y continuidad del foco|operación mediante teclado": 6,
+      "comunicación accesible de actualizaciones dinámicas|operación mediante teclado": 1,
+      "operación mediante teclado|comunicación accesible de actualizaciones dinámicas": 2,
+      "comunicación accesible de actualizaciones dinámicas|comunicación accesible de actualizaciones dinámicas": 1,
+      "cambios inesperados de contexto|comunicación accesible de actualizaciones dinámicas": 2
+    }
+  },
+  "localization": {
+    "static": {
+      "exact": 10,
+      "within": 24,
+      "n": 44
+    },
+    "state-diff": {
+      "exact": 36,
+      "within": 96,
+      "n": 97
+    },
+    "trace-diff": {
+      "exact": 46,
+      "within": 113,
+      "n": 113
+    }
+  },
+  "efficiency": {
+    "static": {
+      "tokens_median": 9759,
+      "latency_median_ms": 3497,
+      "latency_q1_ms": 2034,
+      "latency_q3_ms": 11471,
+      "n": 303
+    },
+    "state-diff": {
+      "tokens_median": 1658.5,
+      "latency_median_ms": 1671.5,
+      "latency_q1_ms": 1082,
+      "latency_q3_ms": 2313,
+      "n": 230
+    },
+    "trace-diff": {
+      "tokens_median": 2285,
+      "latency_median_ms": 1634,
+      "latency_q1_ms": 1046,
+      "latency_q3_ms": 2217,
+      "n": 229
+    },
+    "cliffs_delta_latency_static_vs_trace": 0.5057424001814882
+  },
+  "by_operator": {
+    "ccb": {
+      "static": {
+        "tp": 6,
+        "n": 23
+      },
+      "state-diff": {
+        "tp": 18,
+        "n": 24
+      },
+      "trace-diff": {
+        "tp": 18,
+        "n": 24
+      }
+    },
+    "ccs": {
+      "static": {
+        "tp": 5,
+        "n": 16
+      },
+      "state-diff": {
+        "tp": 11,
+        "n": 15
+      },
+      "trace-diff": {
+        "tp": 13,
+        "n": 16
+      }
+    },
+    "cto": {
+      "static": {
+        "tp": 10,
+        "n": 31
+      },
+      "state-diff": {
+        "tp": 21,
+        "n": 32
+      },
+      "trace-diff": {
+        "tp": 23,
+        "n": 32
+      }
+    },
+    "focus-loss-after-update": {
+      "static": {
+        "tp": 8,
+        "n": 30
+      },
+      "state-diff": {
+        "tp": 13,
+        "n": 32
+      },
+      "trace-diff": {
+        "tp": 25,
+        "n": 32
+      }
+    },
+    "kbd-activation-removal": {
+      "static": {
+        "tp": 7,
+        "n": 27
+      },
+      "state-diff": {
+        "tp": 21,
+        "n": 27
+      },
+      "trace-diff": {
+        "tp": 19,
+        "n": 26
+      }
+    },
+    "status-announcement-removal": {
+      "static": {
+        "tp": 8,
+        "n": 35
+      },
+      "state-diff": {
+        "tp": 13,
+        "n": 36
+      },
+      "trace-diff": {
+        "tp": 15,
+        "n": 35
+      }
+    }
+  },
+  "by_stratum": {
+    "small": {
+      "static": {
+        "tp": 11,
+        "n": 32
+      },
+      "state-diff": {
+        "tp": 19,
+        "n": 31
+      },
+      "trace-diff": {
+        "tp": 19,
+        "n": 31
+      }
+    },
+    "medium": {
+      "static": {
+        "tp": 28,
+        "n": 80
+      },
+      "state-diff": {
+        "tp": 52,
+        "n": 80
+      },
+      "trace-diff": {
+        "tp": 59,
+        "n": 78
+      }
+    },
+    "large": {
+      "static": {
+        "tp": 5,
+        "n": 50
+      },
+      "state-diff": {
+        "tp": 26,
+        "n": 55
+      },
+      "trace-diff": {
+        "tp": 35,
+        "n": 56
+      }
+    }
+  },
+  "discordant_pairs": [
+    {
+      "app": "a01-landing",
+      "variant": "m02-status-silent",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m02-focus-loss-confirmation",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m02-cto-tab-order",
+      "winner": "state-diff",
+      "models": 2
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m05-status-silent",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "n01-benign-better-label",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "p01-preexisting-focus-defect",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m02-focus-loss-view-change",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m03-ccb-context-on-blur",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m07-focus-loss-on-remove",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "n01-benign-extra-disclosure",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m01-focus-loss-view-change",
+      "winner": "trace-diff",
+      "models": 3
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m05-ccb-confirm-on-blur",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m06-status-silent",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "n01-benign-count-and-caption",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "p01-preexisting-cto-defect",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m01-kbd-activation-mouse-only",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m03-focus-loss-remount",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m04-ccs-focus-steal",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m01-focus-loss-step-change",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m04-cto-back-tab-order",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "n01-benign-indicator-rewording",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m03-focus-loss-pagination",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m04-cto-pagination",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m04-ccb-send-on-blur",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a07-perfil",
+      "variant": "m01-ccb-autosave-on-blur",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a08-contacto",
+      "variant": "n01-benign-label-rewording",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m01-ccs-context-on-selection",
+      "winner": "state-diff",
+      "models": 2
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m02-cto-nav-tab-order",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m04-ccs-navigate-on-tab",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m03-ccb-advance-on-blur",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m04-cto-back-tab-order",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m01-focus-loss-row-removal",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m02-cto-row-tab-order",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a07-perfil",
+      "variant": "m02-status-removed",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m04-kbd-activation-removed",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m05-cto-cart-unreachable",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m02-cto-nav-tab-order",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m03-kbd-activation-detail",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "n01-benign-rewording",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a05-blog",
+      "variant": "n01-benign-reading-time",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a05-blog",
+      "variant": "p01-preexisting-focus-defect",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m05-status-silent",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a07-perfil",
+      "variant": "m02-status-removed",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m06-status-removed",
+      "winner": "state-diff",
+      "models": 1
+    }
+  ]
+}

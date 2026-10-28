@@ -1,0 +1,793 @@
+{
+  "block": "subsample",
+  "config": {
+    "charsPerToken": 3.3,
+    "evidenceFormat": "json",
+    "numCtx": 26624,
+    "numPredict": 2048,
+    "seed": 7,
+    "systemHash": "ca4a8f6693bd",
+    "temperature": 0
+  },
+  "models": [
+    "llama31-8b",
+    "mistral-nemo",
+    "phi35",
+    "qwen25-7b"
+  ],
+  "repeticiones": 3,
+  "metricas_de_deteccion_citables": false,
+  "aggregate": {
+    "static": {
+      "calls": 240,
+      "scored": 228,
+      "failed": 0,
+      "invalid": 12,
+      "tp": 34,
+      "fp": 15,
+      "tn": 87,
+      "fn": 92,
+      "detection": 121,
+      "precision": 0.6938775510204082,
+      "recall": 0.2698412698412698,
+      "f1": 0.38857142857142857,
+      "fpr": 0.14705882352941177,
+      "gated": 0
+    },
+    "state-diff": {
+      "calls": 240,
+      "scored": 237,
+      "failed": 3,
+      "invalid": 0,
+      "tp": 81,
+      "fp": 27,
+      "tn": 81,
+      "fn": 48,
+      "detection": 162,
+      "precision": 0.75,
+      "recall": 0.627906976744186,
+      "f1": 0.6835443037974683,
+      "fpr": 0.25,
+      "gated": 36
+    },
+    "trace-diff": {
+      "calls": 240,
+      "scored": 233,
+      "failed": 7,
+      "invalid": 0,
+      "tp": 95,
+      "fp": 18,
+      "tn": 90,
+      "fn": 30,
+      "detection": 185,
+      "precision": 0.8407079646017699,
+      "recall": 0.76,
+      "f1": 0.7983193277310924,
+      "fpr": 0.16666666666666666,
+      "gated": 36
+    }
+  },
+  "by_model": {
+    "llama31-8b": {
+      "static": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 13,
+        "fp": 0,
+        "tn": 27,
+        "fn": 20,
+        "detection": 40,
+        "precision": 1.0,
+        "recall": 0.3939393939393939,
+        "f1": 0.5652173913043478,
+        "fpr": 0.0,
+        "gated": 0
+      },
+      "state-diff": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 27,
+        "fp": 9,
+        "tn": 18,
+        "fn": 6,
+        "detection": 45,
+        "precision": 0.75,
+        "recall": 0.8181818181818182,
+        "f1": 0.7826086956521738,
+        "fpr": 0.3333333333333333,
+        "gated": 9
+      },
+      "trace-diff": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 27,
+        "fp": 6,
+        "tn": 21,
+        "fn": 6,
+        "detection": 48,
+        "precision": 0.8181818181818182,
+        "recall": 0.8181818181818182,
+        "f1": 0.8181818181818182,
+        "fpr": 0.2222222222222222,
+        "gated": 9
+      }
+    },
+    "mistral-nemo": {
+      "static": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 11,
+        "fp": 3,
+        "tn": 24,
+        "fn": 22,
+        "detection": 35,
+        "precision": 0.7857142857142857,
+        "recall": 0.3333333333333333,
+        "f1": 0.4680851063829786,
+        "fpr": 0.1111111111111111,
+        "gated": 0
+      },
+      "state-diff": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 12,
+        "fp": 0,
+        "tn": 27,
+        "fn": 21,
+        "detection": 39,
+        "precision": 1.0,
+        "recall": 0.36363636363636365,
+        "f1": 0.5333333333333333,
+        "fpr": 0.0,
+        "gated": 9
+      },
+      "trace-diff": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 27,
+        "fp": 0,
+        "tn": 27,
+        "fn": 6,
+        "detection": 54,
+        "precision": 1.0,
+        "recall": 0.8181818181818182,
+        "f1": 0.9,
+        "fpr": 0.0,
+        "gated": 9
+      }
+    },
+    "phi35": {
+      "static": {
+        "calls": 60,
+        "scored": 48,
+        "failed": 0,
+        "invalid": 12,
+        "tp": 10,
+        "fp": 12,
+        "tn": 9,
+        "fn": 17,
+        "detection": 19,
+        "precision": 0.45454545454545453,
+        "recall": 0.37037037037037035,
+        "f1": 0.40816326530612246,
+        "fpr": 0.5714285714285714,
+        "gated": 0
+      },
+      "state-diff": {
+        "calls": 60,
+        "scored": 57,
+        "failed": 3,
+        "invalid": 0,
+        "tp": 29,
+        "fp": 12,
+        "tn": 15,
+        "fn": 1,
+        "detection": 44,
+        "precision": 0.7073170731707317,
+        "recall": 0.9666666666666667,
+        "f1": 0.8169014084507042,
+        "fpr": 0.4444444444444444,
+        "gated": 9
+      },
+      "trace-diff": {
+        "calls": 60,
+        "scored": 53,
+        "failed": 7,
+        "invalid": 0,
+        "tp": 26,
+        "fp": 12,
+        "tn": 15,
+        "fn": 0,
+        "detection": 41,
+        "precision": 0.6842105263157895,
+        "recall": 1.0,
+        "f1": 0.8125000000000001,
+        "fpr": 0.4444444444444444,
+        "gated": 9
+      }
+    },
+    "qwen25-7b": {
+      "static": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 0,
+        "fp": 0,
+        "tn": 27,
+        "fn": 33,
+        "detection": 27,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.0,
+        "gated": 0
+      },
+      "state-diff": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 13,
+        "fp": 6,
+        "tn": 21,
+        "fn": 20,
+        "detection": 34,
+        "precision": 0.6842105263157895,
+        "recall": 0.3939393939393939,
+        "f1": 0.5,
+        "fpr": 0.2222222222222222,
+        "gated": 9
+      },
+      "trace-diff": {
+        "calls": 60,
+        "scored": 60,
+        "failed": 0,
+        "invalid": 0,
+        "tp": 15,
+        "fp": 0,
+        "tn": 27,
+        "fn": 18,
+        "detection": 42,
+        "precision": 1.0,
+        "recall": 0.45454545454545453,
+        "f1": 0.625,
+        "fpr": 0.0,
+        "gated": 9
+      }
+    }
+  },
+  "tests": {
+    "H0-1": {
+      "a": "static",
+      "b": "state-diff",
+      "what": "tener una version base con que comparar",
+      "only_b": 22,
+      "only_a": 9,
+      "p": 0.029449373483657837,
+      "p_holm": 0.058898746967315674,
+      "verdict": "no se rechaza"
+    },
+    "H0-2": {
+      "a": "state-diff",
+      "b": "trace-diff",
+      "what": "los eventos de transicion: el contexto temporal",
+      "only_b": 12,
+      "only_a": 3,
+      "p": 0.03515625,
+      "p_holm": 0.058898746967315674,
+      "verdict": "no se rechaza"
+    },
+    "extra": {
+      "a": "static",
+      "b": "trace-diff",
+      "what": "el efecto acumulado de las dos variables",
+      "only_b": 25,
+      "only_a": 4,
+      "p": 0.00010371580719947815,
+      "p_holm": null,
+      "verdict": "RECHAZADA"
+    }
+  },
+  "h0_2_by_model": {
+    "llama31-8b": {
+      "only_trace": 3,
+      "only_state": 2,
+      "p": 1.0
+    },
+    "mistral-nemo": {
+      "only_trace": 5,
+      "only_state": 0,
+      "p": 0.0625
+    },
+    "phi35": {
+      "only_trace": 0,
+      "only_state": 0,
+      "p": 1.0
+    },
+    "qwen25-7b": {
+      "only_trace": 4,
+      "only_state": 1,
+      "p": 0.375
+    }
+  },
+  "cochran": {
+    "q": 18.0,
+    "df": 2,
+    "p": 0.00012340980408667962,
+    "hits": [
+      39,
+      51,
+      60
+    ],
+    "n": 75
+  },
+  "bootstrap": {
+    "state-diff-static": {
+      "observed": 0.29497287522603977,
+      "low": 0.19124013241660298,
+      "high": 0.41561777549447726,
+      "excludes_zero": true,
+      "clusters": 10,
+      "draws": 4000
+    },
+    "trace-diff-state-diff": {
+      "observed": 0.11477502393362404,
+      "low": -0.01881657360048794,
+      "high": 0.22414414414414408,
+      "excludes_zero": false,
+      "clusters": 10,
+      "draws": 4000
+    },
+    "trace-diff-static": {
+      "observed": 0.4097478991596638,
+      "low": 0.2606494413407821,
+      "high": 0.5668181818181819,
+      "excludes_zero": true,
+      "clusters": 10,
+      "draws": 4000
+    }
+  },
+  "fp_by_label": {
+    "static": {
+      "positive": {
+        "fp": 0,
+        "n": 126
+      },
+      "negative": {
+        "fp": 6,
+        "n": 33
+      },
+      "benign-divergent": {
+        "fp": 6,
+        "n": 45
+      },
+      "preexisting": {
+        "fp": 3,
+        "n": 24
+      }
+    },
+    "state-diff": {
+      "positive": {
+        "fp": 0,
+        "n": 129
+      },
+      "negative": {
+        "fp": 0,
+        "n": 36
+      },
+      "benign-divergent": {
+        "fp": 15,
+        "n": 48
+      },
+      "preexisting": {
+        "fp": 12,
+        "n": 24
+      }
+    },
+    "trace-diff": {
+      "positive": {
+        "fp": 0,
+        "n": 125
+      },
+      "negative": {
+        "fp": 0,
+        "n": 36
+      },
+      "benign-divergent": {
+        "fp": 12,
+        "n": 48
+      },
+      "preexisting": {
+        "fp": 6,
+        "n": 24
+      }
+    }
+  },
+  "category": {
+    "baseline": 0.38095238095238093,
+    "baseline_label": "orden y continuidad del foco",
+    "by_strategy": {
+      "static": {
+        "hits": 16,
+        "n": 34,
+        "accuracy": 0.47058823529411764
+      },
+      "state-diff": {
+        "hits": 30,
+        "n": 81,
+        "accuracy": 0.37037037037037035
+      },
+      "trace-diff": {
+        "hits": 39,
+        "n": 95,
+        "accuracy": 0.4105263157894737
+      }
+    },
+    "matrix": {
+      "operación mediante teclado|orden y continuidad del foco": 17,
+      "orden y continuidad del foco|orden y continuidad del foco": 36,
+      "cambios inesperados de contexto|orden y continuidad del foco": 25,
+      "cambios inesperados de contexto|operación mediante teclado": 4,
+      "comunicación accesible de actualizaciones dinámicas|operación mediante teclado": 3,
+      "orden y continuidad del foco|operación mediante teclado": 3,
+      "comunicación accesible de actualizaciones dinámicas|comunicación accesible de actualizaciones dinámicas": 3,
+      "operación mediante teclado|cambios inesperados de contexto": 1,
+      "comunicación accesible de actualizaciones dinámicas|cambios inesperados de contexto": 3
+    }
+  },
+  "localization": {
+    "static": {
+      "exact": 3,
+      "within": 17,
+      "n": 34
+    },
+    "state-diff": {
+      "exact": 41,
+      "within": 78,
+      "n": 81
+    },
+    "trace-diff": {
+      "exact": 42,
+      "within": 95,
+      "n": 95
+    }
+  },
+  "efficiency": {
+    "static": {
+      "tokens_median": 11699.5,
+      "latency_median_ms": 2092.5,
+      "latency_q1_ms": 727,
+      "latency_q3_ms": 11252,
+      "n": 240
+    },
+    "state-diff": {
+      "tokens_median": 1315,
+      "latency_median_ms": 1035,
+      "latency_q1_ms": 793,
+      "latency_q3_ms": 1880,
+      "n": 201
+    },
+    "trace-diff": {
+      "tokens_median": 2167,
+      "latency_median_ms": 1116,
+      "latency_q1_ms": 697,
+      "latency_q3_ms": 1667,
+      "n": 197
+    },
+    "cliffs_delta_latency_static_vs_trace": 0.26376633986928105
+  },
+  "by_operator": {
+    "ccb": {
+      "static": {
+        "tp": 10,
+        "n": 24
+      },
+      "state-diff": {
+        "tp": 22,
+        "n": 24
+      },
+      "trace-diff": {
+        "tp": 17,
+        "n": 20
+      }
+    },
+    "ccs": {
+      "static": {
+        "tp": 6,
+        "n": 12
+      },
+      "state-diff": {
+        "tp": 6,
+        "n": 12
+      },
+      "trace-diff": {
+        "tp": 12,
+        "n": 12
+      }
+    },
+    "cto": {
+      "static": {
+        "tp": 8,
+        "n": 24
+      },
+      "state-diff": {
+        "tp": 15,
+        "n": 24
+      },
+      "trace-diff": {
+        "tp": 18,
+        "n": 24
+      }
+    },
+    "focus-loss-after-update": {
+      "static": {
+        "tp": 1,
+        "n": 21
+      },
+      "state-diff": {
+        "tp": 12,
+        "n": 24
+      },
+      "trace-diff": {
+        "tp": 21,
+        "n": 24
+      }
+    },
+    "kbd-activation-removal": {
+      "static": {
+        "tp": 3,
+        "n": 21
+      },
+      "state-diff": {
+        "tp": 15,
+        "n": 21
+      },
+      "trace-diff": {
+        "tp": 18,
+        "n": 21
+      }
+    },
+    "status-announcement-removal": {
+      "static": {
+        "tp": 6,
+        "n": 24
+      },
+      "state-diff": {
+        "tp": 11,
+        "n": 24
+      },
+      "trace-diff": {
+        "tp": 9,
+        "n": 24
+      }
+    }
+  },
+  "by_stratum": {
+    "small": {
+      "static": {
+        "tp": 14,
+        "n": 48
+      },
+      "state-diff": {
+        "tp": 34,
+        "n": 48
+      },
+      "trace-diff": {
+        "tp": 31,
+        "n": 43
+      }
+    },
+    "medium": {
+      "static": {
+        "tp": 17,
+        "n": 48
+      },
+      "state-diff": {
+        "tp": 32,
+        "n": 48
+      },
+      "trace-diff": {
+        "tp": 37,
+        "n": 46
+      }
+    },
+    "large": {
+      "static": {
+        "tp": 3,
+        "n": 30
+      },
+      "state-diff": {
+        "tp": 15,
+        "n": 33
+      },
+      "trace-diff": {
+        "tp": 27,
+        "n": 36
+      }
+    }
+  },
+  "discordant_pairs": [
+    {
+      "app": "a06-equipo",
+      "variant": "m05-status-silent",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m07-focus-loss-on-remove",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "n01-benign-better-label",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "n01-benign-count-and-caption",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "p01-preexisting-cto-defect",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m04-ccs-focus-steal",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m01-focus-loss-step-change",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m04-kbd-activation-removed",
+      "winner": "trace-diff",
+      "models": 1
+    }
+  ],
+  "consistencia": {
+    "repeticiones": 3,
+    "grupos_evaluables": 208,
+    "grupos_descartados": 8,
+    "unanimes": 202,
+    "proporcion_unanimidad": 0.9711538461538461,
+    "fleiss": {
+      "kappa": 0.9586846170823217,
+      "acuerdo_observado": 0.9807692307692307,
+      "acuerdo_esperado": 0.5345373109796187,
+      "items": 208,
+      "evaluadores": 3,
+      "marginales": [
+        0.3685897435897436,
+        0.6314102564102564
+      ]
+    },
+    "por_modelo": {
+      "llama31-8b": {
+        "grupos": 54,
+        "unanimes": 53,
+        "proporcion": 0.9814814814814815
+      },
+      "mistral-nemo": {
+        "grupos": 54,
+        "unanimes": 52,
+        "proporcion": 0.9629629629629629
+      },
+      "phi35": {
+        "grupos": 46,
+        "unanimes": 44,
+        "proporcion": 0.9565217391304348
+      },
+      "qwen25-7b": {
+        "grupos": 54,
+        "unanimes": 53,
+        "proporcion": 0.9814814814814815
+      }
+    },
+    "por_estrategia": {
+      "static": {
+        "grupos": 76,
+        "unanimes": 72,
+        "proporcion": 0.9473684210526315
+      },
+      "state-diff": {
+        "grupos": 67,
+        "unanimes": 65,
+        "proporcion": 0.9701492537313433
+      },
+      "trace-diff": {
+        "grupos": 65,
+        "unanimes": 65,
+        "proporcion": 1.0
+      }
+    },
+    "categoria_unanime": {
+      "unanimes": 129,
+      "grupos": 129
+    },
+    "transicion_unanime": {
+      "unanimes": 129,
+      "grupos": 129
+    },
+    "discordantes": [
+      {
+        "model": "llama31-8b",
+        "strategy": "static",
+        "app": "a04-multipaso",
+        "variant": "m01-focus-loss-step-change"
+      },
+      {
+        "model": "mistral-nemo",
+        "strategy": "static",
+        "app": "a02-piscina",
+        "variant": "m01-cto-slot-tab-order"
+      },
+      {
+        "model": "mistral-nemo",
+        "strategy": "static",
+        "app": "a05-blog",
+        "variant": "m02-ccb-search-on-blur"
+      },
+      {
+        "model": "phi35",
+        "strategy": "state-diff",
+        "app": "a06-equipo",
+        "variant": "m05-status-silent"
+      },
+      {
+        "model": "phi35",
+        "strategy": "static",
+        "app": "a02-piscina",
+        "variant": "m01-cto-slot-tab-order"
+      },
+      {
+        "model": "qwen25-7b",
+        "strategy": "state-diff",
+        "app": "a07-perfil",
+        "variant": "m01-ccb-autosave-on-blur"
+      }
+    ]
+  }
+}

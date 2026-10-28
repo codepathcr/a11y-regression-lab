@@ -1897,3 +1897,154 @@ externas. Ninguna cifra de este registro se calculó a mano: todas salen de
 La razón de no importar SciPy es de reproducibilidad: el análisis tiene que poder
 recalcularse en el mismo contenedor que produjo los datos, sin instalar nada y
 sin que una versión distinta de una biblioteca mueva una cifra del capítulo.
+
+## Fase 9 — el bloque de consistencia, y un defecto del analizador
+
+Veinte pares declarados de antemano, tres repeticiones, cuatro modelos: 720
+filas, 720 claves únicas, una sola configuración.
+
+### El reporte del bloque habría hecho que el estudio se contradijera
+
+`analyze.py` aplicaba al bloque de submuestra el mismo recorrido que al bloque
+completo, contando cada repetición como una observación independiente. No lo es:
+cada par aparece tres veces, de modo que los conteos se triplican y el
+apareamiento que suponen McNemar y la Q de Cochran se rompe. El resultado era un
+reporte que decía que H0-1 y H0-2 **no** se rechazan, cuando el bloque completo
+las rechaza con p=2,69e-09 y p=8,64e-03. Si esa salida hubiera entrado al
+Capítulo 4 junto a la del bloque completo, el trabajo se habría contradicho a sí
+mismo con sus propios datos.
+
+No era un resultado: era triplicar veinte pares. El analizador ahora declara esa
+condición al principio del reporte de cualquier bloque con repeticiones y marca
+sus cifras de detección como descriptivas y no citables.
+
+La lección se parece a la de la huella de configuración, y conviene decirla una
+vez más: **un procedimiento de análisis correcto para un conjunto de datos no es
+automáticamente correcto para otro**, y el que decide no es el formato del
+archivo sino el diseño que lo produjo.
+
+### Lo que el bloque sí mide
+
+Sobre 208 grupos evaluables de 216, donde un grupo es una condición completa de
+par, estrategia y modelo:
+
+| | unanimidad |
+|---|---|
+| global | 202/208 = 0,971 |
+| kappa de Fleiss | 0,959 (observado 0,981, esperado 0,535) |
+| versión modificada únicamente | 72/76 = 0,947 |
+| diferencial de estados | 65/67 = 0,970 |
+| **diferencial de trazas** | **65/65 = 1,000** |
+
+Entre los grupos que detectaron la regresión en las tres ejecuciones, la
+categoría y la transición coincidieron en 129 de 129.
+
+**La consistencia sube de forma monótona con la cantidad de evidencia
+diferencial, y las seis discordancias se concentran en las dos estrategias con
+menos evidencia**: cuatro en la primera, dos en la segunda, ninguna en la de
+trazas. Es una cuarta dimensión en que gana el diferencial de trazas, después de
+F1, falsos positivos y localización, y es la que decide si el método sirve en
+integración continua.
+
+La advertencia va con la cifra: con 65 grupos por estrategia, la diferencia
+entre 1,000 y 0,947 son cuatro grupos. La dirección es consistente con todo lo
+demás que se midió; la magnitud no soporta una afirmación fuerte.
+
+Los ocho grupos descartados son los errores 500 de phi3.5, y no son aleatorios:
+el mismo par falla en las tres repeticiones. Es una propiedad del modelo con ese
+tamaño de entrada, no una avería del transporte.
+
+### La kappa se implementó a mano y se verificó antes de usarla
+
+`analysis/stats.py` la calcula sin dependencias externas y devuelve también el
+acuerdo observado y el esperado, porque una kappa sin ellos no se puede
+interpretar: cuando todas las respuestas caen en una sola categoría el acuerdo
+esperado vale 1 y el coeficiente queda indefinido aunque el acuerdo sea
+perfecto. Se comprobó contra el ejemplo clásico de Fleiss, de diez sujetos y
+catorce evaluadores: da 0,2099 donde la referencia da 0,210.
+
+## Fase 10 — el flujo de Pull Requests, y su autoprueba
+
+Es el OE4, y es un artefacto del desarrollo y no un instrumento de medición.
+
+### Un motor, dos frentes
+
+`scripts/pr-core.ts` recibe dos directorios ya compilados y no sabe de dónde
+salieron. El simulador local los obtiene de dos referencias con `git archive`; el
+workflow, de dos checkouts. La separación es deliberada: si cada frente tuviera
+su propia lógica de medición, los dos reportes podrían diferir y ninguno sería
+evidencia de nada.
+
+`git archive` en lugar de `git worktree` por una razón concreta y aprendida: no
+escribe nada dentro de `.git`, de modo que no deja metadatos que limpiar. En una
+carpeta donde el borrado está restringido, un `worktree remove` que falla deja el
+repositorio con referencias a árboles que ya no existen, que es la misma familia
+de problema que un archivo de bloqueo huérfano.
+
+### Tres controles sin los cuales el flujo miente
+
+Aplicación ausente en el lado base: es nueva y se reporta como tal. Sin esto,
+toda aplicación que un Pull Request agregue aparecería como regresión.
+
+Escenario alterado por el cambio: la comparación se **rechaza**. La equivalencia
+del recorrido es la condición que hace comparables las dos trazas; sin ella, toda
+diferencia observada es indistinguible de un cambio de recorrido. Es el único
+caso en que el flujo se niega a dar un veredicto en lugar de darlo con reservas.
+
+Framework de captura tocado: lo que cambió es el instrumento y no la aplicación,
+y se advierte junto al resultado.
+
+### La primera corrida ejercitó los controles que rechazan, no el que mide
+
+Comparando el primer commit contra el árbol de trabajo, las nueve aplicaciones
+agregadas después salieron como nuevas y `a01-landing` salió rechazada porque su
+escenario pasó de 9 a 11 pasos entre los dos commits. Los tres controles
+funcionaron, y ningún par resultó comparable: el camino de captura, comparación,
+compuerta y veredicto quedó sin ejercitar.
+
+Esa distinción importa porque una corrida que no falla no es una corrida que
+mide.
+
+### La autoprueba contra verdad de terreno
+
+`scripts/pr-selftest.ts` construye a propósito un cambio comparable cuyo
+resultado correcto está declarado en el benchmark. Aprovecha que una variante
+mutante sustituye exactamente una entrada del mapa de partes: sobrescribir
+`variants/base.tsx` con la variante mutante simula con precisión un cambio real
+que cablea un componente defectuoso en la composición base. Exporta `HEAD`,
+instala una vez, compila el lado base, aparta su `dist`, inyecta el mutante,
+compila otra vez y compara.
+
+Sobre `a01-landing` con `m01-kbd-activation`, cuya verdad de terreno declara
+regresión en el paso 5 y categoría de operación mediante teclado:
+
+| dimensión | resultado |
+|---|---|
+| divergencia observable | pasa, en los doce registros |
+| el paso esperado divergió | pasa |
+| detección | pasa, dijo regresión |
+| **localización estricta** | **pasa, dijo paso 5** |
+| categoría | falla, dijo orden y continuidad del foco |
+
+La categoría y la localización se informan pero no hacen fallar la prueba, y la
+decisión es deliberada: son desempeño del modelo, que es lo que mide el Capítulo
+4, y no corrección del flujo. Mezclarlas convertiría una prueba del instrumento
+en una prueba del modelo, y entonces un modelo flojo rompería el pipeline del
+repositorio.
+
+### Dos lecturas del resultado
+
+**El fallo de categoría no es nuevo: es el sesgo ya medido, reproducido fuera de
+la campaña.** En el bloque de consistencia, con la estrategia de diferencial de
+trazas y los cuatro modelos, de dieciocho casos cuya verdad era operación
+mediante teclado, diecisiete se respondieron como orden y continuidad del foco y
+ninguno como la categoría correcta. La autoprueba reprodujo exactamente ese
+comportamiento en un caso construido aparte, lo que refuerza H0-6.
+
+**Los doce registros divergentes son cascada, y muestran algo que la localización
+tolerante no distingue.** La mutación convierte un `button` en un `div`, de modo
+que el rol cambia en el árbol de accesibilidad desde el estado inicial, antes de
+cualquier interacción. Por eso difieren los doce y la poda no poda nada en este
+par: el modelo recibió la traza completa. Y aun así localizó el paso 5 de forma
+exacta teniendo doce candidatos. La lectura tolerante habría dado un acierto
+trivial acá; la estricta midió algo.

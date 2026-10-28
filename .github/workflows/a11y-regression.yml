@@ -1,0 +1,166 @@
+# Detección diferencial de regresiones dinámicas de accesibilidad en Pull Requests.
+#
+# Es el OE4: verificar el prototipo en un flujo controlado de revisión de
+# cambios, que es su contexto de uso previsto. Usa el MISMO motor que el
+# simulador local (`pnpm --filter @a11y-lab/benchmark pr-check`); lo único que
+# cambia es de dónde salen los dos lados del cambio: acá, de dos checkouts.
+#
+# EJECUTOR AUTOALOJADO, y no es una preferencia. Los cuatro modelos del estudio
+# corren localmente sobre la tarjeta gráfica del equipo de medición, de modo que
+# un ejecutor alojado por GitHub no puede consultarlos. Lo que sí correría en
+# cualquier ejecutor es todo lo demás: compilar, capturar, normalizar, comparar
+# y la compuerta determinista. Para esa variante, poner `--sin-modelo` y quitar
+# las variables de entorno de Ollama.
+name: Regresiones dinámicas de accesibilidad
+
+on:
+  pull_request:
+    paths:
+      - 'packages/benchmark/apps/**'
+      - 'packages/ui/**'
+      - 'packages/framework/**'
+
+# Un Pull Request que recibe varios empujes no necesita varias corridas: la
+# última es la única que describe el estado del cambio.
+concurrency:
+  group: a11y-regression-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  diferencial:
+    runs-on: [self-hosted, a11y-lab]
+    timeout-minutes: 45
+    env:
+      # El endpoint del servidor de inferencia en el ejecutor. Dentro del
+      # contenedor de medición es host.docker.internal; en un ejecutor que corre
+      # directamente sobre el equipo, es la interfaz local.
+      A11Y_OLLAMA_URL: ${{ vars.A11Y_OLLAMA_URL || 'http://127.0.0.1:11434' }}
+      # Un solo modelo en el flujo de revisión. La comparación entre familias es
+      # objeto del experimento, no de la verificación de un cambio: pedir cuatro
+      # veredictos por aplicación multiplicaría el tiempo sin agregar
+      # información a quien revisa.
+      A11Y_MODELS: ${{ vars.A11Y_PR_MODEL || 'llama31-8b' }}
+
+    steps:
+      - name: Lado modificado
+        uses: actions/checkout@v4
+        with:
+          path: head
+          # Historia completa: la lista de archivos del cambio se calcula acá
+          # contra la referencia base del Pull Request.
+          fetch-depth: 0
+
+      - name: Lado base
+        uses: actions/checkout@v4
+        with:
+          path: base
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Node y pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: corepack enable
+        shell: bash
+
+      - name: Dependencias y compilación del lado base
+        working-directory: base
+        shell: bash
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @a11y-lab/benchmark build
+
+      - name: Dependencias y compilación del lado modificado
+        working-directory: head
+        shell: bash
+        run: |
+          pnpm install --frozen-lockfile
+          # El navegador queda fijado por la versión de Playwright del
+          # repositorio. Si el ejecutor trae otra, la medición aborta: el árbol
+          # de accesibilidad lo computa el navegador y dos versiones emiten
+          # distinta cantidad de nodos para el mismo marcado.
+          pnpm --filter @a11y-lab/benchmark exec playwright install chromium
+          pnpm --filter @a11y-lab/benchmark build
+
+      - name: Archivos del cambio
+        working-directory: head
+        shell: bash
+        run: |
+          git diff --name-only \
+            ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} \
+            > "${RUNNER_TEMP}/cambios.txt"
+          echo "Archivos modificados:"
+          cat "${RUNNER_TEMP}/cambios.txt"
+
+      - name: Comparación diferencial
+        id: diferencial
+        working-directory: head
+        shell: bash
+        continue-on-error: true
+        run: |
+          pnpm --filter @a11y-lab/benchmark pr-check \
+            --base-dist ../base/packages/benchmark/dist \
+            --base-apps ../base/packages/benchmark/apps \
+            --base-label "${{ github.event.pull_request.base.ref }}" \
+            --head-dist packages/benchmark/dist \
+            --head-apps packages/benchmark/apps \
+            --head-label "${{ github.event.pull_request.head.ref }}" \
+            --changed-from "${RUNNER_TEMP}/cambios.txt" \
+            --out "${RUNNER_TEMP}/reporte.md"
+
+      - name: Comentario en el Pull Request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marca = '<!-- a11y-regresiones-dinamicas -->';
+            let cuerpo;
+            try {
+              cuerpo = fs.readFileSync(`${process.env.RUNNER_TEMP}/reporte.md`, 'utf8');
+            } catch {
+              cuerpo = [
+                '### Accesibilidad dinámica: la comprobación no se completó',
+                '',
+                'La comparación no llegó a producir un reporte. Revisar el registro de la corrida.',
+              ].join('\n');
+            }
+            const texto = `${marca}\n${cuerpo}`;
+            // Un comentario por Pull Request, actualizado en cada empuje. Un
+            // comentario nuevo por corrida convierte la revisión en un hilo
+            // ilegible y la gente deja de leerlo.
+            const previos = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+            const mio = previos.data.find(
+              (comentario) => comentario.body && comentario.body.includes(marca)
+            );
+            if (mio) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: mio.id,
+                body: texto,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: texto,
+              });
+            }
+
+      - name: Resultado de la comprobación
+        if: steps.diferencial.outcome == 'failure'
+        shell: bash
+        run: |
+          echo "La comparación reportó una regresión, o no se pudo completar." >&2
+          echo "El detalle está en el comentario del Pull Request." >&2
+          exit 1

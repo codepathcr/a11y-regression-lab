@@ -21,15 +21,19 @@ export interface StaticServer {
 }
 
 /**
- * Servidor estático sobre `dist/`. Deliberadamente tonto: no transforma, no
+ * Servidor estático sobre un directorio compilado, `dist/` por omisión. El
+ * parámetro `root` existe para el flujo de Pull Requests, donde hay que servir
+ * dos compilaciones a la vez: una por cada lado del cambio.
+ *
+ * Deliberadamente tonto: no transforma, no
  * inyecta nada y no abre websockets. La medición se hace sobre esto y nunca
  * sobre el servidor de desarrollo, cuyo cliente de recarga aparecería en la
  * traza sin pertenecer a la aplicación.
  */
-export function serveDist(port: number): Promise<StaticServer> {
+export function serveDist(port: number, root: string = DIST): Promise<StaticServer> {
   const server = createServer((request, response) => {
     const path = (request.url ?? '/').split('?')[0];
-    const file = path === '/' ? join(DIST, 'index.html') : join(DIST, path);
+    const file = path === '/' ? join(root, 'index.html') : join(root, path);
     stat(file)
       .then(() => {
         response.setHeader('Content-Type', MIME[extname(file)] ?? 'application/octet-stream');
