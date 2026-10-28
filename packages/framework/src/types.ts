@@ -63,6 +63,19 @@ export interface StepRecord {
   ax: AxNode[];
   /** Milisegundos que tomó el paso. Fuera del modelo comparable: solo métrica. */
   elapsedMs: number;
+  /**
+   * Clasificación del fallo si la acción no pudo ejecutarse, por ejemplo porque
+   * el elemento que el paso busca ya no está en la página.
+   *
+   * No es una condición de error del programa: una regresión puede volver el
+   * escenario inejecutable, y ese hecho es la evidencia más fuerte de un cambio
+   * de contexto. El valor es una clasificación corta y determinista para que
+   * entre en la comparación; el mensaje crudo del navegador va en
+   * `failureDetail` y queda fuera del modelo comparable, porque incluye tiempos
+   * y texto variable.
+   */
+  failure?: string;
+  failureDetail?: string;
 }
 
 /** Contexto de ejecución, para que una traza sea interpretable sin el código. */
@@ -110,5 +123,16 @@ export interface CaptureOptions {
   /** Período de quietud tras cada acción. Parametrizable: influye directamente
    *  en el ruido y su valor se vuelca en la traza. */
   settleMs?: number;
+  /** Espera máxima a que el harness marque `data-harness-ready`. */
+  readyTimeoutMs?: number;
+  /**
+   * Tiempo máximo que se espera por el elemento de una acción.
+   *
+   * Corto a propósito. El valor por omisión de Playwright es de 30 segundos, y
+   * cuando una mutación vuelve el escenario inejecutable **todos** los pasos
+   * restantes agotan ese plazo: un solo caso costaría varios minutos. Con un
+   * plazo breve el fallo se registra rápido y la medición sigue.
+   */
+  actionTimeoutMs?: number;
   viewport?: { width: number; height: number };
 }

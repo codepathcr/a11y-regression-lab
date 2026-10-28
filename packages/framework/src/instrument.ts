@@ -29,6 +29,32 @@
  * Por eso además el script publica `__A11Y_READY` y `__A11Y_ERROR`, y el
  * capturador verifica de forma activa que el observador reporta cambios antes de
  * ejecutar el escenario.
+ *
+ * Identidad de los elementos. Un elemento que no genera nodo propio en el árbol
+ * de accesibilidad no tiene identidad propia: se identifica por el nodo que la
+ * tecnología asistiva sí percibe. De ahí las dos reglas complementarias de
+ * `refOf` y `refOfSubtree`, cada una en la dirección que corresponde a lo que el
+ * evento afirma:
+ *
+ *  · Para el objeto de un evento y para el contenedor de un alta o una baja, se
+ *    sube al ancestro más cercano que tenga rol. "Se insertó algo en el
+ *    formulario" es el hecho; en cuál de los `div` de maquetación aterrizó, no.
+ *    Sin esta regla, envolver unos campos en un `div` para colgarle una clase de
+ *    CSS hacía divergir el par, y eso apareció medido como falso positivo en el
+ *    control negativo m03 de a08-contacto.
+ *
+ *  · Para el nodo dado de alta o de baja se baja al primer descendiente que
+ *    tenga rol, porque subir devolvería el contenedor y se perdería justamente
+ *    la información del evento: qué apareció o desapareció.
+ *
+ * Nombre accesible. El respaldo por `textContent` se aplica solo a los roles que
+ * toman el nombre de su contenido. Un `form`, una `region` o una `list` no lo
+ * hacen: su nombre viene de `aria-label`, `aria-labelledby`, `caption`, `legend`
+ * o `figcaption`. Tomarlo del contenido hacía que el nombre del contenedor
+ * cambiara cada vez que cambiaba cualquier texto interior, de modo que toda alta
+ * dentro de un formulario era sensible a cualquier cambio de texto en otra parte
+ * del mismo formulario. Era un falso positivo latente en las diez apps que
+ * ningún control negativo había provocado todavía.
  */
 export const INSTRUMENT = String.raw`
 (() => {
@@ -84,34 +110,78 @@ export const INSTRUMENT = String.raw`
     return parts.join('/') || '(root)';
   }
 
+  /**
+   * Mapa de roles implícitos por etiqueta. Un tag AUSENTE de este mapa no aporta
+   * identidad: no genera nodo propio en el árbol de accesibilidad. Es
+   * deliberadamente una lista explícita y no un respaldo al nombre de la
+   * etiqueta: ese respaldo le daba rol "div" a un contenedor de maquetación.
+   *
+   * Es una aproximación: el valor autoritativo del rol y del nombre viene del
+   * árbol que el capturador pide por CDP. Esto sirve para identificar el
+   * elemento en el instante del evento, cuando el árbol todavía no se consultó.
+   */
+  const TAG_ROLES = {
+    a: 'link', button: 'button', select: 'combobox', textarea: 'textbox',
+    summary: 'button', dialog: 'dialog', nav: 'navigation', main: 'main',
+    form: 'form', search: 'search', article: 'article', aside: 'complementary',
+    ul: 'list', ol: 'list', menu: 'list', dl: 'list', li: 'listitem',
+    table: 'table', thead: 'rowgroup', tbody: 'rowgroup', tfoot: 'rowgroup',
+    tr: 'row', td: 'cell', caption: 'caption', figure: 'figure',
+    fieldset: 'group', details: 'group', optgroup: 'group', option: 'option',
+    output: 'status', progress: 'progressbar', meter: 'meter',
+    hr: 'separator', img: 'img', p: 'paragraph', blockquote: 'blockquote',
+    body: 'document'
+  };
+
+  const INPUT_ROLES = {
+    checkbox: 'checkbox', radio: 'radio', range: 'slider',
+    number: 'spinbutton', search: 'searchbox', button: 'button',
+    submit: 'button', reset: 'button', image: 'button', hidden: ''
+  };
+
+  /** Roles cuyo nombre accesible se computa a partir del contenido. */
+  const NAME_FROM_CONTENT = new Set([
+    'button', 'link', 'heading', 'option', 'menuitem', 'menuitemcheckbox',
+    'menuitemradio', 'tab', 'cell', 'gridcell', 'columnheader', 'rowheader',
+    'row', 'checkbox', 'radio', 'switch', 'tooltip', 'treeitem', 'caption',
+    'figure', 'paragraph', 'blockquote'
+  ]);
+
+  /** Contenido de seccionamiento: dentro de él, header y footer no son puntos
+   *  de referencia de la página. */
+  const SECTIONING = 'article, aside, main, nav, section';
+
   function roleOf(element) {
-    if (!element) return '';
+    if (!element || element.nodeType !== 1) return '';
     const explicit = element.getAttribute('role');
-    if (explicit) return explicit;
+    if (explicit) return explicit.split(/\s+/)[0];
     const tag = element.tagName.toLowerCase();
-    if (tag === 'button') return 'button';
-    if (tag === 'a') return element.hasAttribute('href') ? 'link' : 'generic';
-    if (tag === 'select') return 'combobox';
-    if (tag === 'textarea') return 'textbox';
-    if (tag === 'summary') return 'button';
-    if (tag === 'dialog') return 'dialog';
-    if (tag === 'nav') return 'navigation';
-    if (tag === 'main') return 'main';
-    if (tag === 'form') return 'form';
     if (/^h[1-6]$/.test(tag)) return 'heading';
+    if (tag === 'a') return element.hasAttribute('href') ? 'link' : '';
     if (tag === 'input') {
       const type = (element.getAttribute('type') || 'text').toLowerCase();
-      if (type === 'checkbox') return 'checkbox';
-      if (type === 'radio') return 'radio';
-      if (type === 'button' || type === 'submit' || type === 'reset') return 'button';
-      return 'textbox';
+      const mapped = INPUT_ROLES[type];
+      return mapped === undefined ? 'textbox' : mapped;
     }
-    return tag;
+    if (tag === 'th') {
+      return (element.getAttribute('scope') || '') === 'row' ? 'rowheader' : 'columnheader';
+    }
+    // section solo es region si tiene nombre accesible.
+    if (tag === 'section') {
+      return element.hasAttribute('aria-label') || element.hasAttribute('aria-labelledby')
+        ? 'region' : '';
+    }
+    // header y footer solo son banner y contentinfo en el nivel de la pagina.
+    if (tag === 'header' || tag === 'footer') {
+      if (element.parentElement && element.parentElement.closest(SECTIONING)) return '';
+      return tag === 'header' ? 'banner' : 'contentinfo';
+    }
+    const mapped = TAG_ROLES[tag];
+    return mapped === undefined ? '' : mapped;
   }
 
-  /** Aproximación al nombre accesible. El valor autoritativo viene del arbol
-   *  de accesibilidad que el capturador pide por CDP; esto es para poder
-   *  identificar el elemento en el instante del evento. */
+  /** Nombre del elemento por los mecanismos de etiquetado, y solo por
+   *  contenido cuando el rol lo admite. */
   function nameOf(element) {
     if (!element) return '';
     const label = element.getAttribute('aria-label');
@@ -125,15 +195,43 @@ export const INSTRUMENT = String.raw`
       if (clean(text)) return clean(text);
     }
     if (element.labels && element.labels.length) return clean(element.labels[0].textContent);
+    const child = element.querySelector(':scope > caption, :scope > legend, :scope > figcaption');
+    if (child) return clean(child.textContent);
+    const title = element.getAttribute('title');
+    if (title) return clean(title);
+    if (NAME_FROM_CONTENT.has(roleOf(element))) return clean(element.textContent);
     const placeholder = element.getAttribute('placeholder');
     if (placeholder) return clean(placeholder);
-    return clean(element.textContent);
+    return '';
   }
 
-  function refOf(node) {
-    const element = elementOf(node);
-    if (!element) return { path: '(none)', role: '', name: '' };
+  function describe(element) {
     return { path: pathOf(element), role: roleOf(element), name: nameOf(element) };
+  }
+
+  const NO_REF = { path: '(none)', role: '', name: '' };
+
+  /** Objeto de un evento, o contenedor de un alta o una baja: se sube. */
+  function refOf(node) {
+    let current = elementOf(node);
+    while (current && current.nodeType === 1) {
+      if (roleOf(current)) return describe(current);
+      current = current.parentElement;
+    }
+    return NO_REF;
+  }
+
+  /** Nodo dado de alta o de baja: se baja, para no perder que fue lo que
+   *  aparecio o desaparecio. */
+  function refOfSubtree(node) {
+    const element = node && node.nodeType === 1 ? node : null;
+    if (!element) return refOf(node);
+    if (roleOf(element)) return describe(element);
+    const inner = element.querySelectorAll('*');
+    for (let i = 0; i < inner.length; i += 1) {
+      if (roleOf(inner[i])) return describe(inner[i]);
+    }
+    return refOf(element);
   }
 
   function isInteresting(node) {
@@ -207,7 +305,7 @@ export const INSTRUMENT = String.raw`
         events.push({
           kind: added ? 'dom-add' : 'dom-remove',
           parent: refOf(record.target),
-          node: refOf(node)
+          node: refOfSubtree(node)
         });
       }
     }

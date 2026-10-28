@@ -1,6 +1,7 @@
 import { readdir } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { launchChromium } from './browser';
+import { ignoreBrokenPipe } from './io';
 import { APPS, serveDist } from './static-server';
 
 /**
@@ -19,6 +20,8 @@ import { APPS, serveDist } from './static-server';
  *
  * Requiere `pnpm build` previo.
  */
+
+ignoreBrokenPipe();
 
 const PORT = 5399;
 

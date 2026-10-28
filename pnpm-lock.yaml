@@ -18,8 +18,21 @@ importers:
         specifier: 5.6.3
         version: 5.6.3
 
+  packages/analysis:
+    dependencies:
+      '@a11y-lab/framework':
+        specifier: workspace:*
+        version: link:../framework
+    devDependencies:
+      tsx:
+        specifier: 4.19.1
+        version: 4.19.1
+
   packages/benchmark:
     dependencies:
+      '@a11y-lab/analysis':
+        specifier: workspace:*
+        version: link:../analysis
       '@a11y-lab/framework':
         specifier: workspace:*
         version: link:../framework

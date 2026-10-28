@@ -7,3 +7,12 @@ __pycache__/
 *.log
 .DS_Store
 Thumbs.db
+
+# Trazas capturadas: regenerables a partir del repositorio y del navegador
+# fijado en packages/benchmark/environment.json. Los resultados de inferencia,
+# en cambio, SI se versionan: son la bitacora de ejecucion del Instrumento 5 y
+# no se pueden regenerar sin volver a pagar la inferencia.
+packages/benchmark/data/traces/
+
+# Corridas en seco: artefactos de prueba del ejecutor, no datos del estudio.
+packages/benchmark/data/results/dry-*.jsonl

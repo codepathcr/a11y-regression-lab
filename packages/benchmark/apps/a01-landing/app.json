@@ -2,20 +2,62 @@
   "id": "a01-landing",
   "title": "Landing informativa de una consultoría de accesibilidad",
   "stratum": "small",
-  "primitives": ["Button", "Disclosure", "TextField", "LiveRegion"],
+  "primitives": [
+    "Button",
+    "Disclosure",
+    "TextField",
+    "LiveRegion"
+  ],
   "scenario": {
     "provisional": true,
-    "note": "Escenario provisional para desbloquear la tubería. El diseño definitivo de los escenarios de interacción se aborda al final, según lo acordado.",
+    "note": "Escenario provisional. Recorre la navegacion completa por teclado antes de interactuar. La cobertura importa: la medicion de la fase 5 mostro que un recorrido que no visita el lugar del defecto produce cero diferencias por falta de cobertura y no por insuficiencia de la evidencia.",
     "steps": [
-      { "action": "press", "key": "Tab" },
-      { "action": "press", "key": "Tab" },
-      { "action": "click", "selector": "#preguntas .a11y-disclosure:first-of-type > *:first-child" },
-      { "action": "focus", "selector": "[data-testid=email]" },
-      { "action": "fill", "selector": "[data-testid=email]", "value": "correo-sin-arroba" },
-      { "action": "click", "selector": "[data-testid=enviar]" },
-      { "action": "fill", "selector": "[data-testid=email]", "value": "persona@ejemplo.com" },
-      { "action": "click", "selector": "[data-testid=enviar]" },
-      { "action": "settle", "ms": 200 }
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "click",
+        "selector": "#preguntas .a11y-disclosure:first-of-type > *:first-child"
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=email]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=email]",
+        "value": "correo-sin-arroba"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=enviar]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=email]",
+        "value": "persona@ejemplo.com"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=enviar]"
+      },
+      {
+        "action": "settle",
+        "ms": 200
+      }
     ]
   },
   "variants": [
@@ -36,11 +78,13 @@
         "locality": "componente de la app",
         "transformation": "El disparador del acordeón pasa de <button> a <div> con manejador de clic, sin atributos ARIA."
       },
-      "wcag": ["2.1.1"],
+      "wcag": [
+        "2.1.1"
+      ],
       "groundTruth": {
         "regression": true,
         "category": "operación mediante teclado",
-        "expectedStep": 3,
+        "expectedStep": 5,
         "expectedEvidence": "ausencia de evento de foco y de cambio de aria-expanded al intentar activar por teclado",
         "staticallyDetectable": false,
         "rationale": "Un div con manejador de clic es marcado válido; axe-core no reporta nada. El defecto solo se manifiesta al intentar la interacción por teclado."
@@ -58,11 +102,13 @@
         "locality": "componente de la app",
         "transformation": "La confirmación de envío pasa de una región live (role=status, aria-live=polite) a un div sin semántica."
       },
-      "wcag": ["4.1.3"],
+      "wcag": [
+        "4.1.3"
+      ],
       "groundTruth": {
         "regression": true,
         "category": "comunicación accesible de actualizaciones dinámicas",
-        "expectedStep": 8,
+        "expectedStep": 10,
         "expectedEvidence": "ausencia del evento de anuncio que la versión base produce al confirmar el envío",
         "staticallyDetectable": false,
         "rationale": "Un div con texto es marcado válido. La diferencia existe solo en la traza, como un evento de anuncio que falta."
@@ -89,6 +135,31 @@
         "staticallyDetectable": false,
         "rationale": "No hay cambio semántico alguno. El contenedor adicional sí desplaza la ruta en el DOM de los elementos que envuelve, de modo que este caso pone a prueba la normalización: si la identidad de un elemento se construye desde su ruta estructural, el detector va a reportar un falso positivo."
       }
+    },
+    {
+      "id": "n01-benign-rewording",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "ServicesSection",
+        "locality": "componente de la app",
+        "transformation": "Se reescriben los titulos y descripciones de los tres servicios. El marcado, la jerarquia de encabezados y el orden de tabulacion no cambian.",
+        "difficulty": "obvio"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "Reescribir la copia de una pagina no afecta la accesibilidad. Es el cambio benigno mas frecuente de un Pull Request real y el mas facil de declarar.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
     }
-  ]
+  ],
+  "plannedMutations": 3
 }

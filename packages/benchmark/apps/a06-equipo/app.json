@@ -1,0 +1,316 @@
+{
+  "id": "a06-equipo",
+  "title": "Gestión de equipo con roles e invitaciones",
+  "stratum": "medium",
+  "plannedMutations": 7,
+  "primitives": [
+    "Button",
+    "Dialog",
+    "Menu",
+    "TextField",
+    "LiveRegion"
+  ],
+  "scenario": {
+    "provisional": true,
+    "note": "Abre el menu de rol de la primera fila CON EL TECLADO y selecciona un rol, retira a una integrante pulsando Enter, y envia una invitacion desde el dialogo modal con un error de validacion de por medio. El escenario anterior no servia: hacia ArrowDown sobre un boton normal, de modo que el menu nunca se abria y la pulsacion de Enter retiraba a alguien en lugar de cambiar un rol.",
+    "steps": [
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "ArrowDown"
+      },
+      {
+        "action": "press",
+        "key": "ArrowDown"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "settle",
+        "ms": 200
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=abrir-invitar]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=invitar-nombre]",
+        "value": "Marta Ruiz"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=invitar-correo]",
+        "value": "marta@ejemplo.com"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=invitar-enviar]"
+      },
+      {
+        "action": "settle",
+        "ms": 250
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos. Las siete mutaciones se construyen por separado."
+    },
+    {
+      "id": "m01-focus-loss-row-removal",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "focus-loss-after-update",
+        "source": "propio",
+        "description": "Perdida de foco despues de una actualizacion dinamica",
+        "target": "TeamTable",
+        "locality": "componente de la app",
+        "transformation": "Se elimina el movimiento de foco al encabezado tras retirar a una integrante. La fila desaparece con el boton que tenia el foco, que cae al cuerpo del documento. El anuncio se conserva."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 7,
+        "expectedEvidence": "ausencia del movimiento de foco al encabezado tras retirar la fila; el foco queda en el cuerpo del documento",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es correcto en todo instante. Es el caso mas corriente de esta familia en interfaces reales: nadie piensa en el foco al borrar una fila porque con el raton no se nota.",
+        "note": "Sexto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m02-cto-row-tab-order",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "cto",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CTO, Change Tab Index Order",
+        "target": "TeamTable",
+        "locality": "componente de la app",
+        "transformation": "Se asigna tabindex=-1 al boton de retiro de la primera fila. Las demas filas conservan el suyo.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Operable / Navigable, falla F44) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 6,
+        "expectedEvidence": "la tabulacion salta el boton de retiro de la primera fila y aterriza en el menu de la segunda, de modo que la pulsacion posterior abre un menu en lugar de retirar",
+        "staticallyDetectable": false,
+        "rationale": "tabindex=-1 es marcado valido. La tabla es homogenea: tres filas con los mismos dos controles, y un recorrido que salta un control en una sola fila es casi imposible de advertir leyendo el diff.",
+        "note": "Quinto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m03-kbd-activation-remove",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "kbd-activation-removal",
+        "source": "propio",
+        "description": "Eliminacion de activacion mediante teclado",
+        "target": "TeamTable",
+        "locality": "componente de la app",
+        "transformation": "Se conserva onClick y se agrega un manejador de keydown que llama a preventDefault para Enter y Espacio en los botones de retiro.",
+        "rejectedOperationalizations": [
+          {
+            "what": "sustituir onClick por onMouseDown",
+            "why": "mousedown se dispara antes que click, de modo que con el raton el cambio de estado ocurria en otro punto de la secuencia y el mutante divergia en pasos sin falla de accesibilidad."
+          }
+        ]
+      },
+      "wcag": [
+        "2.1.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "operación mediante teclado",
+        "expectedStep": 7,
+        "expectedEvidence": "al pulsar Enter sobre el boton de retiro no se produce el retiro, ni su anuncio, ni el movimiento de foco asociado",
+        "staticallyDetectable": false,
+        "rationale": "onKeyDown con preventDefault es codigo valido; axe-core no reporta nada.",
+        "note": "Quinto anfitrion del operador, y el unico donde el defecto afecta una operacion destructiva."
+      }
+    },
+    {
+      "id": "m04-ccb-send-on-blur",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "ccb",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCB, Change Context on Blur",
+        "target": "InviteDialog",
+        "locality": "componente de la app",
+        "transformation": "Abandonar el campo de correo envia la invitacion si los dos campos estan completos: el dialogo se cierra, el foco vuelve al boton que lo abrio y la tabla gana una fila.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F9) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "3.2.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 12,
+        "expectedEvidence": "cierre del dialogo, devolucion del foco y alta de una fila en la tabla al tabular fuera del campo de correo, sin que la persona haya confirmado",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido en todo momento. Es la operacionalizacion mas grave de CCB en el benchmark: el cambio de contexto no solo desorienta, ejecuta una accion irreversible que la persona no confirmo.",
+        "note": "Cuarto anfitrion del operador, y el unico donde el cambio de contexto tiene consecuencias fuera de la interfaz."
+      }
+    },
+    {
+      "id": "m05-status-silent",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "status-announcement-removal",
+        "source": "propio",
+        "description": "Eliminacion del anuncio accesible de un mensaje de estado",
+        "target": "Announcer",
+        "locality": "componente de la app",
+        "transformation": "El contenedor del mensaje pierde role=status y aria-live y pasa a ser un div sin semantica."
+      },
+      "wcag": [
+        "4.1.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "comunicación accesible de actualizaciones dinámicas",
+        "expectedStep": 5,
+        "expectedEvidence": "ausencia de los anuncios del cambio de rol, del retiro de una integrante y del envio de la invitacion",
+        "staticallyDetectable": false,
+        "rationale": "Un div con texto es marcado valido. Los tres anuncios perdidos corresponden a operaciones destructivas o con consecuencias: se cambian permisos o se retira a alguien sin ninguna confirmacion.",
+        "note": "Quinto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m06-neutral-table-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "TeamTable",
+        "locality": "componente de la app",
+        "transformation": "La fila y sus acciones se extraen a componentes propios y la tabla se envuelve en un contenedor de maquetacion."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "Roles, scope, nombres accesibles, orden de tabulacion y movimiento de foco tras retirar quedan identicos. El contenedor desplaza la ruta en el DOM de la tabla entera."
+      }
+    },
+    {
+      "id": "m07-neutral-toolbar-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "TeamToolbar",
+        "locality": "componente de la app",
+        "transformation": "El recuento pasa a calcularse en una funcion con nombre y la apertura del dialogo a un manejador extraido. El DOM resultante es identico."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "No toca el DOM. Verifica que la divergencia de los controles negativos estructurales viene de reestructurar el DOM y no de refactorizar en general."
+      }
+    },
+    {
+      "id": "n01-benign-better-label",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "TeamToolbar",
+        "locality": "componente de la app",
+        "transformation": "El boton Invitar recibe un nombre accesible mas descriptivo mediante aria-label. El nombre contiene el texto visible, como exige el criterio 2.5.3.",
+        "difficulty": "discutible"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "Es una MEJORA de accesibilidad, no solo una preservacion. Es el caso benigno mas exigente de los diez: la respuesta correcta es que no hay regresion aunque el nombre accesible de un control haya cambiado, que es precisamente la senal que un detector ingenuo usaria para afirmar lo contrario.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
+    },
+    {
+      "id": "p01-preexisting-focus-defect",
+      "kind": "mutant",
+      "label": "preexisting",
+      "baseVariant": "m01-focus-loss-row-removal",
+      "operator": {
+        "id": "preexisting-defect-plus-benign",
+        "source": "propio",
+        "description": "Defecto de accesibilidad presente en los dos lados, mas un cambio benigno",
+        "target": "TeamTable (defecto, en ambos lados) y TeamToolbar (cambio benigno)",
+        "locality": "componente de la app",
+        "transformation": "El lado izquierdo del par es m01-focus-loss-row-removal, que ya tiene el defecto. Este lado conserva ese mismo defecto y agrega el cambio benigno sobre TeamToolbar. El delta entre los dos lados es exactamente la parte benigna."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada, y unicamente la del cambio benigno: el defecto esta en los dos lados y por tanto no aparece en la diferencia",
+        "staticallyDetectable": false,
+        "rationale": "El defecto de orden y continuidad del foco, criterio 2.4.3, existe en las dos versiones. No lo introdujo este cambio, de modo que no es una regresion. Senalarlo es un falso positivo.",
+        "roleNote": "Es la prueba de la distincion entre accessibility testing y accessibility regression testing, que es el planteamiento del problema de este estudio. Se espera que la estrategia estatica falle: ve la version modificada sola, encuentra el defecto real y no tiene forma de saber que ya existia. Las dos estrategias diferenciales solo ven el delta benigno. La diferencia entre ambas respuestas es la medida directa del aporte del enfoque diferencial.",
+        "preexistingDefect": {
+          "category": "orden y continuidad del foco",
+          "wcag": [
+            "2.4.3"
+          ],
+          "presentIn": "ambos lados del par"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+/* Maquetación propia de la app de reservas. Sin semántica. */
+
+.piscina {
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.piscina__lead {
+  color: var(--a11y-ink-soft);
+  margin-block: 0 1.5rem;
+}
+
+.piscina__dias {
+  border: 1px solid var(--a11y-line);
+  border-radius: var(--a11y-radius);
+  padding: 0.75rem 1rem;
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+.piscina__dias legend {
+  font-weight: 600;
+  padding-inline: 0.25rem;
+}
+
+.piscina__horarios h2,
+.piscina__confirmacion h2 {
+  font-size: 1.125rem;
+}
+
+.piscina__rejilla {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.piscina__rejilla [aria-pressed='true'] {
+  background: var(--a11y-accent);
+  border-color: var(--a11y-accent);
+  color: #ffffff;
+}
+
+.piscina__confirmacion {
+  border: 1px solid var(--a11y-accent);
+  border-radius: var(--a11y-radius);
+  padding: 1rem 1.25rem;
+  margin-block-start: 1.5rem;
+}
+
+form h2 {
+  font-size: 1.125rem;
+  margin-block-start: 1.5rem;
+}

@@ -55,6 +55,18 @@ const loader = variantModules[`../apps/${appId}/variants/${variantId}.tsx`];
 const root = createRoot(document.getElementById('root')!);
 
 if (!loader) {
+  // Canal de error del harness, hermano de `data-harness-ready`.
+  //
+  // Se escribe de forma SINCRONA, antes de renderizar: el capturador lo detecta
+  // y falla de inmediato con el motivo. Sin esto, una variante ausente del build
+  // se manifestaba como un timeout de quince segundos esperando `ready`, con una
+  // traza de pila de Playwright que no decia nada de la causa, y la pagina de
+  // ayuda que esta misma rama renderiza quedaba invisible.
+  document.documentElement.setAttribute(
+    'data-harness-error',
+    `variante no encontrada en el build: ${appId || '(sin app)'} · ${variantId}. ` +
+      'Si el archivo existe en apps/, falta compilar: pnpm build'
+  );
   root.render(
     <main>
       <h1>Variante no encontrada</h1>

@@ -1,0 +1,61 @@
+/* Maquetación propia del panel. Sin semántica. */
+
+.panel {
+  max-width: 58rem;
+  margin-inline: auto;
+}
+
+.panel__resumen {
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+}
+.panel__resumen dt {
+  color: var(--a11y-ink-soft);
+  font-size: 0.875rem;
+}
+.panel__resumen dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.panel__tabla {
+  border-collapse: collapse;
+  width: 100%;
+}
+.panel__tabla caption {
+  text-align: left;
+  padding-block-end: 0.5rem;
+  color: var(--a11y-ink-soft);
+}
+.panel__tabla th,
+.panel__tabla td {
+  border-block-end: 1px solid var(--a11y-line);
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+.panel__tabla tbody th {
+  font-weight: 400;
+}
+.panel__orden {
+  font: inherit;
+  font-weight: 600;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.panel__tabla th[aria-sort='ascending'] .panel__orden::after {
+  content: ' ↑';
+}
+.panel__tabla th[aria-sort='descending'] .panel__orden::after {
+  content: ' ↓';
+}
+
+/* Usado solo por el control negativo que envuelve la tabla. */
+.panel__tabla-envoltorio {
+  overflow-x: auto;
+}

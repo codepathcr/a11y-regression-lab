@@ -1,0 +1,178 @@
+{
+  "id": "a08-contacto",
+  "title": "Formulario de contacto con campos dependientes del motivo",
+  "stratum": "small",
+  "plannedMutations": 3,
+  "primitives": [
+    "Button",
+    "Combobox",
+    "TextField",
+    "LiveRegion"
+  ],
+  "scenario": {
+    "note": "Se reordeno el escenario provisional por dos razones de medicion. Primera: el detalle se rellena antes de elegir el motivo, porque el operador CCS de esta app borra ese texto al elegir y sin texto previo no habria nada que perder. Segunda: se agregaron el foco del paso 9 y la tabulacion del paso 10, que son lo unico que hace observable el operador CTO sobre un campo que no existia en el primer render. El clic del paso 3 provoca a proposito el estado de error antes de rellenar nada, para que la traza incluya un anuncio de validacion y no solo el de confirmacion.",
+    "steps": [
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=enviar]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=detalle]",
+        "value": "Me cobraron dos veces el mismo mes."
+      },
+      {
+        "action": "focus",
+        "selector": "[role=combobox]"
+      },
+      {
+        "action": "fill",
+        "selector": "[role=combobox]",
+        "value": "fact"
+      },
+      {
+        "action": "press",
+        "key": "ArrowDown"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=detalle]"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=extra]",
+        "value": "F-20260418"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=enviar]"
+      },
+      {
+        "action": "settle",
+        "ms": 250
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos."
+    },
+    {
+      "id": "m01-ccs-clear-on-selection",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "ccs",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCS, Change Context on Selection",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F37) pero no detalla la transformacion. La operacionalizacion es propia de este estudio.",
+        "target": "ReasonPicker",
+        "locality": "componente de la app",
+        "transformation": "Elegir un motivo borra el texto que la persona ya habia escrito en el campo de detalle."
+      },
+      "wcag": [
+        "3.2.2"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 8,
+        "expectedEvidence": "el valor del campo de detalle pasa a vacio en el arbol de accesibilidad inmediatamente despues de confirmar la opcion del combo, sin que ninguna accion del escenario haya tocado ese campo.",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido y el campo vacio es un estado legitimo. Lo que el criterio prohibe es el cambio de contexto al ajustar un control, y eso solo se ve en la transicion.",
+        "mechanismNote": "Mecanismo distinto al CCS de a09-tienda, que cambia de vista completa: este no mueve el foco ni reemplaza la pantalla, solo vacia un campo. Es el caso mas silencioso del operador en el benchmark: quien ve la pantalla puede notar el campo vacio y quien no la ve no tiene ninguna senal."
+      }
+    },
+    {
+      "id": "m02-cto-extra-unreachable",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "cto",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CTO, Change Tab Index Order",
+        "paperDetail": "El paper define el operador por nombre y categoria (Operable / Navigable, falla F44) pero no detalla la transformacion. La operacionalizacion es propia de este estudio.",
+        "target": "SupportForm",
+        "locality": "componente de la app",
+        "transformation": "El campo que aparece al elegir un motivo recibe tabindex=\"-1\" y queda fuera del orden de tabulacion. La etiqueta, el valor y el rol no cambian, y el campo sigue editable con el raton."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 10,
+        "expectedEvidence": "la tabulacion desde el campo de detalle salta al boton de enviar en lugar de aterrizar en el campo recien revelado; falta un evento de foco de la secuencia.",
+        "staticallyDetectable": false,
+        "rationale": "El atributo tabindex=\"-1\" es inspeccionable en el DOM, pero solo despues de provocar la interaccion que revela el campo. Un analisis de la version modificada en su primer render no tiene ese nodo para inspeccionar.",
+        "severityNote": "Septimo anfitrion del operador y el que mejor separa el enfoque dinamico del estatico: el control inalcanzable no existia en el primer render, aparecio como respuesta a una interaccion. Es el caso mas fuerte del benchmark dentro de un criterio que suele considerarse verificable de forma estatica."
+      }
+    },
+    {
+      "id": "m03-neutral-form-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "accessibility-preserving-change",
+        "source": "propio",
+        "description": "Cambio que preserva la accesibilidad",
+        "target": "SupportForm",
+        "locality": "componente de la app",
+        "transformation": "El campo dependiente se extrae a un componente interno, la rama de confirmacion a una funcion, y los campos se envuelven en un contenedor sin rol ni nombre accesible."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "ninguna: la traza normalizada debe ser identica a la de la base",
+        "staticallyDetectable": false,
+        "rationale": "Un div sin rol no genera nodo en el arbol de accesibilidad y la extraccion a componente no altera el marcado emitido.",
+        "roleNote": "Vigila el caso de insercion condicional: el envoltorio aparece y desaparece junto con el campo, de modo que si el normalizador contara nodos sin rol, este par divergiria exactamente en los pasos 8 y 10, donde si divergen los dos positivos de la misma app. Un control negativo que comparte paso con un positivo es el que de verdad pone a prueba la normalizacion."
+      }
+    },
+    {
+      "id": "n01-benign-label-rewording",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "ReasonPicker",
+        "locality": "componente de la app",
+        "transformation": "El rotulo del combo pasa de un sustantivo a una pregunta. No cambia el orden de tabulacion, ni el comportamiento al elegir, ni el campo que se agrega.",
+        "difficulty": "obvio"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "Es el contraste directo del positivo m01 de esta misma app, que tambien actua sobre ReasonPicker y tambien diverge en el paso de la seleccion. Uno borra lo que la persona escribio y el otro solo cambia un rotulo: el par obliga a mirar QUE cambio y no DONDE.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
+    }
+  ]
+}

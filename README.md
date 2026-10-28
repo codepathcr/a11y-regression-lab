@@ -78,6 +78,41 @@ El harness tiene dos formas de servirse y **no son intercambiables**:
 - `pnpm build` seguido de `pnpm --filter @a11y-lab/benchmark serve` sirve el
   build estático. **Toda cifra que vaya al documento sale de acá.**
 
+## El entorno de referencia
+
+Las cifras del estudio se produjeron con **Chromium 130.0.6723.31**, que es el
+que trae la imagen `mcr.microsoft.com/playwright:v1.48.2-jammy` fijada en el
+`Dockerfile`. El valor está declarado en
+`packages/benchmark/environment.json`, `measure` y `verify-gt` lo imprimen en su
+encabezado, y **cualquier ejecución con otra versión aborta con código distinto
+de cero**.
+
+No es una formalidad. El árbol de accesibilidad lo computa el navegador, y dos
+versiones de Chromium emiten distinta cantidad de nodos para el mismo DOM. Se
+comprobó contra Chromium 141:
+
+| | entre 130 y 141 |
+|---|---|
+| verdad de terreno de los 60 pares | idéntica |
+| piso de ruido | idéntico, 0,0 % en las diez apps |
+| divergencia de eventos | idéntica, los 42 valores al decimal |
+| pasos con diferencia | idénticos, los 60 conjuntos |
+| **magnitud de la divergencia de árbol** | **distinta en 3 de 10 apps** |
+
+Es decir: la detección y la localización son propiedades del par base-mutante,
+pero la magnitud no lo es. Un porcentaje de divergencia de árbol sin su versión
+de navegador no es una cifra reproducible.
+
+Para trabajar fuera del contenedor de referencia —construir fixtures, iterar
+sobre una mutación, donde importa el signo de la divergencia y no su magnitud:
+
+```bash
+export A11Y_ALLOW_BROWSER_MISMATCH=1
+```
+
+Deja continuar y marca cada salida como no citable. No debe usarse para producir
+ninguna cifra que vaya al documento.
+
 ## Licencia y destino
 
 El prototipo será donado a la Universidad CENFOTEC y podrá usarse con fines

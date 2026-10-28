@@ -1,0 +1,158 @@
+{
+  "id": "a02-piscina",
+  "title": "Reserva de carril en una piscina municipal",
+  "stratum": "small",
+  "plannedMutations": 3,
+  "primitives": [
+    "Button",
+    "TextField",
+    "Disclosure",
+    "LiveRegion"
+  ],
+  "scenario": {
+    "provisional": true,
+    "note": "Recorre la rejilla de horarios por teclado antes de seleccionar, de modo que el orden de tabulacion quede cubierto, y luego completa la reserva hasta la confirmacion.",
+    "steps": [
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=horario-s09]"
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=nombre]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=nombre]",
+        "value": "Ana Pérez"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=confirmar]"
+      },
+      {
+        "action": "settle",
+        "ms": 250
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos."
+    },
+    {
+      "id": "m01-cto-slot-tab-order",
+      "kind": "mutant",
+      "label": "positive",
+      "relocatedFrom": "a01-landing, en la fase 5: una rejilla de controles equivalentes es un anfitrion mas natural que una navegacion de tres enlaces, y a01 excedia su cuota.",
+      "operator": {
+        "id": "cto",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CTO, Change Tab Index Order",
+        "paperDetail": "El paper define el operador por nombre y categoria (Operable / Navigable, falla F44) pero no detalla la transformacion. La operacionalizacion es propia de este estudio.",
+        "target": "SlotGrid",
+        "locality": "componente de la app",
+        "transformation": "Se asigna tabindex=-1 al tercer horario de la rejilla, retirandolo del orden de tabulacion sin alterar su apariencia ni su funcionamiento con el raton."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 3,
+        "expectedEvidence": "el tercer horario no aparece en la secuencia de foco de la traza",
+        "staticallyDetectable": false,
+        "rationale": "tabindex=-1 es marcado valido y de uso legitimo en muchos patrones, de modo que axe-core no lo reporta. El defecto se manifiesta solo al recorrer la rejilla por teclado."
+      }
+    },
+    {
+      "id": "m02-focus-loss-confirmation",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "focus-loss-after-update",
+        "source": "propio",
+        "description": "Perdida de foco despues de una actualizacion dinamica",
+        "target": "ReservationForm",
+        "locality": "componente de la app",
+        "transformation": "Se elimina el efecto que mueve el foco al panel de confirmacion cuando el formulario se reemplaza. El anuncio por la region live se conserva, para aislar este defecto del de falta de anuncio."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 8,
+        "expectedEvidence": "ausencia del movimiento de foco al panel de confirmacion tras enviar el formulario",
+        "staticallyDetectable": false,
+        "rationale": "En cualquier instante aislado el marcado es correcto. Es el segundo anfitrion de este operador: el primero es el cambio de vista en a09-tienda."
+      }
+    },
+    {
+      "id": "m03-neutral-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "SlotGrid",
+        "locality": "componente de la app",
+        "transformation": "El boton de cada horario se extrae a un componente propio y la rejilla se envuelve en un contenedor de maquetacion adicional."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "No hay cambio semantico alguno. El contenedor adicional desplaza la ruta en el DOM de los elementos que envuelve, de modo que el caso pone a prueba la normalizacion."
+      }
+    },
+    {
+      "id": "n01-benign-rewording",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "PoolRules",
+        "locality": "componente de la app",
+        "transformation": "Se reescriben los dos resumenes plegables y su contenido. El rotulo de un Disclosure es el nombre accesible de su boton, de modo que el cambio alcanza a dos nombres accesibles.",
+        "difficulty": "obvio"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "El texto cambia y la estructura no. Interesa que un caso benigno toque nombres accesibles y no solo texto suelto: un detector que marque toda diferencia de nombre accesible como regresion falla aca, y es un atajo plausible.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
+    }
+  ]
+}

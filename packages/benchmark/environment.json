@@ -1,0 +1,22 @@
+{
+  "expectedBrowserVersion": "130.0.6723.31",
+  "nota": [
+    "Version de Chromium con la que se produjeron las cifras del documento. Es la",
+    "que trae la imagen mcr.microsoft.com/playwright:v1.48.2-jammy, que es la que",
+    "fija el Dockerfile, y la que corresponde a la version de Playwright fijada en",
+    "packages/benchmark/package.json.",
+    "",
+    "Fijarla no es una formalidad. El arbol de accesibilidad lo computa el",
+    "navegador, y dos versiones de Chromium emiten distinta cantidad de nodos para",
+    "el mismo DOM. Se verifico contra Chromium 141: la deteccion, la localizacion",
+    "y el piso de ruido resultaron invariantes, pero la MAGNITUD de la divergencia",
+    "de arbol no lo es. Un porcentaje de divergencia sin su version de navegador no",
+    "es una cifra reproducible.",
+    "",
+    "Toda ejecucion con otra version aborta con codigo distinto de cero. Para",
+    "trabajar fuera del entorno de referencia —construir fixtures, iterar sobre una",
+    "mutacion— se puede exportar A11Y_ALLOW_BROWSER_MISMATCH=1, que deja continuar",
+    "y marca cada salida como no citable. Esa variable no debe usarse para producir",
+    "ninguna cifra que vaya al documento."
+  ]
+}

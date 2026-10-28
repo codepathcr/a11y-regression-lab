@@ -1,0 +1,305 @@
+{
+  "id": "a03-panel",
+  "title": "Panel de incidencias con filtros y tabla ordenable",
+  "stratum": "medium",
+  "plannedMutations": 7,
+  "primitives": [
+    "Button",
+    "Combobox",
+    "LiveRegion"
+  ],
+  "scenario": {
+    "provisional": true,
+    "note": "Activa el ordenamiento POR TECLADO al menos dos veces antes de usar el raton, y recorre los tres encabezados ordenables. Las dos cosas son necesarias: el operador de eliminacion de activacion mediante teclado es indetectable si el escenario solo hace clics, y el operador CTO es indetectable si el recorrido no pasa por la columna retirada del orden de tabulacion.",
+    "steps": [
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=orden-days]"
+      },
+      {
+        "action": "focus",
+        "selector": "[role=combobox]"
+      },
+      {
+        "action": "fill",
+        "selector": "[role=combobox]",
+        "value": "Abie"
+      },
+      {
+        "action": "press",
+        "key": "ArrowDown"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=orden-title]"
+      },
+      {
+        "action": "settle",
+        "ms": 250
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos. Las siete mutaciones se construyen por separado."
+    },
+    {
+      "id": "m01-kbd-activation-mouse-only",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "kbd-activation-removal",
+        "source": "propio",
+        "description": "Eliminacion de activacion mediante teclado",
+        "target": "DataTable",
+        "locality": "componente de la app",
+        "transformation": "Se conserva onClick y se agrega un manejador de keydown que llama a preventDefault para Enter y Espacio, con lo que el navegador no sintetiza el clic de esas teclas. El boton sigue tabulable y sigue anunciandose como boton; no responde al teclado.",
+        "rejectedOperationalizations": [
+          {
+            "what": "sustituir onClick por onMouseDown",
+            "why": "Funcionaba, pero mousedown se dispara antes que click, de modo que con el raton el cambio de estado ocurria en otro punto de la secuencia de eventos y el mutante divergia tambien en pasos donde el comportamiento de accesibilidad era identico. Diferencia real pero ajena al defecto, que habria contaminado la metrica de localizacion."
+          }
+        ]
+      },
+      "wcag": [
+        "2.1.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "operación mediante teclado",
+        "expectedStep": 3,
+        "expectedEvidence": "ausencia del cambio de aria-sort, del reordenamiento de filas y del anuncio, tras activar el encabezado con Enter",
+        "staticallyDetectable": false,
+        "rationale": "onMouseDown es marcado y codigo validos; axe-core no reporta nada. La secuencia de foco es identica a la de la base: lo que falta son las consecuencias de la activacion.",
+        "note": "Operacionalizacion distinta de la de a01-landing, donde el disparador deja de ser un boton. Alli cambia la secuencia de foco; aqui no cambia y faltan los efectos."
+      }
+    },
+    {
+      "id": "m02-cto-tab-order",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "cto",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CTO, Change Tab Index Order",
+        "target": "DataTable",
+        "locality": "componente de la app",
+        "transformation": "Se asigna tabindex=-1 al control de ordenamiento de la columna central, retirandolo del orden de tabulacion.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Operable / Navigable, falla F44) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 4,
+        "expectedEvidence": "la tabulacion salta la columna central y el foco aterriza en la siguiente, de modo que la activacion posterior ordena por otra columna",
+        "staticallyDetectable": false,
+        "rationale": "tabindex=-1 es marcado valido y de uso legitimo. El defecto se manifiesta solo al recorrer los encabezados por teclado.",
+        "note": "Segundo anfitrion del operador, junto con la rejilla de horarios de a02-piscina."
+      }
+    },
+    {
+      "id": "m03-focus-loss-remount",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "focus-loss-after-update",
+        "source": "propio",
+        "description": "Perdida de foco despues de una actualizacion dinamica",
+        "target": "DataTable",
+        "locality": "componente de la app",
+        "transformation": "La fila de encabezados recibe una key que depende del ordenamiento activo, de modo que React la desmonta y la vuelve a montar en cada ordenamiento. El boton recien pulsado deja de existir y el foco cae al cuerpo del documento."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 3,
+        "expectedEvidence": "el foco pasa al cuerpo del documento inmediatamente despues de ordenar, y el recorrido posterior por teclado reinicia desde el principio",
+        "staticallyDetectable": false,
+        "rationale": "El marcado resultante es correcto en todo instante. Es el defecto de React mas comun de esta familia y de los mas dificiles de ver en un diff: la key cambia en una linea y la consecuencia aparece interacciones despues.",
+        "note": "Tercer anfitrion del operador, junto con a09-tienda y a02-piscina, y el unico de los tres cuya causa es una key de React y no un efecto eliminado."
+      }
+    },
+    {
+      "id": "m04-ccs-focus-steal",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "ccs",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCS, Change Context on Selection",
+        "target": "PanelFilters",
+        "locality": "componente de la app",
+        "transformation": "Al seleccionar un estado en el combo, el foco se traslada por la fuerza al encabezado de la tabla.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F37) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "3.2.2"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 10,
+        "expectedEvidence": "movimiento de foco desde el combo hacia el encabezado de la tabla inmediatamente despues de confirmar la seleccion",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido en todo momento. Es el caso que un revisor humano descarta como mejora de usabilidad sin notar que incumple el criterio 3.2.2.",
+        "note": "Variante mas sutil que la de a09-tienda, donde la seleccion cambia de vista entera: aqui la pagina no se reemplaza, solo se mueve el foco."
+      }
+    },
+    {
+      "id": "m05-status-silent",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "status-announcement-removal",
+        "source": "propio",
+        "description": "Eliminacion del anuncio accesible de un mensaje de estado",
+        "target": "Announcer",
+        "locality": "componente de la app",
+        "transformation": "El contenedor del mensaje pierde role=status y aria-live y pasa a ser un div sin semantica."
+      },
+      "wcag": [
+        "4.1.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "comunicación accesible de actualizaciones dinámicas",
+        "expectedStep": 3,
+        "expectedEvidence": "ausencia de los eventos de anuncio en cada ordenamiento y en el filtrado; en este escenario son cinco anuncios perdidos",
+        "staticallyDetectable": false,
+        "rationale": "Un div con texto es marcado valido. En esta app el efecto es severo porque todo lo que la app comunica pasa por esa region: el nuevo orden de la tabla y el recuento del filtro.",
+        "note": "Segundo anfitrion del operador. En a01-landing se pierde un anuncio; aqui se pierden cinco."
+      }
+    },
+    {
+      "id": "m06-neutral-table-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "DataTable",
+        "locality": "componente de la app",
+        "transformation": "La fila y el encabezado ordenable se extraen a componentes propios y la tabla se envuelve en un contenedor de maquetacion para desplazamiento horizontal."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "Semantica identica: mismos roles, mismo scope, mismo aria-sort, mismo orden de tabulacion. El contenedor adicional desplaza la ruta en el DOM de la tabla entera, de modo que el caso pone a prueba la normalizacion."
+      }
+    },
+    {
+      "id": "m07-neutral-summary-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "PanelSummary",
+        "locality": "componente de la app",
+        "transformation": "Los tres recuentos pasan de tres filtrados sucesivos a una sola reduccion memorizada, y cada par de termino y descripcion se extrae a un componente."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "Cambia COMO se calcula lo que se muestra, no la estructura del DOM. Importa tener un control negativo de este tipo: si todos los controles negativos fueran reestructuraciones del DOM, el benchmark mediria una sola cosa y daria la impresion de que la normalizacion semantica resuelve cualquier cambio inocuo."
+      }
+    },
+    {
+      "id": "n01-benign-added-total",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "PanelSummary",
+        "locality": "componente de la app",
+        "transformation": "Se agrega una entrada de total a la lista de definiciones del resumen, con el mismo patron de marcado de las tres existentes.",
+        "difficulty": "obvio"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "El contenido nuevo aparece en el primer render y no como respuesta a una interaccion. Esa distincion es la que lo hace benigno: revelar contenido al accionar un control sin anunciarlo si seria una regresion del criterio 4.1.3.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
+    },
+    {
+      "id": "p01-preexisting-kbd-defect",
+      "kind": "mutant",
+      "label": "preexisting",
+      "baseVariant": "m01-kbd-activation-mouse-only",
+      "operator": {
+        "id": "preexisting-defect-plus-benign",
+        "source": "propio",
+        "description": "Defecto de accesibilidad presente en los dos lados, mas un cambio benigno",
+        "target": "DataTable (defecto, en ambos lados) y PanelSummary (cambio benigno)",
+        "locality": "componente de la app",
+        "transformation": "El lado izquierdo del par es m01-kbd-activation-mouse-only, que ya tiene el defecto. Este lado conserva ese mismo defecto y agrega el cambio benigno sobre PanelSummary. El delta entre los dos lados es exactamente la parte benigna."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada, y unicamente la del cambio benigno: el defecto esta en los dos lados y por tanto no aparece en la diferencia",
+        "staticallyDetectable": false,
+        "rationale": "El defecto de operacion mediante teclado, criterio 2.1.1, existe en las dos versiones. No lo introdujo este cambio, de modo que no es una regresion. Senalarlo es un falso positivo.",
+        "roleNote": "Es la prueba de la distincion entre accessibility testing y accessibility regression testing, que es el planteamiento del problema de este estudio. Se espera que la estrategia estatica falle: ve la version modificada sola, encuentra el defecto real y no tiene forma de saber que ya existia. Las dos estrategias diferenciales solo ven el delta benigno. La diferencia entre ambas respuestas es la medida directa del aporte del enfoque diferencial.",
+        "preexistingDefect": {
+          "category": "operacion mediante teclado",
+          "wcag": [
+            "2.1.1"
+          ],
+          "presentIn": "ambos lados del par"
+        }
+      }
+    }
+  ]
+}

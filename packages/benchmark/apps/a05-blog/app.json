@@ -1,0 +1,313 @@
+{
+  "id": "a05-blog",
+  "title": "Blog con búsqueda y paginación",
+  "stratum": "medium",
+  "plannedMutations": 7,
+  "primitives": [
+    "Button",
+    "TextField",
+    "LiveRegion"
+  ],
+  "scenario": {
+    "provisional": true,
+    "note": "Recorre por teclado hasta la paginacion, cambia de pagina con Enter, cambia otra vez con el raton, y luego busca tabulando fuera del campo antes de pulsar Buscar. El recorrido completo es necesario para el operador CTO, la activacion con Enter para el de eliminacion de activacion mediante teclado, y el abandono del campo para el operador CCB.",
+    "steps": [
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=pagina-3]"
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=busqueda]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=busqueda]",
+        "value": "teclado"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=buscar]"
+      },
+      {
+        "action": "settle",
+        "ms": 250
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos. Las siete mutaciones se construyen por separado."
+    },
+    {
+      "id": "m01-status-silent-search",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "status-announcement-removal",
+        "source": "propio",
+        "description": "Eliminacion del anuncio accesible de un mensaje de estado",
+        "target": "SearchBar",
+        "locality": "componente de la app",
+        "transformation": "El contenedor del recuento de resultados pierde role=status y aria-live."
+      },
+      "wcag": [
+        "4.1.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "comunicación accesible de actualizaciones dinámicas",
+        "expectedStep": 13,
+        "expectedEvidence": "ausencia del anuncio del recuento de resultados al ejecutar la busqueda",
+        "staticallyDetectable": false,
+        "rationale": "Un parrafo con texto es marcado valido. Es el caso canonico del criterio: quien no ve la pantalla no sabe si la busqueda encontro veinte articulos o ninguno.",
+        "note": "Cuarto anfitrion del operador, y el unico donde la region live afectada pertenece a un componente y no al anuncio general: el anuncio del cambio de pagina sigue funcionando, de modo que el caso permite comprobar si el detector localiza cual de las dos regiones se rompio."
+      }
+    },
+    {
+      "id": "m02-ccb-search-on-blur",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "ccb",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCB, Change Context on Blur",
+        "target": "SearchBar",
+        "locality": "componente de la app",
+        "transformation": "Abandonar el campo de busqueda ejecuta la busqueda, sin que la persona pulse el boton ni Enter.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F9) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "3.2.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 2,
+        "expectedEvidence": "ejecucion de la busqueda al tabular fuera del campo, ya en la primera salida del campo (paso 2) y de nuevo en la segunda (paso 12), con el anuncio del recuento y el reinicio de la paginacion que la base no produce",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido en todo momento. Es el caso que mas se defiende como mejora, y exactamente lo que el criterio 3.2.1 prohibe.",
+        "note": "La medicion mostro que el defecto se manifiesta en CUALQUIER abandono del campo, de modo que el primer punto de manifestacion es la primera tabulacion fuera de el y no la busqueda intencional. La verdad de terreno se corrigio al dato en lugar de dejarla prometiendo un paso posterior."
+      }
+    },
+    {
+      "id": "m03-focus-loss-pagination",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "focus-loss-after-update",
+        "source": "propio",
+        "description": "Perdida de foco despues de una actualizacion dinamica",
+        "target": "Pagination",
+        "locality": "componente de la app",
+        "transformation": "Se elimina el efecto que mueve el foco al encabezado de los resultados al cambiar de pagina. El anuncio del cambio se conserva."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 8,
+        "expectedEvidence": "ausencia del movimiento de foco al encabezado de resultados tras cambiar de pagina",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es correcto en todo instante. El efecto practico es una cinta sin fin: para llegar al contenido hay que recorrer hacia atras toda la paginacion.",
+        "note": "Quinto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m04-cto-pagination",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "cto",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CTO, Change Tab Index Order",
+        "target": "Pagination",
+        "locality": "componente de la app",
+        "transformation": "Se asigna tabindex=-1 al boton de la segunda pagina, retirandolo del orden de tabulacion.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Operable / Navigable, falla F44) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 7,
+        "expectedEvidence": "la tabulacion salta la segunda pagina y aterriza en la tercera, de modo que la activacion posterior cambia a otra pagina",
+        "staticallyDetectable": false,
+        "rationale": "tabindex=-1 es marcado valido. La paginacion se ve completa y funciona con el raton; solo quien recorre por teclado descubre que de la pagina 1 salta a la 3.",
+        "note": "Cuarto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m05-kbd-activation-pages",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "kbd-activation-removal",
+        "source": "propio",
+        "description": "Eliminacion de activacion mediante teclado",
+        "target": "Pagination",
+        "locality": "componente de la app",
+        "transformation": "Se conserva onClick y se agrega un manejador de keydown que llama a preventDefault para Enter y Espacio.",
+        "rejectedOperationalizations": [
+          {
+            "what": "sustituir onClick por onMouseDown",
+            "why": "mousedown se dispara antes que click, de modo que con el raton el cambio de estado ocurria en otro punto de la secuencia de eventos y el mutante divergia en pasos sin falla de accesibilidad."
+          }
+        ]
+      },
+      "wcag": [
+        "2.1.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "operación mediante teclado",
+        "expectedStep": 8,
+        "expectedEvidence": "al pulsar Enter sobre un boton de pagina no se produce el cambio de pagina ni su anuncio; la secuencia de foco es identica a la de la base",
+        "staticallyDetectable": false,
+        "rationale": "onKeyDown con preventDefault es codigo valido; axe-core no reporta nada. Es el caso mas cruel del operador: el unico camino al resto del contenido queda cerrado para quien navega por teclado.",
+        "note": "Cuarto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m06-neutral-list-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "PostList",
+        "locality": "componente de la app",
+        "transformation": "El articulo se extrae a un componente propio y la lista se envuelve en un contenedor de maquetacion."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "Jerarquia de encabezados, enlaces, nombres accesibles y orden identicos. El contenedor desplaza la ruta en el DOM de la lista entera."
+      }
+    },
+    {
+      "id": "m07-neutral-pagination-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "Pagination",
+        "locality": "componente de la app",
+        "transformation": "La lista de numeros, el movimiento de foco y el calculo de la pagina activa se extraen a funciones con nombre. El DOM resultante es identico."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "No toca el DOM. Verifica que la divergencia de los controles negativos estructurales viene de reestructurar el DOM y no de refactorizar en general."
+      }
+    },
+    {
+      "id": "n01-benign-reading-time",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "PostList",
+        "locality": "componente de la app",
+        "transformation": "Se agrega el tiempo estimado de lectura a cada articulo, con el mismo patron de marcado de la etiqueta existente. El calculo es determinista a partir del resumen.",
+        "difficulty": "obvio"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "Contenido informativo adicional con marcado correcto. El calculo es determinista a proposito: un valor aleatorio o dependiente del reloj meteria ruido irreproducible en la traza y el par dejaria de servir como control.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
+    },
+    {
+      "id": "p01-preexisting-focus-defect",
+      "kind": "mutant",
+      "label": "preexisting",
+      "baseVariant": "m03-focus-loss-pagination",
+      "operator": {
+        "id": "preexisting-defect-plus-benign",
+        "source": "propio",
+        "description": "Defecto de accesibilidad presente en los dos lados, mas un cambio benigno",
+        "target": "Pagination (defecto, en ambos lados) y PostList (cambio benigno)",
+        "locality": "componente de la app",
+        "transformation": "El lado izquierdo del par es m03-focus-loss-pagination, que ya tiene el defecto. Este lado conserva ese mismo defecto y agrega el cambio benigno sobre PostList. El delta entre los dos lados es exactamente la parte benigna."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada, y unicamente la del cambio benigno: el defecto esta en los dos lados y por tanto no aparece en la diferencia",
+        "staticallyDetectable": false,
+        "rationale": "El defecto de orden y continuidad del foco, criterio 2.4.3, existe en las dos versiones. No lo introdujo este cambio, de modo que no es una regresion. Senalarlo es un falso positivo.",
+        "roleNote": "Es la prueba de la distincion entre accessibility testing y accessibility regression testing, que es el planteamiento del problema de este estudio. Se espera que la estrategia estatica falle: ve la version modificada sola, encuentra el defecto real y no tiene forma de saber que ya existia. Las dos estrategias diferenciales solo ven el delta benigno. La diferencia entre ambas respuestas es la medida directa del aporte del enfoque diferencial.",
+        "preexistingDefect": {
+          "category": "orden y continuidad del foco",
+          "wcag": [
+            "2.4.3"
+          ],
+          "presentIn": "ambos lados del par"
+        }
+      }
+    }
+  ]
+}

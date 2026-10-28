@@ -1,0 +1,60 @@
+/* Maquetación propia del formulario multipaso. Sin semántica. */
+
+.paso {
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.paso__indicador {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0;
+  margin-block: 0 1.5rem;
+  list-style: none;
+  flex-wrap: wrap;
+  color: var(--a11y-ink-soft);
+}
+.paso__indicador [aria-current='step'] {
+  color: var(--a11y-ink);
+  font-weight: 600;
+}
+.paso__numero {
+  display: inline-block;
+  min-width: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--a11y-line);
+  border-radius: 50%;
+}
+.paso__indicador [aria-current='step'] .paso__numero {
+  border-color: var(--a11y-accent);
+  background: var(--a11y-accent);
+  color: #ffffff;
+}
+
+.paso__revision {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+.paso__revision dt {
+  color: var(--a11y-ink-soft);
+  font-size: 0.875rem;
+}
+.paso__revision dd {
+  margin: 0;
+}
+
+.paso__acciones {
+  display: flex;
+  gap: 0.5rem;
+  margin-block-start: 1.5rem;
+}
+
+h2[tabindex='-1'] {
+  outline-offset: 4px;
+}
+
+/* Usado solo por el control negativo que envuelve el indicador. */
+.paso__indicador-envoltorio {
+  overflow-x: auto;
+}

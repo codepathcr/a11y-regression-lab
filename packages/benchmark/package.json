@@ -12,13 +12,21 @@
     "axe": "tsx scripts/axe-check.ts",
     "verify": "vite build && tsx scripts/axe-check.ts",
     "measure": "tsx scripts/measure.ts",
-    "inspect": "tsx scripts/inspect.ts"
+    "inspect": "tsx scripts/inspect.ts",
+    "verify-gt": "tsx scripts/verify-ground-truth.ts",
+    "prompt-sizes": "tsx scripts/prompt-sizes.ts",
+    "preflight": "tsx scripts/preflight.ts",
+    "pilot-format": "tsx scripts/pilot-format.ts",
+    "capture-all": "tsx scripts/capture-all.ts",
+    "run-analysis": "tsx scripts/run-analysis.ts",
+    "token-probe": "tsx scripts/token-probe.ts"
   },
   "dependencies": {
     "@a11y-lab/framework": "workspace:*",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "@a11y-lab/ui": "workspace:*"
+    "@a11y-lab/ui": "workspace:*",
+    "@a11y-lab/analysis": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "18.3.11",

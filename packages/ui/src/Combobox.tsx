@@ -22,8 +22,18 @@ export interface ComboboxProps {
  * cambio inesperado de contexto al ingresar datos (criterio 3.2.2): basta con
  * que escribir dispare un efecto mayor que filtrar la lista.
  *
- * El recuento de resultados se anuncia por una región live, de modo que quien
- * no ve la lista sepa que cambió.
+ * El recuento de resultados se muestra **sin región live**, y la decisión es
+ * deliberada. Una región live que refleje el recuento mientras la persona
+ * escribe produce un anuncio por cada pulsación: es insoportable de escuchar y
+ * además interrumpe la propia escritura. Un retardo lo evitaría, pero
+ * introduciría un temporizador justo en el camino que la traza mide, y con él
+ * indeterminismo que no pertenece al fenómeno estudiado.
+ *
+ * El recuento queda entonces como texto visible para quien ve la pantalla,
+ * mientras que la navegación por la lista la comunica `aria-activedescendant`
+ * opción por opción, que es lo que el patrón de ARIA prevé. El anuncio del
+ * resultado corresponde al momento de **seleccionar**, y lo hace la aplicación
+ * que consume el componente, no la primitiva.
  */
 export function Combobox({ label, options, onSelect }: ComboboxProps) {
   const id = useId();
@@ -117,9 +127,9 @@ export function Combobox({ label, options, onSelect }: ComboboxProps) {
           </li>
         ))}
       </ul>
-      <div role="status" aria-live="polite" aria-atomic="true" className="a11y-live">
+      <p className="a11y-combobox__recuento" aria-hidden="true">
         {open ? `${matches.length} resultados` : ''}
-      </div>
+      </p>
     </div>
   );
 }

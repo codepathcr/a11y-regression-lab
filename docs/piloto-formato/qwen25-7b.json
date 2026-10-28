@@ -1,0 +1,847 @@
+{
+  "provider": "qwen25-7b",
+  "subsample": [
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation"
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order"
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m04-ccs-focus-steal"
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m02-ccb-search-on-blur"
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m01-focus-loss-row-removal"
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m06-status-silent"
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "n01-benign-better-label"
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "n01-benign-extra-disclosure"
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "p01-preexisting-cto-defect"
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "p01-preexisting-cto-defect"
+    }
+  ],
+  "records": [
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 2691,
+      "completionTokens": 75,
+      "latencyMs": 2993,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observan cambios en el orden o continuidad del foco, operación mediante teclado, cambios inesperados de contexto ni comunicación accesible de actualizaciones dinámicas en los pasos analizados.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 2691,
+      "completionTokens": 86,
+      "latencyMs": 642,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan cambios en el orden o continuidad del foco, operación mediante teclado, cambios inesperados de contexto ni comunicación accesible de actualizaciones dinámicas. Los botones y texto se muestran en el mismo orden en ambos estados.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "label": "positive",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 6652,
+      "completionTokens": 78,
+      "latencyMs": 1755,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"En todos los pasos, tanto en la versión base como en la modificada, los elementos de texto se mantienen y no hay cambios en el foco ni en la operación mediante teclado que indiquen una regresión.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "label": "positive",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 6652,
+      "completionTokens": 78,
+      "latencyMs": 611,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"En todos los pasos, tanto en la versión base como en la modificada, los elementos de texto se mantienen y no hay cambios en el foco ni en la operación mediante teclado que indiquen una regresión.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 1275,
+      "completionTokens": 66,
+      "latencyMs": 977,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"El cambio no afecta la continuidad del foco ni la operación mediante teclado. El foco se mueve correctamente y no hay cambios inesperados de contexto.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 1275,
+      "completionTokens": 66,
+      "latencyMs": 487,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"El cambio no afecta la continuidad del foco ni la operación mediante teclado. El foco se mueve correctamente y no hay cambios inesperados de contexto.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
+      "label": "positive",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 2404,
+      "completionTokens": 109,
+      "latencyMs": 1114,
+      "raw": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 3,\n  \"evidence\": \"En el paso 3, el foco se salta directamente de 'Reservar de 09:00 a 10:00' a 'Reservar de 10:00 a 11:00' en la versión modificada, rompiendo la continuidad del foco.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": true,
+        "transition": true,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
+      "label": "positive",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 2404,
+      "completionTokens": 109,
+      "latencyMs": 866,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 3,\n    \"evidence\": \"En el paso 3, el foco se salta directamente de 'Reservar de 09:00 a 10:00' a 'Reservar de 10:00 a 11:00' en la versión modificada, rompiendo la continuidad del foco.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": true,
+        "transition": true,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m04-ccs-focus-steal",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 909,
+      "completionTokens": 30,
+      "latencyMs": 340,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": null\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m04-ccs-focus-steal",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 909,
+      "completionTokens": 30,
+      "latencyMs": 262,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": null\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m04-ccs-focus-steal",
+      "label": "positive",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 1530,
+      "completionTokens": 88,
+      "latencyMs": 868,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 10,\n    \"evidence\": \"En el paso 10, el foco se desplaza incorrectamente al encabezado 'Incidencias' en la versión modificada, en lugar de mantenerse en el campo de entrada 'Estado de la incidencia'.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": false,
+        "transition": true,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m04-ccs-focus-steal",
+      "label": "positive",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 1530,
+      "completionTokens": 88,
+      "latencyMs": 726,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 10,\n    \"evidence\": \"En el paso 10, el foco se desplaza incorrectamente al encabezado 'Incidencias' en la versión modificada, en lugar de mantenerse en el campo de entrada 'Estado de la incidencia'.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": false,
+        "transition": true,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m02-ccb-search-on-blur",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 2081,
+      "completionTokens": 55,
+      "latencyMs": 981,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan cambios en el foco ni en la operación mediante teclado que indiquen una regresión.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m02-ccb-search-on-blur",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 2081,
+      "completionTokens": 55,
+      "latencyMs": 412,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan cambios en el foco ni en la operación mediante teclado que indiquen una regresión.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m02-ccb-search-on-blur",
+      "label": "positive",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 5341,
+      "completionTokens": 101,
+      "latencyMs": 1667,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 12,\n    \"evidence\": \"En el paso 12, el foco se desplaza incorrectamente al encabezado 'Artículos' en lugar de mantenerse en el botón 'Buscar'. Esto viola el criterio 2.4.3 de WCAG sobre el orden y continuidad del foco.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": false,
+        "transition": false,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m02-ccb-search-on-blur",
+      "label": "positive",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 5341,
+      "completionTokens": 101,
+      "latencyMs": 776,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 12,\n    \"evidence\": \"En el paso 12, el foco se desplaza incorrectamente al encabezado 'Artículos' en lugar de mantenerse en el botón 'Buscar'. Esto viola el criterio 2.4.3 de WCAG sobre el orden y continuidad del foco.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": false,
+        "transition": false,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m01-focus-loss-row-removal",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 877,
+      "completionTokens": 61,
+      "latencyMs": 567,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observan cambios en el foco ni en el comportamiento del teclado que indiquen una regresión en las categorías evaluadas.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m01-focus-loss-row-removal",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 877,
+      "completionTokens": 79,
+      "latencyMs": 570,
+      "raw": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 7,\n  \"evidence\": \"En el paso 7, el foco se pierde en la versión modificada al no seleccionar el documento, lo que viola el criterio 2.4.3 de WCAG.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": true,
+        "transition": true,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m01-focus-loss-row-removal",
+      "label": "positive",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 1373,
+      "completionTokens": 82,
+      "latencyMs": 731,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 7,\n    \"evidence\": \"En el paso 7, el foco se pierde en la versión modificada cuando se presiona Enter, mientras que en la versión base se mantiene en el encabezado 'Integrantes'.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": true,
+        "transition": true,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m01-focus-loss-row-removal",
+      "label": "positive",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 1373,
+      "completionTokens": 83,
+      "latencyMs": 603,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 7,\n    \"evidence\": \"En el paso 7, el foco se pierde en la versión modificada después de presionar Enter, mientras que en la versión base se mantiene en el encabezado 'Integrantes'.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-positive",
+        "category": true,
+        "transition": true,
+        "transitionWithinEvidence": true
+      }
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m06-status-silent",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 2026,
+      "completionTokens": 82,
+      "latencyMs": 1116,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan cambios en el estado live ni en el contenido de las anotaciones, lo que indica que no hay problemas con el foco, el teclado, los cambios inesperados de contexto ni la comunicación de actualizaciones dinámicas.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m06-status-silent",
+      "label": "positive",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 2026,
+      "completionTokens": 82,
+      "latencyMs": 607,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan cambios en el estado live ni en el contenido de las anotaciones, lo que indica que no hay problemas con el foco, el teclado, los cambios inesperados de contexto ni la comunicación de actualizaciones dinámicas.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m06-status-silent",
+      "label": "positive",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 4456,
+      "completionTokens": 97,
+      "latencyMs": 1443,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"En todos los pasos, el árbol de accesibilidad solo contiene un elemento de tipo 'status' con live='polite' y focused=false, que es el mismo en ambas versiones. No se observan cambios en el foco ni en la operación mediante teclado que indiquen una regresión.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m06-status-silent",
+      "label": "positive",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 4456,
+      "completionTokens": 97,
+      "latencyMs": 729,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"En todos los pasos, el árbol de accesibilidad solo contiene un elemento de tipo 'status' con live='polite' y focused=false, que es el mismo en ambas versiones. No se observan cambios en el foco ni en la operación mediante teclado que indiquen una regresión.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "n01-benign-better-label",
+      "label": "benign-divergent",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 1561,
+      "completionTokens": 80,
+      "latencyMs": 1056,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"El cambio consiste en reemplazar el texto 'Invitar' por 'Invitar a una persona al equipo' en el botón, lo cual no afecta la operación mediante teclado ni las otras categorías de accesibilidad revisadas.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "n01-benign-better-label",
+      "label": "benign-divergent",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 1561,
+      "completionTokens": 95,
+      "latencyMs": 711,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"El cambio solo modifica el texto del botón 'Invitar' a 'Invitar a una persona al equipo', lo cual no afecta la operación mediante teclado, el orden y continuidad del foco, los cambios inesperados de contexto ni la comunicación accesible de actualizaciones dinámicas.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "n01-benign-better-label",
+      "label": "benign-divergent",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 3389,
+      "completionTokens": 54,
+      "latencyMs": 988,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"El texto del botón se ha modificado, pero el foco y el comportamiento son correctos en ambos casos.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "n01-benign-better-label",
+      "label": "benign-divergent",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 3389,
+      "completionTokens": 54,
+      "latencyMs": 447,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"El texto del botón se ha modificado, pero el foco y el comportamiento son correctos en ambos casos.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "n01-benign-extra-disclosure",
+      "label": "benign-divergent",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 2593,
+      "completionTokens": 89,
+      "latencyMs": 1322,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 6,\n    \"evidence\": \"En el paso 6, el foco se establece en un botón y un texto sin sentido, lo que interrumpe la continuidad del foco y no proporciona un flujo lógico para el usuario de teclado.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-positive",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "n01-benign-extra-disclosure",
+      "label": "benign-divergent",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 2593,
+      "completionTokens": 89,
+      "latencyMs": 659,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 6,\n    \"evidence\": \"En el paso 6, el foco se establece en un botón y un texto sin sentido, lo que interrumpe la continuidad del foco y no proporciona un flujo lógico para el usuario de teclado.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-positive",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "n01-benign-extra-disclosure",
+      "label": "benign-divergent",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 5891,
+      "completionTokens": 64,
+      "latencyMs": 1492,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observan cambios en el árbol de accesibilidad ni en los eventos que indiquen una regresión en ninguna de las categorías de accesibilidad.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "n01-benign-extra-disclosure",
+      "label": "benign-divergent",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 5891,
+      "completionTokens": 64,
+      "latencyMs": 498,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observan cambios en el árbol de accesibilidad ni en los eventos que indiquen una regresión en ninguna de las categorías de accesibilidad.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "p01-preexisting-cto-defect",
+      "label": "preexisting",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 2376,
+      "completionTokens": 94,
+      "latencyMs": 1319,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observan cambios en el foco ni en la operación mediante teclado que indiquen una regresión. Los textos 'Etapa 1 de 3', 'Etapa 2 de 3' y 'Etapa 3 de 3' se muestran en ambos estados.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "p01-preexisting-cto-defect",
+      "label": "preexisting",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 2376,
+      "completionTokens": 94,
+      "latencyMs": 702,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan cambios en el foco ni en la operación mediante teclado que indiquen una regresión. Los textos 'Etapa 1 de 3', 'Etapa 2 de 3' y 'Etapa 3 de 3' se muestran en ambos estados.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "p01-preexisting-cto-defect",
+      "label": "preexisting",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 5906,
+      "completionTokens": 71,
+      "latencyMs": 1583,
+      "raw": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"En todos los pasos, el árbol de accesibilidad es idéntico en la versión base y modificada, sin cambios relevantes que indiquen una regresión de accesibilidad.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "p01-preexisting-cto-defect",
+      "label": "preexisting",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 5906,
+      "completionTokens": 74,
+      "latencyMs": 610,
+      "raw": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"En todos los pasos, el árbol de accesibilidad es idéntico en la versión base y modificada, sin cambios ni diferencias significativas que indiquen una regresión de accesibilidad.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": true,
+        "outcome": "true-negative",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "p01-preexisting-cto-defect",
+      "label": "preexisting",
+      "format": "lines",
+      "repetition": 1,
+      "promptTokens": 928,
+      "completionTokens": 88,
+      "latencyMs": 1038,
+      "raw": "{\n  \"regression\": true,\n  \"category\": \"operación mediante teclado\",\n  \"transitionStep\": 22,\n  \"evidence\": \"El paso 22 muestra que la tabla 'Trámites presentados y su estado' se oculta en la versión modificada, lo que dificulta la operación mediante teclado ya que el usuario no puede navegar a través de esta información.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-positive",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "p01-preexisting-cto-defect",
+      "label": "preexisting",
+      "format": "lines",
+      "repetition": 2,
+      "promptTokens": 928,
+      "completionTokens": 75,
+      "latencyMs": 540,
+      "raw": "{\n  \"regression\": true,\n  \"category\": \"operación mediante teclado\",\n  \"transitionStep\": 22,\n  \"evidence\": \"El paso 22 muestra que la tabla 'Trámites presentados y su estado' se oculta en la versión modificada, lo que dificulta la navegación mediante teclado.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-positive",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "p01-preexisting-cto-defect",
+      "label": "preexisting",
+      "format": "json",
+      "repetition": 1,
+      "promptTokens": 1479,
+      "completionTokens": 105,
+      "latencyMs": 918,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 22,\n    \"evidence\": \"En el paso 22, la versión modificada elimina el `table` con el nombre 'Trámites presentados y su estado' y reemplaza su `StaticText` con un `paragraph` y un `StaticText` nuevo, lo que altera la estructura y el foco del contenido.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-positive",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "p01-preexisting-cto-defect",
+      "label": "preexisting",
+      "format": "json",
+      "repetition": 2,
+      "promptTokens": 1479,
+      "completionTokens": 105,
+      "latencyMs": 864,
+      "raw": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 22,\n    \"evidence\": \"En el paso 22, la versión modificada elimina el `table` con el nombre 'Trámites presentados y su estado' y reemplaza su `StaticText` con un `paragraph` y un `StaticText` nuevo, lo que altera la estructura y el foco del contenido.\"\n}",
+      "issues": [],
+      "parsed": true,
+      "score": {
+        "detection": false,
+        "outcome": "false-positive",
+        "category": null,
+        "transition": null,
+        "transitionWithinEvidence": null
+      }
+    }
+  ]
+}

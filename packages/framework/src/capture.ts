@@ -8,6 +8,19 @@ import type { AxNode, CaptureOptions, Step, StepRecord, Trace, TraceEvent } from
  *  traza para que ninguna cifra dependa de leer el código. */
 export const DEFAULT_SETTLE_MS = 150;
 
+/**
+ * Espera máxima a que el harness señale que está listo.
+ *
+ * Es configurable por `CaptureOptions.readyTimeoutMs` porque depende de la app:
+ * una con cargas asíncronas simuladas necesita más que una estática, y en una
+ * máquina cargada el montaje tarda más. Quince segundos es holgado para las diez
+ * apps del benchmark.
+ */
+export const DEFAULT_READY_TIMEOUT_MS = 15_000;
+
+/** Ver la nota de `actionTimeoutMs` en types.ts. */
+export const DEFAULT_ACTION_TIMEOUT_MS = 2_000;
+
 declare global {
   interface Window {
     __A11Y_DRAIN: () => TraceEvent[];
@@ -115,16 +128,32 @@ async function verifyInstrument(page: Page): Promise<void> {
   }
 }
 
-async function perform(page: Page, step: Step, settleMs: number): Promise<void> {
+/**
+ * Clasificación determinista del fallo de un paso.
+ *
+ * El mensaje crudo del navegador incluye el plazo agotado y fragmentos de la
+ * página, de modo que no puede entrar en la comparación sin introducir ruido.
+ * Esta clasificación sí, y distingue los dos casos que importan: el elemento no
+ * está, o la acción no pudo completarse por otra razón.
+ */
+function classifyFailure(error: unknown): string {
+  const message = error instanceof Error ? error.message : String(error);
+  if (/Timeout|waiting for|not found|no element/i.test(message)) {
+    return 'elemento no disponible';
+  }
+  return 'accion no ejecutable';
+}
+
+async function perform(page: Page, step: Step, settleMs: number, timeout: number): Promise<void> {
   switch (step.action) {
     case 'focus':
-      await page.focus(step.selector!);
+      await page.focus(step.selector!, { timeout });
       break;
     case 'fill':
-      await page.fill(step.selector!, step.value ?? '');
+      await page.fill(step.selector!, step.value ?? '', { timeout });
       break;
     case 'click':
-      await page.click(step.selector!);
+      await page.click(step.selector!, { timeout });
       break;
     case 'press':
       await page.keyboard.press(step.key ?? 'Tab');
@@ -150,8 +179,62 @@ function describe(step: Step): string {
  * de un Pull Request real, donde base y modificada son dos despliegues
  * distintos y no dos variantes del mismo build.
  */
+/**
+ * Espera que el harness señale que está listo, o que informe por qué no.
+ *
+ * El contrato con cualquier harness son dos atributos en `documentElement`:
+ * `data-harness-ready="true"` cuando la página está estable, y
+ * `data-harness-error` con el motivo cuando no va a estarlo. El segundo existe
+ * porque sin él todo fallo de montaje se manifestaba igual —un timeout de quince
+ * segundos— y el motivo quedaba sin reportar: una variante ausente del build, un
+ * módulo que lanza al importarse y una app genuinamente lenta producían el mismo
+ * mensaje inútil.
+ */
+async function waitForHarness(page: Page, url: string, timeout: number): Promise<void> {
+  const ready = page
+    .waitForSelector('html[data-harness-ready="true"]', { timeout })
+    .then(() => 'ready' as const)
+    .catch(() => 'timeout' as const);
+  const failed = page
+    .waitForSelector('html[data-harness-error]', { timeout })
+    .then(() => 'error' as const)
+    .catch(() => 'timeout' as const);
+
+  const outcome = await Promise.race([ready, failed]);
+
+  if (outcome === 'error') {
+    const detail = await page
+      .evaluate(() => document.documentElement.getAttribute('data-harness-error'))
+      .catch(() => null);
+    throw new Error(`El harness reportó un error en ${url}: ${detail ?? 'sin detalle'}`);
+  }
+
+  if (outcome === 'timeout') {
+    // Puede haber resuelto entre el vencimiento y esta comprobación.
+    const state = await page
+      .evaluate(() => ({
+        ready: document.documentElement.getAttribute('data-harness-ready'),
+        error: document.documentElement.getAttribute('data-harness-error'),
+      }))
+      .catch(() => ({ ready: null, error: null }));
+
+    if (state.error) {
+      throw new Error(`El harness reportó un error en ${url}: ${state.error}`);
+    }
+    if (state.ready === 'true') return;
+
+    throw new Error(
+      `La página no señaló estar lista en ${timeout} ms: ${url}. ` +
+        'No llegó ni data-harness-ready ni data-harness-error, de modo que el harness no montó: ' +
+        'revisá la consola de la página y que el build esté al día.'
+    );
+  }
+}
+
 export async function captureTrace(browser: Browser, options: CaptureOptions): Promise<Trace> {
   const settleMs = options.settleMs ?? DEFAULT_SETTLE_MS;
+  const readyTimeoutMs = options.readyTimeoutMs ?? DEFAULT_READY_TIMEOUT_MS;
+  const actionTimeoutMs = options.actionTimeoutMs ?? DEFAULT_ACTION_TIMEOUT_MS;
   const viewport = options.viewport ?? { width: 1280, height: 900 };
 
   const context = await browser.newContext({ viewport });
@@ -162,7 +245,7 @@ export async function captureTrace(browser: Browser, options: CaptureOptions): P
 
   try {
     await page.goto(options.url, { waitUntil: 'load' });
-    await page.waitForSelector('html[data-harness-ready="true"]', { timeout: 15_000 });
+    await waitForHarness(page, options.url, readyTimeoutMs);
     await page.waitForTimeout(settleMs);
     await verifyInstrument(page);
 
@@ -184,7 +267,19 @@ export async function captureTrace(browser: Browser, options: CaptureOptions): P
     for (let index = 0; index < options.scenario.steps.length; index += 1) {
       const step = options.scenario.steps[index];
       const startedAt = Date.now();
-      await perform(page, step, settleMs);
+
+      // Un paso que falla NO aborta la captura. Una regresión puede volver el
+      // escenario inejecutable, y seguir recorriéndolo documenta hasta dónde
+      // llega la divergencia en lugar de perder el caso entero.
+      let failure: string | undefined;
+      let failureDetail: string | undefined;
+      try {
+        await perform(page, step, settleMs, actionTimeoutMs);
+      } catch (error) {
+        failure = classifyFailure(error);
+        failureDetail = error instanceof Error ? error.message.split('\n')[0] : String(error);
+      }
+
       const elapsedMs = Date.now() - startedAt;
       steps.push({
         index: index + 1,
@@ -192,6 +287,7 @@ export async function captureTrace(browser: Browser, options: CaptureOptions): P
         events: await drain(page),
         ax: await axSnapshot(cdp),
         elapsedMs,
+        ...(failure ? { failure, failureDetail } : {}),
       });
     }
 

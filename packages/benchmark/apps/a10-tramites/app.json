@@ -1,0 +1,430 @@
+{
+  "id": "a10-tramites",
+  "title": "Portal municipal de trámites en línea",
+  "stratum": "large",
+  "plannedMutations": 10,
+  "primitives": [
+    "Button",
+    "Dialog",
+    "Disclosure",
+    "Menu",
+    "Tabs",
+    "TextField",
+    "LiveRegion"
+  ],
+  "scenario": {
+    "provisional": true,
+    "note": "Recorre la navegacion del encabezado por teclado, busca, abre el detalle CON ENTER, recorre las pestanas, presenta la solicitud tabulando fuera del ultimo campo y confirma en el dialogo. El recorrido del encabezado es necesario para CTO, la apertura con Enter para el operador de activacion por teclado, la seleccion de pestanas para CCS y el abandono del campo para CCB.",
+    "asyncNote": "Los pasos settle de 450 ms esperan de forma explicita las consultas simuladas de 200 ms. data-harness-ready senala el montaje, no la llegada de datos.",
+    "steps": [
+      {
+        "action": "settle",
+        "ms": 450
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=buscar-campo]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=buscar-campo]",
+        "value": "tributos"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=buscar]"
+      },
+      {
+        "action": "settle",
+        "ms": 450
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=ver-tr2]"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "click",
+        "selector": ".a11y-tabs__list > button:nth-of-type(1)"
+      },
+      {
+        "action": "press",
+        "key": "ArrowRight"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "press",
+        "key": "Home"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=iniciar]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=solicitud-nombre]",
+        "value": "Ana Pérez"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=solicitud-cedula]",
+        "value": "112345678"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=solicitud-enviar]"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=confirmar-presentar]"
+      },
+      {
+        "action": "settle",
+        "ms": 450
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos. Las diez mutaciones se construyen por separado."
+    },
+    {
+      "id": "m01-focus-loss-view-change",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "focus-loss-after-update",
+        "source": "propio",
+        "description": "Perdida de foco despues de una actualizacion dinamica",
+        "target": "ViewHeading",
+        "locality": "componente de la app",
+        "transformation": "Se elimina el efecto que mueve el foco al encabezado de la vista nueva."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 11,
+        "expectedEvidence": "ausencia del movimiento de foco al encabezado en cada uno de los cuatro cambios de vista del escenario",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es correcto en todo instante. El escenario cruza cuatro vistas, de modo que el defecto se manifiesta cuatro veces y la divergencia se acumula.",
+        "note": "Septimo anfitrion del operador, y el que mas senal produce. Sirve de contraste con a06-equipo, donde el mismo operador sobre una sola fila produce menos del 4%."
+      }
+    },
+    {
+      "id": "m02-cto-nav-tab-order",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "cto",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CTO, Change Tab Index Order",
+        "target": "PortalHeader",
+        "locality": "componente de la app",
+        "transformation": "Se asigna tabindex=-1 al enlace de navegacion Mis tramites, retirandolo del orden de tabulacion.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Operable / Navigable, falla F44) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 4,
+        "expectedEvidence": "la tabulacion salta el enlace Mis tramites y aterriza en el menu de cuenta",
+        "staticallyDetectable": false,
+        "rationale": "tabindex=-1 es marcado valido. Es el caso de consecuencia mas grave de este operador: quien navega por teclado no puede llegar al estado de los tramites que ya presento, y nada en el portal sugiere que falte algo.",
+        "note": "Sexto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m03-kbd-activation-detail",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "kbd-activation-removal",
+        "source": "propio",
+        "description": "Eliminacion de activacion mediante teclado",
+        "target": "TramiteSearch",
+        "locality": "componente de la app",
+        "transformation": "Se conserva onClick y se agrega un manejador de keydown que llama a preventDefault para Enter y Espacio en los botones Ver requisitos.",
+        "rejectedOperationalizations": [
+          {
+            "what": "sustituir onClick por onMouseDown",
+            "why": "mousedown se dispara antes que click, de modo que con el raton el cambio de estado ocurria en otro punto de la secuencia y el mutante divergia en pasos sin falla de accesibilidad."
+          }
+        ]
+      },
+      "wcag": [
+        "2.1.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "operación mediante teclado",
+        "expectedStep": 11,
+        "expectedEvidence": "al pulsar Enter sobre Ver requisitos no se abre el detalle; el resto del escenario ocurre sobre la vista de lista",
+        "staticallyDetectable": false,
+        "rationale": "onKeyDown con preventDefault es codigo valido. El portal entero se vuelve inalcanzable por teclado: sin abrir el detalle no hay forma de llegar a la solicitud.",
+        "note": "Sexto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m04-ccs-navigate-on-tab",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "ccs",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCS, Change Context on Selection",
+        "target": "TramiteDetail",
+        "locality": "componente de la app",
+        "transformation": "Seleccionar la pestana Costos deja de mostrar su panel y navega a la vista de solicitud.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F37) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "3.2.2"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 14,
+        "expectedEvidence": "cambio de vista completo al seleccionar una pestana, en lugar del reemplazo del panel asociado",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido en todo momento. Una pestana es un control de seleccion cuyo contrato es explicito: muestra el panel asociado y nada mas. Romperlo es de los cambios de contexto mas desorientadores, porque el patron promete que el resto de la pagina se queda quieto.",
+        "note": "Tercer anfitrion del operador, y el unico cuyo anfitrion no es un combo."
+      }
+    },
+    {
+      "id": "m05-ccb-confirm-on-blur",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "ccb",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCB, Change Context on Blur",
+        "target": "TramiteForm",
+        "locality": "componente de la app",
+        "transformation": "Abandonar el campo de identificacion abre el dialogo de confirmacion si los dos campos estan completos.",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F9) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
+      },
+      "wcag": [
+        "3.2.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 20,
+        "expectedEvidence": "apertura de un dialogo modal al tabular fuera del campo, con la retencion de foco y la inercia del resto de la pagina que eso implica; los pasos siguientes del escenario quedan inejecutables",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido en todo momento. Un dialogo modal retiene el foco y vuelve inerte el resto de la pagina, de modo que quien solo quiso tabular queda encerrado en un contexto que no pidio.",
+        "note": "Quinto anfitrion del operador, y el mas desorientador: en a06-equipo la accion irreversible se ejecuta, aqui no se ejecuta pero el contexto queda capturado, y salir exige descubrir que hay un dialogo y que Escape lo cierra."
+      }
+    },
+    {
+      "id": "m06-status-silent",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "status-announcement-removal",
+        "source": "propio",
+        "description": "Eliminacion del anuncio accesible de un mensaje de estado",
+        "target": "Announcer",
+        "locality": "componente de la app",
+        "transformation": "El contenedor del mensaje pierde role=status y aria-live y pasa a ser un div sin semantica."
+      },
+      "wcag": [
+        "4.1.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "comunicación accesible de actualizaciones dinámicas",
+        "expectedStep": 1,
+        "expectedEvidence": "ausencia del recuento de resultados de cada consulta y, sobre todo, del numero de referencia del tramite presentado",
+        "staticallyDetectable": false,
+        "rationale": "Un div con texto es marcado valido. Es el peor caso de este operador en el benchmark: el numero de referencia es el comprobante de que la gestion se presento y la unica forma de reclamar despues.",
+        "note": "Sexto anfitrion del operador."
+      }
+    },
+    {
+      "id": "m07-status-no-busy",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "status-announcement-removal",
+        "source": "propio",
+        "description": "Eliminacion del anuncio accesible de un mensaje de estado",
+        "target": "TramiteSearch",
+        "locality": "componente de la app",
+        "transformation": "Se retira aria-busy de la region de resultados. El texto de carga sigue en pantalla, pero la region deja de declararse ocupada mientras espera los datos."
+      },
+      "wcag": [
+        "4.1.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "comunicación accesible de actualizaciones dinámicas",
+        "expectedStep": 8,
+        "expectedEvidence": "ausencia del cambio de aria-busy en la region de resultados durante cada consulta asincrona",
+        "staticallyDetectable": false,
+        "rationale": "Omitir aria-busy es marcado valido. La consecuencia es que una tecnologia asistiva puede leer la region en pleno reemplazo y anunciar contenido a medio construir, o anunciar la lista vieja como respuesta a la consulta nueva.",
+        "note": "Septimo anfitrion del operador, y el unico con un mecanismo distinto: las otras seis instancias retiran role y aria-live de un contenedor. Interesa porque un detector podria estar reconociendo ese patron concreto en lugar del fenomeno."
+      }
+    },
+    {
+      "id": "m08-neutral-table-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "MyTramites",
+        "locality": "componente de la app",
+        "transformation": "La fila se extrae a un componente propio y la tabla se envuelve en un contenedor de maquetacion."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "Roles, scope, encabezados y nombres accesibles identicos. El contenedor desplaza la ruta en el DOM de la tabla entera."
+      }
+    },
+    {
+      "id": "m09-neutral-text-join",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "TramiteSearch",
+        "locality": "componente de la app",
+        "transformation": "La linea de metadatos pasa de tres expresiones interpoladas, que React convierte en cinco nodos de texto, a una sola cadena construida en una funcion auxiliar."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "El texto resultante es identico caracter por caracter y lo que una tecnologia asistiva anuncia es exactamente lo mismo; solo cambia la fragmentacion interna de los nodos de texto.",
+        "note": "Unico control del benchmark disenado para poner a prueba una regla de normalizacion concreta: la union de nodos de texto contiguos en prepareAx. Un control equivalente de a06-equipo daba 3,0% de divergencia de arbol antes de esa regla. Este caso falla de inmediato si alguien la retira."
+      }
+    },
+    {
+      "id": "m10-neutral-detail-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "neutral-refactor",
+        "source": "control",
+        "description": "Refactorizacion que preserva la accesibilidad",
+        "target": "TramiteDetail",
+        "locality": "componente de la app",
+        "transformation": "El contenido de cada pestana pasa de JSX en linea a funciones auxiliares, y la lista de requisitos a un componente propio. No se agrega ningun nodo al DOM."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": null,
+        "staticallyDetectable": false,
+        "rationale": "El marcado resultante es identico. Es el tipo de refactorizacion mas comun en una revision de codigo, y si diera diferencias el problema estaria en la captura y no en la normalizacion."
+      }
+    },
+    {
+      "id": "n01-benign-count-and-caption",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "MyTramites",
+        "locality": "componente de la app",
+        "transformation": "Se agrega una linea con el recuento de expedientes antes de la tabla y se reescribe su caption, que es el nombre accesible de la tabla.",
+        "difficulty": "obvio"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "El recuento se deriva de los datos y del expediente recien presentado, de modo que su valor cambia a lo largo de la traza igual que el resto de la tabla. Un caso benigno de contenido estatico no ejercitaria la comparacion paso por paso.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
+    },
+    {
+      "id": "p01-preexisting-cto-defect",
+      "kind": "mutant",
+      "label": "preexisting",
+      "baseVariant": "m02-cto-nav-tab-order",
+      "operator": {
+        "id": "preexisting-defect-plus-benign",
+        "source": "propio",
+        "description": "Defecto de accesibilidad presente en los dos lados, mas un cambio benigno",
+        "target": "PortalHeader (defecto, en ambos lados) y MyTramites (cambio benigno)",
+        "locality": "componente de la app",
+        "transformation": "El lado izquierdo del par es m02-cto-nav-tab-order, que ya tiene el defecto. Este lado conserva ese mismo defecto y agrega el cambio benigno sobre MyTramites. El delta entre los dos lados es exactamente la parte benigna."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada, y unicamente la del cambio benigno: el defecto esta en los dos lados y por tanto no aparece en la diferencia",
+        "staticallyDetectable": false,
+        "rationale": "El defecto de orden y continuidad del foco, criterio 2.4.3, existe en las dos versiones. No lo introdujo este cambio, de modo que no es una regresion. Senalarlo es un falso positivo.",
+        "roleNote": "Es la prueba de la distincion entre accessibility testing y accessibility regression testing, que es el planteamiento del problema de este estudio. Se espera que la estrategia estatica falle: ve la version modificada sola, encuentra el defecto real y no tiene forma de saber que ya existia. Las dos estrategias diferenciales solo ven el delta benigno. La diferencia entre ambas respuestas es la medida directa del aporte del enfoque diferencial.",
+        "preexistingDefect": {
+          "category": "orden y continuidad del foco",
+          "wcag": [
+            "2.4.3"
+          ],
+          "presentIn": "ambos lados del par"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "size": 20,
+  "nota": [
+    "Submuestra para la medicion de consistencia: veinte pares repetidos tres",
+    "veces, segun el esquema de repeticiones declarado en 3.4.",
+    "",
+    "Es DECLARADA y no aleatoria, por la misma razon que la del piloto: una",
+    "submuestra por semilla es reproducible solo si alguien revisa la semilla, y",
+    "nadie la revisa. Escrita aqui, cualquiera puede comprobar que cubre lo que",
+    "dice cubrir.",
+    "",
+    "Cobertura: los seis operadores de mutacion, los tres estratos de complejidad,",
+    "las cuatro clases de par, y las diez aplicaciones. La proporcion entre clases",
+    "aproxima la del benchmark completo —55% positivos contra 55% en el total— para",
+    "que la consistencia medida no quede sesgada hacia una clase."
+  ],
+  "pairs": [
+    { "app": "a01-landing", "variant": "m01-kbd-activation" },
+    { "app": "a02-piscina", "variant": "m01-cto-slot-tab-order" },
+    { "app": "a03-panel", "variant": "m04-ccs-focus-steal" },
+    { "app": "a04-multipaso", "variant": "m01-focus-loss-step-change" },
+    { "app": "a05-blog", "variant": "m02-ccb-search-on-blur" },
+    { "app": "a06-equipo", "variant": "m05-status-silent" },
+    { "app": "a07-perfil", "variant": "m01-ccb-autosave-on-blur" },
+    { "app": "a08-contacto", "variant": "m02-cto-extra-unreachable" },
+    { "app": "a09-tienda", "variant": "m04-kbd-activation-removed" },
+    { "app": "a09-tienda", "variant": "m07-focus-loss-on-remove" },
+    { "app": "a10-tramites", "variant": "m07-status-no-busy" },
+    { "app": "a03-panel", "variant": "m06-neutral-table-refactor" },
+    { "app": "a09-tienda", "variant": "m09-computation-only" },
+    { "app": "a10-tramites", "variant": "m09-neutral-text-join" },
+    { "app": "a01-landing", "variant": "n01-benign-rewording" },
+    { "app": "a06-equipo", "variant": "n01-benign-better-label" },
+    { "app": "a09-tienda", "variant": "n01-benign-extra-disclosure" },
+    { "app": "a10-tramites", "variant": "n01-benign-count-and-caption" },
+    { "app": "a04-multipaso", "variant": "p01-preexisting-cto-defect" },
+    { "app": "a10-tramites", "variant": "p01-preexisting-cto-defect" }
+  ]
+}

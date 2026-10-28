@@ -1,0 +1,89 @@
+/* Maquetación propia del portal de trámites. Sin semántica. */
+
+.portal {
+  max-width: 58rem;
+  margin-inline: auto;
+}
+
+.portal__skip {
+  position: absolute;
+  inset-inline-start: -9999px;
+}
+.portal__skip:focus-visible {
+  position: static;
+  display: inline-block;
+  margin-block-end: 0.5rem;
+}
+
+.portal__bar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-block-end: 0.75rem;
+  border-block-end: 1px solid var(--a11y-line);
+}
+.portal__nav {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.portal__nav [aria-current='page'] {
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 var(--a11y-accent);
+}
+
+.portal__resultados {
+  margin-block-start: 1rem;
+}
+.portal__lista {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.25rem;
+}
+.portal__lista h3 {
+  margin-block: 0 0.25rem;
+}
+.portal__meta {
+  color: var(--a11y-ink-soft);
+  margin-block: 0 0.5rem;
+  font-size: 0.875rem;
+}
+
+.portal__acciones {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-block-start: 1rem;
+}
+
+.portal__tabla {
+  border-collapse: collapse;
+  width: 100%;
+}
+.portal__tabla caption {
+  text-align: left;
+  padding-block-end: 0.5rem;
+  color: var(--a11y-ink-soft);
+}
+.portal__tabla th,
+.portal__tabla td {
+  border-block-end: 1px solid var(--a11y-line);
+  padding: 0.5rem;
+  text-align: left;
+}
+.portal__tabla tbody th {
+  font-weight: 400;
+}
+
+h1[tabindex='-1'] {
+  outline-offset: 4px;
+}
+
+/* Usado solo por el control negativo que envuelve la tabla. */
+.portal__tabla-envoltorio {
+  overflow-x: auto;
+}

@@ -1,0 +1,103 @@
+/* Maquetación propia de la tienda. Sin semántica: todo lo que importa para la
+   accesibilidad vive en los componentes. */
+
+.tienda {
+  max-width: 62rem;
+  margin-inline: auto;
+}
+
+.tienda__skip {
+  position: absolute;
+  inset-inline-start: -9999px;
+}
+.tienda__skip:focus-visible {
+  position: static;
+  display: inline-block;
+  margin-block-end: 0.5rem;
+}
+
+.tienda__bar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-block-end: 0.75rem;
+  border-block-end: 1px solid var(--a11y-line);
+}
+.tienda__marca {
+  font-size: 1.125rem;
+}
+.tienda__nav {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tienda__nav [aria-current='page'] {
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 var(--a11y-accent);
+}
+
+.tienda__resultados {
+  margin-block-start: 1rem;
+}
+.tienda__grid {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+.tienda__card {
+  border: 1px solid var(--a11y-line);
+  border-radius: var(--a11y-radius);
+  padding: 1rem;
+  height: 100%;
+}
+.tienda__card h3 {
+  margin-block: 0 0.25rem;
+}
+.tienda__precio {
+  font-weight: 600;
+  margin-block: 0 0.5rem;
+}
+.tienda__card-acciones {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-block-start: 0.75rem;
+}
+
+.tienda__tabla {
+  border-collapse: collapse;
+  width: 100%;
+}
+.tienda__tabla caption {
+  text-align: left;
+  padding-block-end: 0.5rem;
+  color: var(--a11y-ink-soft);
+}
+.tienda__tabla th,
+.tienda__tabla td {
+  border-block-end: 1px solid var(--a11y-line);
+  padding: 0.5rem;
+  text-align: left;
+}
+.tienda__total {
+  font-weight: 600;
+}
+
+.tienda__footer {
+  margin-block-start: 2.5rem;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid var(--a11y-line);
+}
+.tienda__footer h2 {
+  font-size: 1rem;
+}
+
+h1[tabindex='-1'] {
+  /* El encabezado recibe foco al cambiar de vista; sin esto el contorno queda
+     pegado al texto y se lee como un error de maquetación. */
+  outline-offset: 4px;
+}

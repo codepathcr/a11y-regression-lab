@@ -71,13 +71,31 @@ export interface TraceDiff {
    *  mutante. */
   eventDivergence: number;
   axDivergence: number;
-  /** Pasos donde la comparación encontró alguna diferencia de eventos. La
-   *  localización de la transición afectada se busca acá. */
+  /** Pasos donde difiere el FLUJO DE EVENTOS, es decir el comportamiento
+   *  observable de la interfaz. La localización de la transición afectada se
+   *  busca acá. */
   changedSteps: number[];
-  /** Verdadero si existe cualquier diferencia observable. Es la compuerta del
-   *  mutation score y, en un flujo de Pull Requests, lo que decide si vale la
-   *  pena invocar un modelo. */
+  /**
+   * Pasos donde difiere el ÁRBOL DE ACCESIBILIDAD, es decir el estado
+   * resultante.
+   *
+   * No es redundante con `changedSteps`, y la distinción la obligó una
+   * medición: una mutación puede dejar el flujo de eventos intacto y alterar el
+   * contenido —por ejemplo, un ordenamiento que no ocurre deja la tabla en otro
+   * orden sin que falte ningún evento—. Esa diferencia vive solo en el árbol.
+   *
+   * Importa porque la poda del árbol, que envía al modelo solo los pasos con
+   * diferencias, se calcula sobre la UNIÓN de los dos conjuntos. Calculada solo
+   * sobre los eventos, podaría la evidencia precisamente donde está.
+   */
+  axChangedSteps: number[];
+  /** Verdadero si existe cualquier diferencia observable, de eventos o de
+   *  árbol. Es la compuerta del mutation score y, en un flujo de Pull
+   *  Requests, lo que decide si vale la pena invocar un modelo. */
   hasDifferences: boolean;
+  /** Unión de `changedSteps` y `axChangedSteps`: los pasos cuya evidencia debe
+   *  entregarse al modelo. */
+  evidenceSteps: number[];
 }
 
 export function diffTraces(left: NormalizedStep[], right: NormalizedStep[]): TraceDiff {
@@ -109,11 +127,19 @@ export function diffTraces(left: NormalizedStep[], right: NormalizedStep[]): Tra
     .filter((step) => step.events.added.length + step.events.removed.length > 0)
     .map((step) => step.index);
 
+  const axChangedSteps = steps
+    .filter((step) => step.ax.added.length + step.ax.removed.length > 0)
+    .map((step) => step.index);
+
+  const evidenceSteps = [...new Set([...changedSteps, ...axChangedSteps])].sort((a, b) => a - b);
+
   return {
     steps,
     eventDivergence: eventTotal === 0 ? 0 : differing('events') / eventTotal,
     axDivergence: axTotal === 0 ? 0 : differing('ax') / axTotal,
     changedSteps,
-    hasDifferences: changedSteps.length > 0,
+    axChangedSteps,
+    hasDifferences: evidenceSteps.length > 0,
+    evidenceSteps,
   };
 }

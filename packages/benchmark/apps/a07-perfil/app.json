@@ -1,0 +1,171 @@
+{
+  "id": "a07-perfil",
+  "title": "Ajustes de cuenta con pestañas",
+  "stratum": "small",
+  "plannedMutations": 3,
+  "primitives": [
+    "Button",
+    "Tabs",
+    "TextField",
+    "LiveRegion"
+  ],
+  "scenario": {
+    "note": "El escenario provisional de la fase 4 estaba roto y la medicion lo delato: las flechas de los pasos 5 y 6 caian sobre una casilla en lugar de sobre la lista de pestanas, de modo que no hacian nada, y los pasos 7 y 10 fallaban porque sus paneles nunca se abrian. Se reescribio para que las tres pestanas se abran de verdad —las dos primeras por teclado, la tercera con el raton— y para que la barra de guardado se accione con Enter. Dos decisiones estan ahi por un operador concreto: la tabulacion del paso 9, que sale del campo de nombre y es lo unico que hace observable el guardado automatico del operador CCB; y la activacion del boton con Enter en el paso 11, en lugar de un clic, para que el anuncio de guardado se produzca por la ruta del teclado.",
+    "steps": [
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "ArrowRight"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=avisos-resumen]"
+      },
+      {
+        "action": "click",
+        "selector": ".a11y-tabs__list > button:nth-of-type(3)"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=perfil-publico]"
+      },
+      {
+        "action": "click",
+        "selector": ".a11y-tabs__list > button:nth-of-type(1)"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=perfil-nombre]",
+        "value": "Ana P. Rojas"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=guardar]"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "settle",
+        "ms": 250
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos. La region live se extrajo a la parte Announcer: todo comportamiento que un operador deba poder mutar tiene que vivir en una parte y no en el armado de la app."
+    },
+    {
+      "id": "m01-ccb-autosave-on-blur",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "ccb",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCB, Change Context on Blur",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F9) pero no detalla la transformacion. La operacionalizacion es propia de este estudio.",
+        "target": "ProfileTabs",
+        "locality": "componente de la app",
+        "transformation": "Abandonar el campo de nombre visible guarda los cambios. El boton Guardar cambios se deshabilita por si solo en el instante en que la persona tabula hacia el."
+      },
+      "wcag": [
+        "3.2.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 9,
+        "expectedEvidence": "tras el blur del campo de nombre, el boton de guardar pasa a disabled y sale del arbol de controles accionables, y el texto de estado cambia sin que mediara accion alguna. En los pasos siguientes falta el evento de foco sobre el boton y falta el anuncio de guardado, porque ya se habia guardado.",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido en todo momento y el boton deshabilitado es correcto en si mismo. Lo que el criterio prohibe es que el contexto cambie al abandonar un campo, y eso solo existe en la secuencia.",
+        "mechanismNote": "Mecanismo distinto al CCB de a09-tienda, que inserta contenido tabulable: este retira del orden de tabulacion el control que la persona estaba alcanzando. Tener los dos permite comprobar si el detector reconoce el criterio o solo el patron de insercion de nodos."
+      }
+    },
+    {
+      "id": "m02-status-removed",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "status-announcement-removal",
+        "source": "propio",
+        "description": "Eliminacion del anuncio accesible de un mensaje de estado",
+        "target": "Announcer",
+        "locality": "componente de la app",
+        "transformation": "El contenedor de la region live pierde role=\"status\" y aria-live. El texto sigue en el DOM."
+      },
+      "wcag": [
+        "4.1.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "comunicación accesible de actualizaciones dinámicas",
+        "expectedStep": 11,
+        "expectedEvidence": "el nodo con live=\"polite\" desaparece del arbol y no queda evento de anuncio tras el guardado, pese a que el texto si cambia en el DOM.",
+        "staticallyDetectable": false,
+        "rationale": "El texto es visible y el marcado es valido. Se perdio la propiedad que hace que ese texto se anuncie, y solo se observa cuando el texto cambia.",
+        "severityNote": "Noveno anfitrion del operador. Mas severo de lo que parece por su interaccion con la barra de guardado: quien ve la pantalla conserva dos senales visuales redundantes, quien no la ve pierde la unica que tenia y ademas el control que acababa de accionar sale del orden de tabulacion en el mismo instante."
+      }
+    },
+    {
+      "id": "m03-neutral-savebar-refactor",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "accessibility-preserving-change",
+        "source": "propio",
+        "description": "Cambio que preserva la accesibilidad",
+        "target": "SaveBar",
+        "locality": "componente de la app",
+        "transformation": "El texto de estado pasa de un ternario en linea a una funcion auxiliar y la condicion de habilitado a una variable con nombre. El marcado resultante es identico."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "ninguna: la traza normalizada debe ser identica a la de la base",
+        "staticallyDetectable": false,
+        "rationale": "Ninguna propiedad observable cambia.",
+        "roleNote": "Cubre el caso de texto de una sola cadena que cambia de valor, que es el que ejercita la regla de fusion de nodos de texto en el estrato pequeno."
+      }
+    },
+    {
+      "id": "n01-benign-better-label",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "SaveBar",
+        "locality": "componente de la app",
+        "transformation": "El boton de guardar recibe un nombre accesible que dice que guarda, y el texto de estado se reescribe. El nombre contiene el texto visible.",
+        "difficulty": "discutible"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "Mejora del nombre accesible. El boton que cambia de nombre es el mismo que el operador CCB de esta app deja deshabilitado y el mismo cuyo anuncio elimina el operador de mensajes de estado: tres pares de la misma app tocan el mismo control y solo dos son regresiones.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
+    }
+  ]
+}

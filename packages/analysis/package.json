@@ -1,0 +1,19 @@
+{
+  "name": "@a11y-lab/analysis",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Capa de proveedores de modelos de lenguaje y contrato de salida del analisis diferencial",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "check": "tsx scripts/check-parse.ts"
+  },
+  "dependencies": {
+    "@a11y-lab/framework": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "4.19.1"
+  }
+}

@@ -1,0 +1,18 @@
+Modelo: Llama 3.1 8B (llama31-8b)
+Formato de evidencia: json
+Ventana declarada: 32768 tokens mínimos
+num_ctx actual: 24576
+Pidiendo un solo token de salida: se mide el prompt, no la generación.
+
+Muestra de 4000 caracteres por estrategia; el total sale por aritmética.
+
+  estrategia    par                                      caracteres   proyec.   car/tok
+  static        a09-tienda/n01-benign-extra-disclosure        77799     23175      3.36
+  state-diff    a09-tienda/m01-ccs-context-on-selection       35695     10614      3.36
+  trace-diff    a09-tienda/m01-ccs-context-on-selection       49276     14119      3.49
+
+Prompt más grande, proyectado: 23175 tokens.
+num_ctx recomendado: 25600 (el peor prompt más 2048 de respuesta, redondeado).
+
+ATENCIÓN: supera el num_ctx actual de 24576.
+Con la ventana actual, ese prompt se recortaría en silencio.

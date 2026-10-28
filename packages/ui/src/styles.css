@@ -167,6 +167,15 @@ body {
   color: #ffffff;
 }
 
+/* Recuento del combo: informativo para quien ve la pantalla, y aria-hidden
+   porque la navegación de la lista ya la comunica aria-activedescendant. */
+.a11y-combobox__recuento {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--a11y-ink-soft);
+  min-height: 1.5em;
+}
+
 /* Las regiones live son visibles a propósito: durante el desarrollo de los
    fixtures conviene ver lo que se anuncia. */
 .a11y-live {

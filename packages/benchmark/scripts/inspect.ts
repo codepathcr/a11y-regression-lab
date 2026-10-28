@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { captureTrace, diffLines, normalize } from '@a11y-lab/framework';
 import type { IdentityMode, Scenario } from '@a11y-lab/framework';
 import { launchChromium } from './browser';
+import { ignoreBrokenPipe } from './io';
 import { APPS, serveDist } from './static-server';
 
 /**
@@ -16,6 +17,8 @@ import { APPS, serveDist } from './static-server';
  * invisible en la traza— y la diferencia entre ambas no se resuelve mirando
  * porcentajes.
  */
+
+ignoreBrokenPipe();
 
 const PORT = 5397;
 

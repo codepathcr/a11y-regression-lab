@@ -1,0 +1,21 @@
+/* Maquetación propia del formulario de contacto. Sin semántica. */
+
+.contacto {
+  max-width: 38rem;
+  margin-inline: auto;
+}
+
+.contacto__lead {
+  color: var(--a11y-ink-soft);
+  margin-block: 0 1.5rem;
+}
+
+.contacto__confirmacion {
+  border: 1px solid var(--a11y-accent);
+  border-radius: var(--a11y-radius);
+  padding: 1rem 1.25rem;
+}
+.contacto__confirmacion h2 {
+  font-size: 1.125rem;
+  margin-block-start: 0;
+}

@@ -1,0 +1,56 @@
+/* Maquetación propia de la gestión de equipo. Sin semántica. */
+
+.equipo {
+  max-width: 54rem;
+  margin-inline: auto;
+}
+
+.equipo__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: 1rem;
+}
+.equipo__barra p {
+  margin: 0;
+  color: var(--a11y-ink-soft);
+}
+
+.equipo__tabla {
+  border-collapse: collapse;
+  width: 100%;
+}
+.equipo__tabla caption {
+  text-align: left;
+  padding-block-end: 0.5rem;
+  color: var(--a11y-ink-soft);
+}
+.equipo__tabla th,
+.equipo__tabla td {
+  border-block-end: 1px solid var(--a11y-line);
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+.equipo__tabla tbody th {
+  font-weight: 400;
+}
+.equipo__pendiente {
+  color: var(--a11y-ink-soft);
+  font-size: 0.875rem;
+}
+.equipo__acciones {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+#equipo-titulo[tabindex='-1'] {
+  outline-offset: 4px;
+}
+
+/* Usado solo por el control negativo que envuelve la tabla. */
+.equipo__tabla-envoltorio {
+  overflow-x: auto;
+}

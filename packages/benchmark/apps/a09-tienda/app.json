@@ -1,0 +1,453 @@
+{
+  "id": "a09-tienda",
+  "title": "Tienda de periféricos con catálogo, carrito y pago",
+  "stratum": "large",
+  "primitives": [
+    "Button",
+    "Combobox",
+    "Dialog",
+    "Disclosure",
+    "LiveRegion",
+    "Menu",
+    "Tabs",
+    "TextField"
+  ],
+  "plannedMutations": 10,
+  "scenario": {
+    "note": "Escenario del estrato grande. Recorre la tabulacion del encabezado, el filtrado por categoria, el detalle con pestanas, la activacion por teclado del boton de compra, el retiro de una linea del carrito y el pago en dialogo modal, de modo que la traza cruce las ocho primitivas y tres cargas asincronas. Cuatro decisiones del escenario estan ahi por un operador concreto: las cuatro tabulaciones iniciales recorren el encabezado, sin las cuales CTO no se manifiesta; la activacion del boton de agregar con Enter en lugar de un clic, sin la cual la eliminacion de activacion mediante teclado no se manifiesta; el retiro de una linea del carrito, sin el cual la perdida de foco tras una actualizacion dinamica no se manifiesta; y la tabulacion inmediatamente despues de rellenar el nombre, sin la cual CCB solo deja la huella de la insercion del bloque. Se agregan dos productos antes de visitar el carrito para que retirar uno no lo vacie: si se vaciara, el mutante de activacion por teclado —que impide el tercer agregado— dejaria el carrito vacio, desapareceria el boton de pago y la divergencia medida seria la cascada y no el defecto.",
+    "asyncNote": "Los pasos 'settle' de 400 ms esperan de forma explícita las cargas simuladas de 180 ms. El marcador data-harness-ready señala el montaje, no la llegada de datos: un escenario sobre una app que carga de forma asíncrona debe esperar esas cargas por su cuenta, o la medición queda a merced de una carrera.",
+    "steps": [
+      {
+        "action": "settle",
+        "ms": 400
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "focus",
+        "selector": "[role=combobox]"
+      },
+      {
+        "action": "fill",
+        "selector": "[role=combobox]",
+        "value": "Tecl"
+      },
+      {
+        "action": "press",
+        "key": "ArrowDown"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "settle",
+        "ms": 400
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=agregar-p03]"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=agregar-p04]"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=detalle-p04]"
+      },
+      {
+        "action": "click",
+        "selector": ".a11y-tabs__list > button:nth-of-type(1)"
+      },
+      {
+        "action": "press",
+        "key": "ArrowRight"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=detalle-agregar]"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=nav-carrito]"
+      },
+      {
+        "action": "focus",
+        "selector": "[data-testid=retirar-p03]"
+      },
+      {
+        "action": "press",
+        "key": "Enter"
+      },
+      {
+        "action": "settle",
+        "ms": 200
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=ir-a-pagar]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=pago-nombre]",
+        "value": "Ana Pérez"
+      },
+      {
+        "action": "press",
+        "key": "Tab"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=pago-correo]",
+        "value": "correo-invalido"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=pago-confirmar]"
+      },
+      {
+        "action": "fill",
+        "selector": "[data-testid=pago-correo]",
+        "value": "ana@ejemplo.com"
+      },
+      {
+        "action": "click",
+        "selector": "[data-testid=pago-confirmar]"
+      },
+      {
+        "action": "settle",
+        "ms": 400
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "base",
+      "kind": "base",
+      "note": "Referencia del par. Debe pasar axe-core sin hallazgos. El CartView mueve el foco de forma explicita al encabezado de la seccion al retirar una linea: sin eso la base tenia el mismo defecto latente que se hallo en a06-equipo, y una base defectuosa invalida los diez pares. Se hallo al disenar el mutante correspondiente, no al medir."
+    },
+    {
+      "id": "m01-ccs-context-on-selection",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "ccs",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCS, Change Context on Selection",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F37) pero no detalla la transformacion. La operacionalizacion es propia de este estudio.",
+        "target": "CatalogView",
+        "locality": "componente de la app",
+        "transformation": "Seleccionar una categoria en el combo deja de filtrar la lista y navega a la vista de detalle del primer producto de esa categoria."
+      },
+      "wcag": [
+        "3.2.2"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 9,
+        "expectedEvidence": "cambio de vista completo tras seleccionar un valor del combo, con el reemplazo del contenido y el movimiento de foco asociados",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido en todo momento. Cambiar el ajuste de un control no debe cambiar el contexto sin advertencia previa, y eso solo se observa en la secuencia."
+      }
+    },
+    {
+      "id": "m02-focus-loss-view-change",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "focus-loss-after-update",
+        "source": "propio",
+        "description": "Perdida de foco despues de una actualizacion dinamica",
+        "target": "ViewHeading",
+        "locality": "componente de la app",
+        "transformation": "Se elimina el efecto que mueve el foco al encabezado de la vista nueva cuando la vista cambia."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 13,
+        "expectedEvidence": "ausencia del movimiento de foco al encabezado tras cada cambio de vista",
+        "staticallyDetectable": false,
+        "rationale": "En cualquier instante aislado el marcado es correcto. La diferencia existe solo en la secuencia de foco."
+      }
+    },
+    {
+      "id": "m03-ccb-context-on-blur",
+      "kind": "mutant",
+      "label": "positive",
+      "relocatedFrom": "a01-landing, en la fase 5: el dialogo modal es un anfitrion mas exigente y a09 necesita completar su cuota.",
+      "operator": {
+        "id": "ccb",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CCB, Change Context on Blur",
+        "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F9) pero no detalla la transformacion. La operacionalizacion es propia de este estudio.",
+        "target": "CheckoutDialog",
+        "locality": "componente de la app",
+        "transformation": "Al abandonar el campo de nombre se inserta, justo debajo de el y dentro del dialogo modal, un bloque de opciones de envio con controles tabulables que antes no existia. El punto de insercion se eligio por realismo: revelar campos dependientes debajo del que se acaba de abandonar es el caso corriente."
+      },
+      "wcag": [
+        "3.2.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "cambios inesperados de contexto",
+        "expectedStep": 25,
+        "expectedEvidence": "alta de un nodo interactivo dentro del dialogo inmediatamente despues del blur del campo de nombre. Es el unico rastro: el navegador resuelve el siguiente destino del foco antes de ejecutar el manejador de blur, de modo que la secuencia de foco no cambia.",
+        "staticallyDetectable": false,
+        "rationale": "El marcado resultante es valido en todo momento. Dentro de un modal el defecto es mas severo porque el contenido tabulable cambia mientras el foco esta retenido.",
+        "sensitivityNote": "Caso menos visible del benchmark: una linea de unas ciento setenta, 0,6% de divergencia. Detectable solo porque el piso de ruido es cero."
+      }
+    },
+    {
+      "id": "m04-kbd-activation-removed",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "kbd-activation-removal",
+        "source": "propio",
+        "description": "Eliminacion de activacion mediante teclado",
+        "target": "ProductDetailView",
+        "locality": "componente de la app",
+        "transformation": "El boton de agregar al carrito intercepta Enter y Espacio en onKeyDown y cancela el comportamiento por defecto, que es el que convierte la tecla en un click. El manejador de raton queda intacto, de modo que la ruta del raton es identica byte a byte."
+      },
+      "wcag": [
+        "2.1.1"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "operación mediante teclado",
+        "expectedStep": 18,
+        "expectedEvidence": "ausencia del anuncio de producto agregado y del cambio del recuento del carrito tras pulsar Enter sobre un boton que si recibio el foco. El evento de tecla esta en la traza; la respuesta de la pagina, no.",
+        "staticallyDetectable": false,
+        "rationale": "El elemento sigue siendo un <button> con nombre accesible, sigue recibiendo el foco y sigue funcionando con el raton. No hay propiedad del DOM que un validador estatico pueda inspeccionar.",
+        "severityNote": "Septimo anfitrion del operador y el primero en el que el control inoperable es el que consuma la compra."
+      }
+    },
+    {
+      "id": "m05-cto-cart-unreachable",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "cto",
+        "source": "Ma11y (Tafreshipour et al., 2024)",
+        "description": "CTO, Change Tab Index Order",
+        "paperDetail": "El paper define el operador por nombre y categoria (Operable / Navigable, falla F44) pero no detalla la transformacion. La operacionalizacion es propia de este estudio.",
+        "target": "StoreHeader",
+        "locality": "componente de la app",
+        "transformation": "Se asigna tabindex=\"-1\" al boton de acceso al carrito, retirandolo del orden de tabulacion. El recuento sigue visible y el boton sigue funcionando con el raton."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 4,
+        "expectedEvidence": "la cuarta tabulacion ya no aterriza en el boton de carrito: el foco salta de la navegacion al menu de cuenta y en la traza falta un evento de foco de la secuencia.",
+        "staticallyDetectable": false,
+        "rationale": "El marcado es valido y el nombre accesible no cambia. Solo la secuencia de foco revela que el control dejo de ser alcanzable.",
+        "severityNote": "Defecto de mayor consecuencia comercial del benchmark: quien navega por teclado puede agregar productos y no puede llegar a pagarlos. Invisible en una revision visual, porque el encabezado se ve completo."
+      }
+    },
+    {
+      "id": "m06-status-removed",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "status-announcement-removal",
+        "source": "propio",
+        "description": "Eliminacion del anuncio accesible de un mensaje de estado",
+        "target": "Announcer",
+        "locality": "componente de la app",
+        "transformation": "El contenedor de la region live pierde role=\"status\" y aria-live. El texto sigue en el DOM."
+      },
+      "wcag": [
+        "4.1.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "comunicación accesible de actualizaciones dinámicas",
+        "expectedStep": 10,
+        "expectedEvidence": "el nodo con live=\"polite\" desaparece del arbol de accesibilidad y ningun evento de anuncio queda en la traza, pese a que el texto del mensaje si cambia en el DOM.",
+        "staticallyDetectable": false,
+        "rationale": "El texto es visible y el marcado es valido. Lo que se perdio es la propiedad que hace que ese texto se anuncie, y esa propiedad solo se observa cuando el texto cambia.",
+        "severityNote": "Octavo anfitrion del operador. En esta app se pierden cuatro anuncios distintos: el recuento tras filtrar, la confirmacion de cada producto agregado con su total acumulado, el aviso de retiro y la confirmacion del pedido. El del carrito es el mas grave: el total acumulado es la unica forma de verificar que el producto se agrego una vez y no tres."
+      }
+    },
+    {
+      "id": "m07-focus-loss-on-remove",
+      "kind": "mutant",
+      "label": "positive",
+      "operator": {
+        "id": "focus-loss-after-update",
+        "source": "propio",
+        "description": "Perdida de foco despues de una actualizacion dinamica",
+        "target": "CartView",
+        "locality": "componente de la app",
+        "transformation": "Se elimina el movimiento de foco al encabezado tras retirar un producto. La fila desaparece con el boton que tenia el foco y este cae al cuerpo del documento. El anuncio se conserva, para aislar este defecto del de falta de anuncio."
+      },
+      "wcag": [
+        "2.4.3"
+      ],
+      "groundTruth": {
+        "regression": true,
+        "category": "orden y continuidad del foco",
+        "expectedStep": 21,
+        "expectedEvidence": "ausencia del evento de foco sobre el encabezado del carrito tras la baja de la fila; el foco queda en el cuerpo del documento y la tabulacion siguiente reinicia el recorrido.",
+        "staticallyDetectable": false,
+        "rationale": "En cualquier instante aislado el marcado es correcto. La diferencia existe solo en la secuencia de foco alrededor de la baja del nodo.",
+        "severityNote": "Octavo anfitrion del operador y el segundo sobre una tabla con filas que se eliminan, junto con a06-equipo. Tener los dos permite comprobar que el detector reconoce el fenomeno y no la tabla concreta."
+      }
+    },
+    {
+      "id": "m08-dom-restructure",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "accessibility-preserving-change",
+        "source": "propio",
+        "description": "Cambio que preserva la accesibilidad",
+        "target": "CatalogView",
+        "locality": "componente de la app",
+        "transformation": "Se envuelve la cuadricula de resultados en un contenedor sin rol ni nombre accesible y se extrae el cuerpo de la region a una funcion auxiliar. Es la forma tipica de un cambio de maquetacion: aparece un div nuevo para colgarle una clase de CSS."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "ninguna: la traza normalizada debe ser identica a la de la base",
+        "staticallyDetectable": false,
+        "rationale": "Un div sin rol no genera nodo en el arbol de accesibilidad y no altera ningun evento. Con identidad semantica el par no diverge; con identidad estructural divergiria en cada nodo descendiente, que es la medicion que descarto esa alternativa."
+      }
+    },
+    {
+      "id": "m09-computation-only",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "accessibility-preserving-change",
+        "source": "propio",
+        "description": "Cambio que preserva la accesibilidad",
+        "target": "CartView",
+        "locality": "componente de la app",
+        "transformation": "El total pasa de un reduce en linea a dos funciones auxiliares y el subtotal de cada fila se calcula en una de ellas. El marcado resultante es identico elemento por elemento y atributo por atributo, y se conserva el manejo del foco al retirar."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "ninguna: la traza normalizada debe ser identica a la de la base",
+        "staticallyDetectable": false,
+        "rationale": "Ninguna propiedad observable cambia, de modo que cualquier divergencia es ruido del instrumento o un defecto de normalizacion.",
+        "roleNote": "Control negativo mas exigente de la app. Es la clase de cambio que detecto los tres defectos de normalizacion del estudio."
+      }
+    },
+    {
+      "id": "m10-text-join",
+      "kind": "mutant",
+      "label": "negative",
+      "operator": {
+        "id": "accessibility-preserving-change",
+        "source": "propio",
+        "description": "Cambio que preserva la accesibilidad",
+        "target": "StoreHeader",
+        "locality": "componente de la app",
+        "transformation": "El rotulo del boton de carrito pasa de Carrito ({cartCount}) —que React entrega al DOM como tres nodos de texto— a una sola cadena construida en una funcion auxiliar. El nombre accesible resultante es el mismo."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "ninguna: la traza normalizada debe ser identica a la de la base",
+        "staticallyDetectable": false,
+        "rationale": "El nombre accesible calculado no cambia. Vigila la regla de fusion de nodos de texto del normalizador cuando la cadena lleva parentesis y un numero variable.",
+        "roleNote": "Responde a dos defectos del estudio: la fragmentacion del texto en nodos StaticText separados, que hacia divergir pares sin cambio alguno, y el espacio que la regla de fusion insertaba y que partia los identificadores de pedido. Ambos aparecieron en controles negativos, no en mutantes."
+      }
+    },
+    {
+      "id": "n01-benign-extra-disclosure",
+      "kind": "mutant",
+      "label": "benign-divergent",
+      "operator": {
+        "id": "benign-divergent-change",
+        "source": "propio",
+        "description": "Cambio que altera la traza y preserva la accesibilidad",
+        "target": "StoreFooter",
+        "locality": "componente de la app",
+        "transformation": "Se agrega una tercera seccion plegable al pie, con el mismo patron de las dos existentes. Suma un punto de tabulacion y varios nodos al arbol.",
+        "difficulty": "discutible"
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada: la traza DEBE diferir, y la respuesta correcta sigue siendo que no hay regresion",
+        "staticallyDetectable": false,
+        "rationale": "Sumar un punto de tabulacion es lo que lo hace valioso: el orden de tabulacion CAMBIA y la respuesta correcta sigue siendo que no hay regresion, porque el control nuevo es alcanzable, tiene nombre accesible y esta en una posicion coherente. Es el contraste del operador CTO, que tambien cambia el orden de tabulacion y si es una regresion.",
+        "roleNote": "Clase agregada porque los controles negativos de divergencia nula no llegan al modelo: la compuerta determinista los resuelve antes. Sin esta clase, la tasa de falsos positivos de las estrategias diferenciales seria cero por construccion y la metrica no mediria nada del modelo."
+      }
+    },
+    {
+      "id": "p01-preexisting-cto-defect",
+      "kind": "mutant",
+      "label": "preexisting",
+      "baseVariant": "m05-cto-cart-unreachable",
+      "operator": {
+        "id": "preexisting-defect-plus-benign",
+        "source": "propio",
+        "description": "Defecto de accesibilidad presente en los dos lados, mas un cambio benigno",
+        "target": "StoreHeader (defecto, en ambos lados) y StoreFooter (cambio benigno)",
+        "locality": "componente de la app",
+        "transformation": "El lado izquierdo del par es m05-cto-cart-unreachable, que ya tiene el defecto. Este lado conserva ese mismo defecto y agrega el cambio benigno sobre StoreFooter. El delta entre los dos lados es exactamente la parte benigna."
+      },
+      "wcag": [],
+      "groundTruth": {
+        "regression": false,
+        "category": null,
+        "expectedStep": null,
+        "expectedEvidence": "divergencia esperada, y unicamente la del cambio benigno: el defecto esta en los dos lados y por tanto no aparece en la diferencia",
+        "staticallyDetectable": false,
+        "rationale": "El defecto de orden y continuidad del foco, criterio 2.4.3, existe en las dos versiones. No lo introdujo este cambio, de modo que no es una regresion. Senalarlo es un falso positivo.",
+        "roleNote": "Es la prueba de la distincion entre accessibility testing y accessibility regression testing, que es el planteamiento del problema de este estudio. Se espera que la estrategia estatica falle: ve la version modificada sola, encuentra el defecto real y no tiene forma de saber que ya existia. Las dos estrategias diferenciales solo ven el delta benigno. La diferencia entre ambas respuestas es la medida directa del aporte del enfoque diferencial.",
+        "preexistingDefect": {
+          "category": "orden y continuidad del foco",
+          "wcag": [
+            "2.4.3"
+          ],
+          "presentIn": "ambos lados del par"
+        }
+      }
+    }
+  ]
+}
