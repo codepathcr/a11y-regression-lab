@@ -1234,8 +1234,9 @@ propio lado izquierdo. El campo `baseVariant` lo declara.
 
 `verify-gt` comprueba la verdad de terreno de los setenta y seis, con piso de
 ruido cero en **cada lado izquierdo**, incluidos los seis defectuosos: si una
-variante defectuosa no fuera determinista, su par tampoco lo sería. Las setenta
-y seis variantes pasan `axe-core` sin hallazgos, las `preexisting` incluidas, que
+variante defectuosa no fuera determinista, su par tampoco lo sería. Las ochenta y
+seis variantes del benchmark, que son las diez versiones base y los setenta y
+seis mutantes, pasan `axe-core` sin hallazgos, las `preexisting` incluidas, que
 es lo correcto: los defectos de este estudio son invisibles al validador
 estático por diseño, y eso es la premisa.
 

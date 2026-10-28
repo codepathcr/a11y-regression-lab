@@ -300,3 +300,101 @@ def fleiss_kappa(tables: list[tuple[int, ...]]) -> dict | None:
     kappa = None if abs(1.0 - p_e) < 1e-12 else (p_bar - p_e) / (1.0 - p_e)
     return {"kappa": kappa, "acuerdo_observado": p_bar, "acuerdo_esperado": p_e,
             "items": n, "evaluadores": k, "marginales": p_j}
+
+
+# ---------------------------------------------------------------------------
+# Potencia del contraste pareado
+# ---------------------------------------------------------------------------
+#
+# Existe porque la seccion 3.5 justifica el tamano de la muestra con cifras de
+# potencia, y una cifra que el repositorio no puede recalcular no es verificable.
+# El metodo es el de Connor (1987) para proporciones pareadas, en la forma
+# asintotica que usan las calculadoras estandar:
+#
+#   n = [ (z_{1-a/2} * sqrt(pd) + z_{1-b} * sqrt(pd - d^2)) / d ]^2
+#   potencia = Phi[ (|d| * sqrt(n) - z_{1-a/2} * sqrt(pd)) / sqrt(pd - d^2) ]
+#
+# donde `d` es la diferencia entre las dos proporciones marginales y `pd` la
+# tasa de discordancia, es decir la proporcion de casos en que las dos
+# condiciones difieren. La implementacion se comprobo contra el ejemplo publicado
+# de la calculadora de referencia: con p01=0,45, p10=0,05, alfa=0,05 y potencia
+# 0,80 devuelve 23 pares.
+#
+# La dependencia de `pd` no es un detalle tecnico: con la misma diferencia y el
+# mismo tamano, la potencia cambia de forma apreciable segun cuanto discrepen las
+# dos condiciones, y el diseno no puede fijar ese valor de antemano. Por eso la
+# funcion lo exige en lugar de asumirlo.
+
+
+def norm_cdf(x: float) -> float:
+    """Funcion de distribucion normal estandar, por la funcion error de la
+    biblioteca estandar. Sin dependencias externas, como el resto del modulo."""
+    return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
+
+
+def norm_ppf(p: float) -> float:
+    """Cuantil de la normal estandar, por biseccion sobre `norm_cdf`.
+
+    La biseccion basta y se prefiere a una aproximacion racional porque es
+    evidentemente correcta: converge a la precision de la maquina en doscientas
+    iteraciones y no hay coeficientes que verificar.
+    """
+    if not 0.0 < p < 1.0:
+        raise ValueError(f"p debe estar en (0,1), llego {p}")
+    low, high = -40.0, 40.0
+    for _ in range(300):
+        mid = (low + high) / 2.0
+        if norm_cdf(mid) < p:
+            low = mid
+        else:
+            high = mid
+    return (low + high) / 2.0
+
+
+def mcnemar_power(pairs: int, difference: float, discordance: float, alpha: float = 0.05) -> float | None:
+    """Potencia del contraste pareado bilateral.
+
+    `difference` es la diferencia entre las proporciones marginales de las dos
+    condiciones; `discordance`, la proporcion de casos en que difieren. Devuelve
+    None cuando los dos valores son incompatibles, porque la diferencia entre
+    proporciones marginales no puede exceder la tasa de discordancia.
+    """
+    if discordance <= difference * difference:
+        return None
+    z_alpha = norm_ppf(1.0 - alpha / 2.0)
+    numerator = abs(difference) * math.sqrt(pairs) - z_alpha * math.sqrt(discordance)
+    return norm_cdf(numerator / math.sqrt(discordance - difference * difference))
+
+
+def mcnemar_pairs(difference: float, discordance: float, power: float = 0.80, alpha: float = 0.05) -> int | None:
+    """Pares necesarios para alcanzar la potencia pedida. Redondea hacia arriba."""
+    if discordance <= difference * difference:
+        return None
+    z_alpha = norm_ppf(1.0 - alpha / 2.0)
+    z_beta = norm_ppf(power)
+    root = (z_alpha * math.sqrt(discordance) + z_beta * math.sqrt(discordance - difference * difference))
+    return math.ceil((root / difference) ** 2)
+
+
+def mcnemar_min_detectable(
+    pairs: int, discordance: float, power: float = 0.80, alpha: float = 0.05
+) -> float | None:
+    """Diferencia minima detectable con el tamano y la discordancia dados.
+
+    Es la lectura que corresponde a un estudio cuyo tamano de muestra ya esta
+    fijado: no cuantos casos harian falta, sino que diferencia podria verse con
+    los que hay.
+    """
+    low, high = 1e-6, min(discordance - 1e-12, 0.999999)
+    if high <= low:
+        return None
+    if (mcnemar_power(pairs, high, discordance, alpha) or 0.0) < power:
+        return None
+    for _ in range(300):
+        mid = (low + high) / 2.0
+        achieved = mcnemar_power(pairs, mid, discordance, alpha)
+        if achieved is None or achieved < power:
+            low = mid
+        else:
+            high = mid
+    return (low + high) / 2.0

@@ -1,0 +1,711 @@
+{
+  "tool": "axe-core",
+  "at": "2026-10-28T19:39:07.036Z",
+  "summary": {
+    "benchmarkVariants": 86,
+    "benchmarkClean": 86,
+    "benchmarkWithFindings": 0,
+    "variants": 87,
+    "clean": 87,
+    "withFindings": 0
+  },
+  "nota": "Deteccion sobre los pares positivos: cero por construccion. El criterio de admision 2 del protocolo de mutacion exige que la variante mutante pase el validador sin hallazgos, de modo que un hallazgo aqui significa que la mutacion esta mal disenada y no que el validador detecto la regresion.",
+  "results": [
+    {
+      "app": "_gallery",
+      "variant": "base",
+      "benchmark": false,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a01-landing",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m01-kbd-activation",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m02-status-silent",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a01-landing",
+      "variant": "m03-neutral-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a01-landing",
+      "variant": "n01-benign-rewording",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m02-focus-loss-confirmation",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m03-neutral-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "n01-benign-rewording",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m01-kbd-activation-mouse-only",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m02-cto-tab-order",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m03-focus-loss-remount",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m04-ccs-focus-steal",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m05-status-silent",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m06-neutral-table-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "m07-neutral-summary-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "n01-benign-added-total",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a03-panel",
+      "variant": "p01-preexisting-kbd-defect",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m01-focus-loss-step-change",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m02-kbd-activation-mouse-only",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m03-ccb-advance-on-blur",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m04-cto-back-tab-order",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m05-status-silent",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m06-neutral-indicator-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "m07-neutral-nav-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "n01-benign-indicator-rewording",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "p01-preexisting-cto-defect",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m01-status-silent-search",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m02-ccb-search-on-blur",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m03-focus-loss-pagination",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m04-cto-pagination",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m05-kbd-activation-pages",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m06-neutral-list-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "m07-neutral-pagination-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "n01-benign-reading-time",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a05-blog",
+      "variant": "p01-preexisting-focus-defect",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m01-focus-loss-row-removal",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m02-cto-row-tab-order",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m03-kbd-activation-remove",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m04-ccb-send-on-blur",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m05-status-silent",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m06-neutral-table-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m07-neutral-toolbar-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "n01-benign-better-label",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "p01-preexisting-focus-defect",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a07-perfil",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a07-perfil",
+      "variant": "m01-ccb-autosave-on-blur",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a07-perfil",
+      "variant": "m02-status-removed",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a07-perfil",
+      "variant": "m03-neutral-savebar-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a07-perfil",
+      "variant": "n01-benign-better-label",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a08-contacto",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a08-contacto",
+      "variant": "m01-ccs-clear-on-selection",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a08-contacto",
+      "variant": "m02-cto-extra-unreachable",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a08-contacto",
+      "variant": "m03-neutral-form-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a08-contacto",
+      "variant": "n01-benign-label-rewording",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m01-ccs-context-on-selection",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m02-focus-loss-view-change",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m03-ccb-context-on-blur",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m04-kbd-activation-removed",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m05-cto-cart-unreachable",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m06-status-removed",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m07-focus-loss-on-remove",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m08-dom-restructure",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m09-computation-only",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "m10-text-join",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "n01-benign-extra-disclosure",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a09-tienda",
+      "variant": "p01-preexisting-cto-defect",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "base",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m01-focus-loss-view-change",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m02-cto-nav-tab-order",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m03-kbd-activation-detail",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m04-ccs-navigate-on-tab",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m05-ccb-confirm-on-blur",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m06-status-silent",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m07-status-no-busy",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m08-neutral-table-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m09-neutral-text-join",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "m10-neutral-detail-refactor",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "n01-benign-count-and-caption",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    },
+    {
+      "app": "a10-tramites",
+      "variant": "p01-preexisting-cto-defect",
+      "benchmark": true,
+      "clean": true,
+      "violations": [],
+      "consoleErrors": []
+    }
+  ]
+}

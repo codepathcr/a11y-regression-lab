@@ -1,7 +1,8 @@
-import { readdir } from 'node:fs/promises';
+import { mkdir, readdir, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { launchChromium } from './browser';
 import { ignoreBrokenPipe } from './io';
+import { BASELINE } from './paths';
 import { APPS, serveDist } from './static-server';
 
 /**
@@ -18,12 +19,25 @@ import { APPS, serveDist } from './static-server';
  *     trazas ni modelos. Un hallazgo de axe en un mutante es señal de que la
  *     mutación está mal diseñada.
  *
+ * Deja su resultado en `data/baseline/axe.json`, y no solo en la consola. La
+ * razon es que el OE5 compromete una comparacion contra un validador estatico, y
+ * esa comparacion necesita una cifra citable desde el analisis en lugar de una
+ * afirmacion de memoria. La cifra es cero deteccion sobre los pares positivos, y
+ * es cero POR CONSTRUCCION: el criterio de admision 2 del protocolo exige que la
+ * variante mutante pase el validador sin hallazgos. Que sea cero por diseno no la
+ * vuelve prescindible, la vuelve una premisa que hay que verificar.
+ *
  * Requiere `pnpm build` previo.
  */
 
 ignoreBrokenPipe();
 
 const PORT = 5399;
+
+/** Una aplicación del benchmark se reconoce por su identificador. `_gallery` es
+ *  la vitrina de componentes: conviene comprobarla, pero no cuenta para ninguna
+ *  cifra del estudio. */
+const BENCHMARK_APP = /^a\d\d-/;
 
 async function listVariants(): Promise<Array<{ app: string; variant: string }>> {
   const out: Array<{ app: string; variant: string }> = [];
@@ -55,6 +69,17 @@ const axePath = resolve(
 );
 
 let failures = 0;
+interface VariantResult {
+  app: string;
+  variant: string;
+  /** Falso para la vitrina de componentes, que no entra en las cifras del estudio. */
+  benchmark: boolean;
+  clean: boolean;
+  violations: Array<{ id: string; impact: string | null; help: string; targets: string[] }>;
+  consoleErrors: string[];
+  error?: string;
+}
+const results: VariantResult[] = [];
 
 for (const { app, variant } of await listVariants()) {
   const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
@@ -82,6 +107,19 @@ for (const { app, variant } of await listVariants()) {
     })) as AxeViolation[];
 
     const label = `${app} · ${variant}`;
+    results.push({
+      app,
+      variant,
+      benchmark: BENCHMARK_APP.test(app),
+      clean: violations.length === 0 && consoleErrors.length === 0,
+      violations: violations.map((violation) => ({
+        id: violation.id,
+        impact: violation.impact,
+        help: violation.help,
+        targets: violation.nodes.map((node) => node.target.join(' ')),
+      })),
+      consoleErrors,
+    });
     if (violations.length === 0 && consoleErrors.length === 0) {
       console.log(`  OK    ${label}`);
     } else {
@@ -99,8 +137,18 @@ for (const { app, variant } of await listVariants()) {
     }
   } catch (error) {
     failures += 1;
+    const detail = error instanceof Error ? error.message : String(error);
+    results.push({
+      app,
+      variant,
+      benchmark: BENCHMARK_APP.test(app),
+      clean: false,
+      violations: [],
+      consoleErrors: [],
+      error: detail,
+    });
     console.log(`  FALLA ${app} · ${variant}`);
-    console.log(`          ${error instanceof Error ? error.message : String(error)}`);
+    console.log(`          ${detail}`);
   } finally {
     await context.close();
   }
@@ -109,6 +157,40 @@ for (const { app, variant } of await listVariants()) {
 await browser.close();
 server.close();
 
+await mkdir(BASELINE, { recursive: true });
+const bench = results.filter((result) => result.benchmark);
+const clean = results.filter((result) => result.clean).length;
+const benchClean = bench.filter((result) => result.clean).length;
+await writeFile(
+  join(BASELINE, 'axe.json'),
+  `${JSON.stringify(
+    {
+      tool: 'axe-core',
+      at: new Date().toISOString(),
+      summary: {
+        // Las cifras del estudio son las del benchmark. El total incluye además
+        // la vitrina de componentes, que se comprueba pero no se cita.
+        benchmarkVariants: bench.length,
+        benchmarkClean: benchClean,
+        benchmarkWithFindings: bench.length - benchClean,
+        variants: results.length,
+        clean,
+        withFindings: results.length - clean,
+      },
+      nota:
+        'Deteccion sobre los pares positivos: cero por construccion. El criterio de ' +
+        'admision 2 del protocolo de mutacion exige que la variante mutante pase el ' +
+        'validador sin hallazgos, de modo que un hallazgo aqui significa que la mutacion ' +
+        'esta mal disenada y no que el validador detecto la regresion.',
+      results,
+    },
+    null,
+    2
+  )}\n`,
+  'utf8'
+);
+console.log('');
+console.log(`Linea base escrita en ${join(BASELINE, 'axe.json')}`);
 console.log('');
 console.log(failures === 0 ? 'Todas las variantes limpias.' : `${failures} variante(s) con hallazgos.`);
 process.exit(failures === 0 ? 0 : 1);

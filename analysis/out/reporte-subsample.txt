@@ -37,6 +37,12 @@ DESEMPENO AGREGADO DE LOS CUATRO MODELOS
   Las tres estrategias ven los MISMOS pares. El incremento de informacion entre
   ellas es de una sola variable: la base primero, los eventos de transicion despues.
 
+  Exactitud global, (VP+VN) sobre el total puntuado:
+    static 0.531   state-diff 0.684   trace-diff 0.794
+  Se reporta porque el alcance la compromete, y se lee con cuidado: el conjunto
+  no esta balanceado, de modo que una exactitud alta puede venir de acertar el
+  lado negativo. Las medidas que separan los dos lados son el recall y la TFP.
+
 ==============================================================================
 POR MODELO Y ESTRATEGIA
 ==============================================================================
@@ -181,6 +187,59 @@ EFICIENCIA
 
   Delta de Cliff de la latencia, sin version base contra diferencial de trazas: +0.264
   La compuerta determinista no solo evita llamadas: abarata las que hace.
+
+==============================================================================
+MUTATION SCORE Y LINEA BASE DEL VALIDADOR ESTATICO
+==============================================================================
+
+  El mutation score es la proporcion de mutantes que producen alguna diferencia
+  observable en la traza normalizada. Se calcula sobre la comparacion
+  determinista, SIN una sola llamada al modelo, y acota por arriba al recall:
+  un defecto que no deja rastro no puede ser detectado por ningun analizador
+  que reciba solo esa evidencia.
+
+  Mutation score: 11/11 = 1.000
+
+  Contra el recall de cada estrategia, que es la comparacion que da sentido a
+  la medida:
+  estrategia      recall    techo    brecha
+  static         0.270   1.000   0.730
+  state-diff     0.628   1.000   0.372
+  trace-diff     0.760   1.000   0.240
+
+  El techo es 1,000: TODA no deteccion es atribuible al modelo y no a la
+  evidencia ni al escenario. Es la rama que el mutation score existe para
+  cerrar, y queda cerrada.
+
+  Y la advertencia que va con la cifra: un mutation score de 1,000 NO es un
+  hallazgo independiente. Es la verificacion de que el criterio de admision 3
+  del protocolo de mutacion se cumplio, porque una mutacion sin rastro
+  observable no entraba al benchmark. El protocolo documenta una
+  operacionalizacion descartada por esa razon, que es la evidencia de que esos
+  casos existen. Lo que la cifra habilita es la descomposicion del recall, no
+  una afirmacion sobre el metodo.
+
+  Por operador:
+    ccb                                2/2
+    ccs                                1/1
+    cto                                2/2
+    focus-loss-after-update            2/2
+    kbd-activation-removal             2/2
+    status-announcement-removal        2/2
+
+  Linea base del validador estatico (OE5):
+    Variantes del benchmark comprobadas: 86 · limpias: 86 · con hallazgos: 0
+    Son las diez versiones base y los setenta y seis mutantes.
+    Deteccion sobre los 42 pares positivos: 0/42 = 0,000
+
+    Es cero por construccion y no por desempeno. El criterio de admision 2 del
+    protocolo exige que la variante mutante pase el validador SIN hallazgos: un
+    caso que el validador resuelve no sirve, porque ya estaria resuelto sin
+    trazas ni modelos. La comparacion del OE5 contra el validador estatico no
+    mide por tanto cual herramienta es mejor en general; establece que los 42
+    defectos de este benchmark caen fuera del alcance de la validacion estatica
+    basada en reglas, que es la premisa del estudio, y la establece verificando
+    en lugar de suponiendo.
 
 ==============================================================================
 DESGLOSE POR OPERADOR Y POR ESTRATO (solo pares positivos)

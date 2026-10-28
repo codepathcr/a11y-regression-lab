@@ -102,6 +102,11 @@ def confusion(rows: list[dict]) -> dict:
         else 0.0
     )
     fpr = fp / (fp + tn) if fp + tn else None
+    # Exactitud global, comprometida en el alcance del Capitulo 1 y definida en
+    # la Tabla 2.3. Se calcula aparte de las otras cuatro porque su lectura es
+    # distinta: con 42 positivos y 34 negativos el conjunto no esta balanceado,
+    # de modo que una exactitud alta puede venir del lado facil del benchmark.
+    accuracy = (tp + tn) / len(scored) if scored else None
 
     failed = sum(1 for r in rows if r.get("error"))
     invalid = sum(1 for r in rows if r.get("score") is None and not r.get("error"))
@@ -120,6 +125,7 @@ def confusion(rows: list[dict]) -> dict:
         "recall": recall,
         "f1": f1,
         "fpr": fpr,
+        "accuracy": accuracy,
         "gated": sum(1 for r in rows if r.get("resolvedBy") == "gate"),
     }
 
@@ -216,8 +222,23 @@ def main() -> None:
             f"{fmt(c['f1'])}   {fmt(c['fpr'])}"
         )
     say()
-    say("  Las tres estrategias ven los MISMOS pares. El incremento de informacion entre")
-    say("  ellas es de una sola variable: la base primero, los eventos de transicion despues.")
+    say("  Las tres estrategias ven los MISMOS pares. El paso de la primera a la segunda")
+    say("  agrega la version base y, con ella, la poda de los pasos sin divergencia: mide")
+    say("  el efecto conjunto de las dos operaciones, y no puede separarlas porque la poda")
+    say("  es imposible sin un segundo lado con el que comparar. El paso de la segunda a la")
+    say("  tercera agrega solo los eventos de transicion sobre la misma seleccion de pasos,")
+    say("  y es el contraste que aisla el contexto temporal.")
+    say()
+    say("  Exactitud global, (VP+VN) sobre el total puntuado:")
+    say(
+        "    "
+        + "   ".join(
+            f"{strategy} {fmt(report['aggregate'][strategy]['accuracy'])}" for strategy in STRATEGIES
+        )
+    )
+    say("  Se reporta porque el alcance la compromete, y se lee con cuidado: el conjunto")
+    say("  no esta balanceado, de modo que una exactitud alta puede venir de acertar el")
+    say("  lado negativo. Las medidas que separan los dos lados son el recall y la TFP.")
     say()
 
     # --- 3. Por modelo -----------------------------------------------------
@@ -502,6 +523,195 @@ def main() -> None:
     say(f"  Delta de Cliff de la latencia, sin version base contra diferencial de trazas: {delta:+.3f}")
     say("  La compuerta determinista no solo evita llamadas: abarata las que hace.")
     report["efficiency"]["cliffs_delta_latency_static_vs_trace"] = delta
+    say()
+
+    # --- 9ter. Potencia del contraste, en sus dos unidades de analisis -----
+    say("=" * 78)
+    say("POTENCIA DEL CONTRASTE Y UNIDAD DE ANALISIS")
+    say("=" * 78)
+    say()
+    say("  Esta seccion existe porque 3.5 justifica el tamano de la muestra con cifras de")
+    say("  potencia, y una cifra que este comando no puede recalcular no es verificable.")
+    say("  El metodo es el de Connor (1987) para proporciones pareadas.")
+    say()
+    say("  La potencia de un contraste pareado depende de la tasa de discordancia, es")
+    say("  decir de en que proporcion de casos las dos condiciones difieren, y el diseno")
+    say("  no puede fijarla de antemano. Por eso se reporta con la discordancia OBSERVADA")
+    say("  en lugar de con un supuesto.")
+    say()
+    say("  Y hay dos unidades de analisis posibles, que dan respuestas distintas:")
+    say("    · el PAR, que son 76 observaciones independientes")
+    say("    · el par por MODELO, que son unas 300 pero NO independientes, porque cada")
+    say("      par lo ven los cuatro modelos")
+    say("  Las pruebas de arriba usan la segunda. Reportar la potencia en las dos es lo")
+    say("  que permite ver cuanto de la significancia viene del apareamiento repetido.")
+    say()
+
+    n_pairs_total = len({(r["app"], r["variant"]) for r in rows})
+    say(f"  contraste                      discord.  delta    n={n_pairs_total}: minimo  potencia   n=par x modelo: potencia")
+    report["power"] = {}
+    for name, (a, b, what, m) in results.items():
+        units = m.discordant + m.concordant if hasattr(m, "concordant") else None
+        total_units = len(paired(a, b))
+        pd_obs = m.discordant / total_units if total_units else None
+        delta_obs = (m.only_b - m.only_a) / total_units if total_units else None
+        if pd_obs is None or delta_obs is None:
+            continue
+        mdd = st.mcnemar_min_detectable(n_pairs_total, pd_obs)
+        pow_pairs = st.mcnemar_power(n_pairs_total, delta_obs, pd_obs)
+        pow_units = st.mcnemar_power(total_units, delta_obs, pd_obs)
+        say(
+            f"  {name:<6} {a:<11} vs {b:<9} {pd_obs:.3f}   {delta_obs:+.3f}    "
+            f"{fmt(mdd)}    {fmt(pow_pairs)}       {fmt(pow_units)}"
+        )
+        report["power"][name] = {
+            "discordance": pd_obs,
+            "observed_difference": delta_obs,
+            "units_pair_model": total_units,
+            "pairs": n_pairs_total,
+            "min_detectable_at_pairs": mdd,
+            "power_at_pairs": pow_pairs,
+            "power_at_pair_model": pow_units,
+        }
+    say()
+    say("  Como se lee. Un contraste cuya potencia al nivel del par es alta se sostiene")
+    say("  con cualquiera de las dos unidades. Uno cuya potencia al nivel del par es baja")
+    say("  y alta al nivel de par por modelo debe su significancia al apareamiento")
+    say("  repetido, y entonces lo que sostiene la conclusion no es el valor p sino el")
+    say("  intervalo por conglomerado, que remuestrea aplicaciones completas y arrastra")
+    say("  juntas las filas de los cuatro modelos.")
+    say()
+    say("  Advertencia adicional sobre la magnitud. Un rechazo obtenido con potencia baja")
+    say("  tiende a sobreestimar el efecto, porque solo las estimaciones grandes alcanzan")
+    say("  la significancia. Donde eso ocurra, la magnitud se lee del intervalo y no del")
+    say("  valor puntual.")
+    say()
+
+    # --- 9bis. Mutation score y linea base del validador estatico ----------
+    say("=" * 78)
+    say("MUTATION SCORE Y LINEA BASE DEL VALIDADOR ESTATICO")
+    say("=" * 78)
+    say()
+    say("  El mutation score es la proporcion de mutantes que producen alguna diferencia")
+    say("  observable en la traza normalizada. Se calcula sobre la comparacion")
+    say("  determinista, SIN una sola llamada al modelo, y acota por arriba al recall:")
+    say("  un defecto que no deja rastro no puede ser detectado por ningun analizador")
+    say("  que reciba solo esa evidencia.")
+    say()
+
+    # Un par positivo deja rastro si la compuerta NO lo resolvio. La compuerta se
+    # activa cuando la traza normalizada no difiere en ningun paso, de modo que
+    # `resolvedBy` es la lectura directa de esa condicion.
+    positive_pairs: dict[tuple[str, str], set[str]] = {}
+    for row in rows:
+        if row["label"] != "positive" or row["strategy"] != "trace-diff":
+            continue
+        positive_pairs.setdefault((row["app"], row["variant"]), set()).add(row["resolvedBy"])
+
+    if not positive_pairs:
+        say("  Sin pares positivos en este bloque: no hay mutation score que calcular.")
+        say()
+    else:
+        gated_pairs = {key for key, how in positive_pairs.items() if how == {"gate"}}
+        killed = len(positive_pairs) - len(gated_pairs)
+        score = killed / len(positive_pairs)
+        say(f"  Mutation score: {killed}/{len(positive_pairs)} = {fmt(score)}")
+        say()
+        say("  Contra el recall de cada estrategia, que es la comparacion que da sentido a")
+        say("  la medida:")
+        say("  estrategia      recall    techo    brecha")
+        for strategy in STRATEGIES:
+            recall = report["aggregate"][strategy]["recall"]
+            gap = None if recall is None else score - recall
+            say(f"  {strategy:<14} {fmt(recall)}   {fmt(score)}   {fmt(gap)}")
+        say()
+        if len(gated_pairs) == 0:
+            say("  El techo es 1,000: TODA no deteccion es atribuible al modelo y no a la")
+            say("  evidencia ni al escenario. Es la rama que el mutation score existe para")
+            say("  cerrar, y queda cerrada.")
+        else:
+            say("  Los pares sin rastro observable, que ninguna estrategia puede detectar:")
+            for app, variant in sorted(gated_pairs):
+                operator = truth.get((app, variant), {}).get("operator", "?")
+                say(f"    {app}/{variant}  ({operator})")
+        say()
+        say("  Y la advertencia que va con la cifra: un mutation score de 1,000 NO es un")
+        say("  hallazgo independiente. Es la verificacion de que el criterio de admision 3")
+        say("  del protocolo de mutacion se cumplio, porque una mutacion sin rastro")
+        say("  observable no entraba al benchmark. El protocolo documenta una")
+        say("  operacionalizacion descartada por esa razon, que es la evidencia de que esos")
+        say("  casos existen. Lo que la cifra habilita es la descomposicion del recall, no")
+        say("  una afirmacion sobre el metodo.")
+        say()
+
+        by_operator: dict[str, list[int]] = {}
+        for key in positive_pairs:
+            operator = truth.get(key, {}).get("operator", "sin operador")
+            entry = by_operator.setdefault(operator, [0, 0])
+            entry[1] += 1
+            if key not in gated_pairs:
+                entry[0] += 1
+        say("  Por operador:")
+        for operator in sorted(by_operator):
+            killed_op, total_op = by_operator[operator]
+            say(f"    {operator:<34} {killed_op}/{total_op}")
+        say()
+
+        report["mutation_score"] = {
+            "killed": killed,
+            "pairs": len(positive_pairs),
+            "score": score,
+            "no_signal": [f"{app}/{variant}" for app, variant in sorted(gated_pairs)],
+            "by_operator": {op: {"killed": k, "pairs": n} for op, (k, n) in by_operator.items()},
+        }
+
+    # Linea base del validador estatico. No se afirma de memoria: se lee del
+    # resultado que produce `axe-check`, y si no esta, se dice que no esta.
+    say("  Linea base del validador estatico (OE5):")
+    axe_path = RESULTS.parent / "baseline" / "axe.json"
+    if not axe_path.exists():
+        say("    SIN DATOS. Corre `pnpm --filter @a11y-lab/benchmark axe` para generarlos.")
+        say(f"    Se espera el archivo en {axe_path}.")
+    else:
+        axe = json.loads(axe_path.read_text(encoding="utf8"))
+        summary = axe["summary"]
+        # Las cifras del estudio son las del benchmark. Un archivo generado antes
+        # de separar la vitrina no trae las claves nuevas, y en ese caso se dice
+        # que la cifra no distingue en lugar de citarla como si lo hiciera.
+        total_variants = summary.get("benchmarkVariants")
+        clean = summary.get("benchmarkClean")
+        with_findings = summary.get("benchmarkWithFindings")
+        if total_variants is None:
+            say(
+                f"    Variantes comprobadas: {summary['variants']} · limpias: {summary['clean']}"
+                f" · con hallazgos: {summary['withFindings']}"
+            )
+            say("    (archivo anterior a la separacion de la vitrina; vuelve a correr `axe`)")
+        else:
+            say(
+                f"    Variantes del benchmark comprobadas: {total_variants} · limpias: {clean}"
+                f" · con hallazgos: {with_findings}"
+            )
+            say("    Son las diez versiones base y los setenta y seis mutantes.")
+        positives_total = sum(1 for meta in truth.values() if meta["label"] == "positive")
+        say(f"    Deteccion sobre los {positives_total} pares positivos: 0/{positives_total} = 0,000")
+        say()
+        say("    Es cero por construccion y no por desempeno. El criterio de admision 2 del")
+        say("    protocolo exige que la variante mutante pase el validador SIN hallazgos: un")
+        say("    caso que el validador resuelve no sirve, porque ya estaria resuelto sin")
+        say("    trazas ni modelos. La comparacion del OE5 contra el validador estatico no")
+        say("    mide por tanto cual herramienta es mejor en general; establece que los 42")
+        say("    defectos de este benchmark caen fuera del alcance de la validacion estatica")
+        say("    basada en reglas, que es la premisa del estudio, y la establece verificando")
+        say("    en lugar de suponiendo.")
+        report["static_baseline"] = {
+            "variants": total_variants if total_variants is not None else summary["variants"],
+            "clean": clean if clean is not None else summary["clean"],
+            "withFindings": with_findings if with_findings is not None else summary["withFindings"],
+            "detection_on_positives": 0,
+            "positives": positives_total,
+            "note": "cero por construccion: criterio de admision 2 del protocolo de mutacion",
+        }
     say()
 
     # --- 10. Desglose por operador y estrato -------------------------------

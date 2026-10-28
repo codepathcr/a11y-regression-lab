@@ -30,6 +30,7 @@
       "recall": 0.2716049382716049,
       "f1": 0.3621399176954732,
       "fpr": 0.2846153846153846,
+      "accuracy": 0.4691780821917808,
       "gated": 0
     },
     "state-diff": {
@@ -46,6 +47,7 @@
       "recall": 0.5843373493975904,
       "f1": 0.6759581881533102,
       "fpr": 0.17647058823529413,
+      "accuracy": 0.6920529801324503,
       "gated": 72
     },
     "trace-diff": {
@@ -62,6 +64,7 @@
       "recall": 0.6848484848484848,
       "f1": 0.7583892617449663,
       "fpr": 0.14705882352941177,
+      "accuracy": 0.760797342192691,
       "gated": 72
     }
   },
@@ -81,6 +84,7 @@
         "recall": 0.2619047619047619,
         "f1": 0.3548387096774194,
         "fpr": 0.2647058823529412,
+        "accuracy": 0.47368421052631576,
         "gated": 0
       },
       "state-diff": {
@@ -97,6 +101,7 @@
         "recall": 0.7857142857142857,
         "f1": 0.7764705882352941,
         "fpr": 0.29411764705882354,
+        "accuracy": 0.75,
         "gated": 18
       },
       "trace-diff": {
@@ -113,6 +118,7 @@
         "recall": 0.8809523809523809,
         "f1": 0.8409090909090908,
         "fpr": 0.2647058823529412,
+        "accuracy": 0.8157894736842105,
         "gated": 18
       }
     },
@@ -131,6 +137,7 @@
         "recall": 0.35714285714285715,
         "f1": 0.4285714285714286,
         "fpr": 0.38235294117647056,
+        "accuracy": 0.47368421052631576,
         "gated": 0
       },
       "state-diff": {
@@ -147,6 +154,7 @@
         "recall": 0.2857142857142857,
         "f1": 0.4444444444444445,
         "fpr": 0.0,
+        "accuracy": 0.6052631578947368,
         "gated": 18
       },
       "trace-diff": {
@@ -163,6 +171,7 @@
         "recall": 0.5238095238095238,
         "f1": 0.6875000000000001,
         "fpr": 0.0,
+        "accuracy": 0.7368421052631579,
         "gated": 18
       }
     },
@@ -181,6 +190,7 @@
         "recall": 0.4722222222222222,
         "f1": 0.5074626865671641,
         "fpr": 0.5,
+        "accuracy": 0.484375,
         "gated": 0
       },
       "state-diff": {
@@ -197,6 +207,7 @@
         "recall": 0.9,
         "f1": 0.8181818181818182,
         "fpr": 0.35294117647058826,
+        "accuracy": 0.7837837837837838,
         "gated": 18
       },
       "trace-diff": {
@@ -213,6 +224,7 @@
         "recall": 0.9487179487179487,
         "f1": 0.8705882352941177,
         "fpr": 0.2647058823529412,
+        "accuracy": 0.8493150684931506,
         "gated": 18
       }
     },
@@ -231,6 +243,7 @@
         "recall": 0.023809523809523808,
         "f1": 0.04545454545454545,
         "fpr": 0.029411764705882353,
+        "accuracy": 0.4473684210526316,
         "gated": 0
       },
       "state-diff": {
@@ -247,6 +260,7 @@
         "recall": 0.38095238095238093,
         "f1": 0.5333333333333333,
         "fpr": 0.058823529411764705,
+        "accuracy": 0.631578947368421,
         "gated": 18
       },
       "trace-diff": {
@@ -263,6 +277,7 @@
         "recall": 0.40476190476190477,
         "f1": 0.5573770491803278,
         "fpr": 0.058823529411764705,
+        "accuracy": 0.6447368421052632,
         "gated": 18
       }
     }
@@ -492,6 +507,75 @@
       "n": 229
     },
     "cliffs_delta_latency_static_vs_trace": 0.5057424001814882
+  },
+  "power": {
+    "H0-1": {
+      "discordance": 0.4054982817869416,
+      "observed_difference": 0.21993127147766323,
+      "units_pair_model": 291,
+      "pairs": 76,
+      "min_detectable_at_pairs": 0.20148213187143227,
+      "power_at_pairs": 0.8686150511003452,
+      "power_at_pair_model": 0.9999860226519148
+    },
+    "H0-2": {
+      "discordance": 0.19732441471571907,
+      "observed_difference": 0.07023411371237458,
+      "units_pair_model": 299,
+      "pairs": 76,
+      "min_detectable_at_pairs": 0.1405505145737047,
+      "power_at_pairs": 0.2779283081417043,
+      "power_at_pair_model": 0.7834397155458472
+    },
+    "extra": {
+      "discordance": 0.42560553633217996,
+      "observed_difference": 0.29411764705882354,
+      "units_pair_model": 289,
+      "pairs": 76,
+      "min_detectable_at_pairs": 0.20641709542762854,
+      "power_at_pairs": 0.9863562041564489,
+      "power_at_pair_model": 0.9999999999173402
+    }
+  },
+  "mutation_score": {
+    "killed": 42,
+    "pairs": 42,
+    "score": 1.0,
+    "no_signal": [],
+    "by_operator": {
+      "kbd-activation-removal": {
+        "killed": 7,
+        "pairs": 7
+      },
+      "status-announcement-removal": {
+        "killed": 9,
+        "pairs": 9
+      },
+      "cto": {
+        "killed": 8,
+        "pairs": 8
+      },
+      "focus-loss-after-update": {
+        "killed": 8,
+        "pairs": 8
+      },
+      "ccs": {
+        "killed": 4,
+        "pairs": 4
+      },
+      "ccb": {
+        "killed": 6,
+        "pairs": 6
+      }
+    }
+  },
+  "static_baseline": {
+    "variants": 86,
+    "clean": 86,
+    "withFindings": 0,
+    "detection_on_positives": 0,
+    "positives": 42,
+    "note": "cero por construccion: criterio de admision 2 del protocolo de mutacion"
   },
   "by_operator": {
     "ccb": {

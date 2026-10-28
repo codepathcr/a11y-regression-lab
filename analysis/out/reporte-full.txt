@@ -25,8 +25,18 @@ DESEMPENO AGREGADO DE LOS CUATRO MODELOS
   state-diff    209/302     97  24 112  69   0.802      0.584   0.676   0.176
   trace-diff    229/301    113  20 116  52   0.850      0.685   0.758   0.147
 
-  Las tres estrategias ven los MISMOS pares. El incremento de informacion entre
-  ellas es de una sola variable: la base primero, los eventos de transicion despues.
+  Las tres estrategias ven los MISMOS pares. El paso de la primera a la segunda
+  agrega la version base y, con ella, la poda de los pasos sin divergencia: mide
+  el efecto conjunto de las dos operaciones, y no puede separarlas porque la poda
+  es imposible sin un segundo lado con el que comparar. El paso de la segunda a la
+  tercera agrega solo los eventos de transicion sobre la misma seleccion de pasos,
+  y es el contraste que aisla el contexto temporal.
+
+  Exactitud global, (VP+VN) sobre el total puntuado:
+    static 0.469   state-diff 0.692   trace-diff 0.761
+  Se reporta porque el alcance la compromete, y se lee con cuidado: el conjunto
+  no esta balanceado, de modo que una exactitud alta puede venir de acertar el
+  lado negativo. Las medidas que separan los dos lados son el recall y la TFP.
 
 ==============================================================================
 POR MODELO Y ESTRATEGIA
@@ -172,6 +182,96 @@ EFICIENCIA
 
   Delta de Cliff de la latencia, sin version base contra diferencial de trazas: +0.506
   La compuerta determinista no solo evita llamadas: abarata las que hace.
+
+==============================================================================
+POTENCIA DEL CONTRASTE Y UNIDAD DE ANALISIS
+==============================================================================
+
+  Esta seccion existe porque 3.5 justifica el tamano de la muestra con cifras de
+  potencia, y una cifra que este comando no puede recalcular no es verificable.
+  El metodo es el de Connor (1987) para proporciones pareadas.
+
+  La potencia de un contraste pareado depende de la tasa de discordancia, es
+  decir de en que proporcion de casos las dos condiciones difieren, y el diseno
+  no puede fijarla de antemano. Por eso se reporta con la discordancia OBSERVADA
+  en lugar de con un supuesto.
+
+  Y hay dos unidades de analisis posibles, que dan respuestas distintas:
+    · el PAR, que son 76 observaciones independientes
+    · el par por MODELO, que son unas 300 pero NO independientes, porque cada
+      par lo ven los cuatro modelos
+  Las pruebas de arriba usan la segunda. Reportar la potencia en las dos es lo
+  que permite ver cuanto de la significancia viene del apareamiento repetido.
+
+  contraste                      discord.  delta    n=76: minimo  potencia   n=par x modelo: potencia
+  H0-1   static      vs state-diff 0.405   +0.220    0.201    0.869       1.000
+  H0-2   state-diff  vs trace-diff 0.197   +0.070    0.141    0.278       0.783
+  extra  static      vs trace-diff 0.426   +0.294    0.206    0.986       1.000
+
+  Como se lee. Un contraste cuya potencia al nivel del par es alta se sostiene
+  con cualquiera de las dos unidades. Uno cuya potencia al nivel del par es baja
+  y alta al nivel de par por modelo debe su significancia al apareamiento
+  repetido, y entonces lo que sostiene la conclusion no es el valor p sino el
+  intervalo por conglomerado, que remuestrea aplicaciones completas y arrastra
+  juntas las filas de los cuatro modelos.
+
+  Advertencia adicional sobre la magnitud. Un rechazo obtenido con potencia baja
+  tiende a sobreestimar el efecto, porque solo las estimaciones grandes alcanzan
+  la significancia. Donde eso ocurra, la magnitud se lee del intervalo y no del
+  valor puntual.
+
+==============================================================================
+MUTATION SCORE Y LINEA BASE DEL VALIDADOR ESTATICO
+==============================================================================
+
+  El mutation score es la proporcion de mutantes que producen alguna diferencia
+  observable en la traza normalizada. Se calcula sobre la comparacion
+  determinista, SIN una sola llamada al modelo, y acota por arriba al recall:
+  un defecto que no deja rastro no puede ser detectado por ningun analizador
+  que reciba solo esa evidencia.
+
+  Mutation score: 42/42 = 1.000
+
+  Contra el recall de cada estrategia, que es la comparacion que da sentido a
+  la medida:
+  estrategia      recall    techo    brecha
+  static         0.272   1.000   0.728
+  state-diff     0.584   1.000   0.416
+  trace-diff     0.685   1.000   0.315
+
+  El techo es 1,000: TODA no deteccion es atribuible al modelo y no a la
+  evidencia ni al escenario. Es la rama que el mutation score existe para
+  cerrar, y queda cerrada.
+
+  Y la advertencia que va con la cifra: un mutation score de 1,000 NO es un
+  hallazgo independiente. Es la verificacion de que el criterio de admision 3
+  del protocolo de mutacion se cumplio, porque una mutacion sin rastro
+  observable no entraba al benchmark. El protocolo documenta una
+  operacionalizacion descartada por esa razon, que es la evidencia de que esos
+  casos existen. Lo que la cifra habilita es la descomposicion del recall, no
+  una afirmacion sobre el metodo.
+
+  Por operador:
+    ccb                                6/6
+    ccs                                4/4
+    cto                                8/8
+    focus-loss-after-update            8/8
+    kbd-activation-removal             7/7
+    status-announcement-removal        9/9
+
+  Linea base del validador estatico (OE5):
+    Variantes del benchmark comprobadas: 86 · limpias: 86 · con hallazgos: 0
+    Son las diez versiones base y los setenta y seis mutantes.
+    Deteccion sobre los 42 pares positivos: 0/42 = 0,000
+
+    Es cero por construccion y no por desempeno. El criterio de admision 2 del
+    protocolo exige que la variante mutante pase el validador SIN hallazgos: un
+    caso que el validador resuelve no sirve, porque ya estaria resuelto sin
+    trazas ni modelos. La comparacion del OE5 contra el validador estatico no
+    mide por tanto cual herramienta es mejor en general; establece que los 42
+    defectos de este benchmark caen fuera del alcance de la validacion estatica
+    basada en reglas, que es la premisa del estudio, y la establece verificando
+    en lugar de suponiendo.
 
 ==============================================================================
 DESGLOSE POR OPERADOR Y POR ESTRATO (solo pares positivos)
