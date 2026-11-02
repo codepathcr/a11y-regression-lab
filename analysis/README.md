@@ -13,6 +13,20 @@ Deja dos salidas en `analysis/out/`: el reporte legible y el mismo contenido en
 JSON. **Ninguna cifra del capítulo 4 se obtiene de otra parte.** Si un número no
 sale de acá, no va al documento.
 
+## Dos scripts
+
+- `analyze.py` produce el reporte **descriptivo** agregado de los cuatro modelos.
+- `confirmatorio.py` produce el análisis **confirmatorio** que declara 3.7.1 en la
+  versión 25 del documento: cada modelo por separado, análisis principal sobre
+  los 58 pares y complementario sobre los 76, familias de Holm de la Tabla 3.9,
+  H0-6 de extremo a extremo sobre los 42 positivos, ED-1 descriptiva y
+  sensibilidad que excluye los seis positivos AAA. Salida en
+  `out/confirmatorio-full.txt` y `.json`.
+
+```bash
+python3 analysis/confirmatorio.py
+```
+
 ## Qué calcula
 
 | sección del reporte | qué responde |

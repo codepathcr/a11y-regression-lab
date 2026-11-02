@@ -34,3 +34,5 @@ packages/benchmark/data/pr-report.md
 analysis/out/*
 !analysis/out/reporte-*.txt
 !analysis/out/reporte-*.json
+!analysis/out/confirmatorio-*.txt
+!analysis/out/confirmatorio-*.json

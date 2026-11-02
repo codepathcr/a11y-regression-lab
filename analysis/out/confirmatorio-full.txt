@@ -1,0 +1,181 @@
+ANALISIS CONFIRMATORIO · bloque full · 912 filas · 4 modelos
+Configuracion: systemHash 428633f86b1e · numCtx 26624 · temperatura 0 · semilla 7
+
+Cada modelo se analiza por separado. Alfa 0,05. Los ajustes NO controlan la
+multiplicidad entre los cuatro modelos: los hallazgos se leen dentro de cada modelo.
+Positivos: 42 · categoria mas frecuente: "orden y continuidad del foco" (16/42) · positivos AAA (3.2.5): 6
+
+==============================================================================
+FALLOS Y RESPUESTAS NO INTERPRETABLES (permanecen en el denominador)
+==============================================================================
+
+  modelo           estrategia     fallos  ilegibles  sobre pares positivos
+  phi35           static             1         11       6
+  phi35           state-diff         3          0       2
+  phi35           trace-diff         5          0       2
+
+==============================================================================
+H0-1 y H0-2: ACIERTO BINARIO DE DETECCION POR PAR
+==============================================================================
+
+  Acierto = decision correcta (positivo detectado, o par sin regresion no marcado).
+  'solo a' y 'solo b': pares que acierta unicamente la primera o la segunda condicion.
+  Una sola comparacion preespecificada por hipotesis: sin ajuste, alfa 0,05.
+  El intervalo por conglomerado remuestrea las 10 aplicaciones y es solo sensibilidad.
+
+  ANALISIS PRINCIPAL: 58 pares (positivos, divergencia benigna, defecto preexistente)
+  modelo          hip.  comparacion              n   aciertos a/b    solo a  solo b      p       decision   dif. [IC por par] [IC conglomerado]
+  llama31-8b      H0-1  static vs state-diff      58    22/38             9      25      0.0090   RECHAZA    +0.276 [+0.086,+0.448] [+0.089,+0.470]
+  llama31-8b      H0-2  state-diff vs trace-diff  58    38/46             6      14      0.1153   no rechaza +0.138 [+0.000,+0.276] [-0.094,+0.329]
+  mistral-nemo    H0-1  static vs state-diff      58    19/28            10      19      0.1360   no rechaza +0.155 [-0.017,+0.328] [-0.017,+0.321]
+  mistral-nemo    H0-2  state-diff vs trace-diff  58    28/36             6      14      0.1153   no rechaza +0.138 [-0.017,+0.276] [+0.000,+0.250]
+  phi35           H0-1  static vs state-diff      58    24/43             4      23    3.11e-04   RECHAZA    +0.328 [+0.172,+0.483] [+0.160,+0.500]
+  phi35           H0-2  state-diff vs trace-diff  58    43/45             4       6      0.7539   no rechaza +0.034 [-0.069,+0.138] [-0.071,+0.154]
+  qwen25-7b       H0-1  static vs state-diff      58    14/30             2      18    4.02e-04   RECHAZA    +0.276 [+0.138,+0.414] [+0.182,+0.386]
+  qwen25-7b       H0-2  state-diff vs trace-diff  58    30/30             7       7      1.0000   no rechaza +0.000 [-0.121,+0.121] [-0.097,+0.096]
+
+  ANALISIS COMPLEMENTARIO: 76 pares (incluye los 18 resueltos por la compuerta)
+  modelo          hip.  comparacion              n   aciertos a/b    solo a  solo b      p       decision   dif. [IC por par] [IC conglomerado]
+  llama31-8b      H0-1  static vs state-diff      76    33/56             9      32    4.31e-04   RECHAZA    +0.303 [+0.145,+0.447] [+0.184,+0.436]
+  llama31-8b      H0-2  state-diff vs trace-diff  76    56/64             6      14      0.1153   no rechaza +0.105 [+0.000,+0.224] [-0.072,+0.250]
+  mistral-nemo    H0-1  static vs state-diff      76    30/46            10      26      0.0113   RECHAZA    +0.211 [+0.066,+0.355] [+0.111,+0.304]
+  mistral-nemo    H0-2  state-diff vs trace-diff  76    46/54             6      14      0.1153   no rechaza +0.105 [-0.013,+0.211] [+0.000,+0.190]
+  phi35           H0-1  static vs state-diff      76    32/61             4      33    1.08e-06   RECHAZA    +0.382 [+0.250,+0.513] [+0.233,+0.521]
+  phi35           H0-2  state-diff vs trace-diff  76    61/63             4       6      0.7539   no rechaza +0.026 [-0.053,+0.105] [-0.055,+0.116]
+  qwen25-7b       H0-1  static vs state-diff      76    32/48             2      18    4.02e-04   RECHAZA    +0.211 [+0.105,+0.316] [+0.138,+0.297]
+  qwen25-7b       H0-2  state-diff vs trace-diff  76    48/48             7       7      1.0000   no rechaza +0.000 [-0.092,+0.092] [-0.073,+0.074]
+
+==============================================================================
+H0-3: TASA DE FALSOS POSITIVOS (16 pares: divergencia benigna y defecto preexistente)
+==============================================================================
+
+  llama31-8b: n=16 pares · falsos positivos {'static': 3, 'state-diff': 11, 'trace-diff': 6} · Q=9.80 gl=2 p=0.0074
+      static vs state-diff     solo a   0 solo b   8  p=   0.0078  Holm=   0.0234  SIGNIFICATIVA tras Holm
+      state-diff vs trace-diff solo a   7 solo b   2  p=   0.1797  Holm=   0.3594  no significativa
+      static vs trace-diff     solo a   0 solo b   3  p=   0.2500  Holm=   0.3594  no significativa
+  mistral-nemo: n=16 pares · falsos positivos {'static': 8, 'state-diff': 0, 'trace-diff': 1} · Q=14.25 gl=2 p=8.05e-04
+      static vs state-diff     solo a   8 solo b   0  p=   0.0078  Holm=   0.0234  SIGNIFICATIVA tras Holm
+      state-diff vs trace-diff solo a   0 solo b   1  p=   1.0000  Holm=   1.0000  no significativa
+      static vs trace-diff     solo a   7 solo b   0  p=   0.0156  Holm=   0.0312  SIGNIFICATIVA tras Holm
+  phi35: n=10 pares (6 excluidos por fallo) · falsos positivos {'static': 5, 'state-diff': 8, 'trace-diff': 6} · Q=2.80 gl=2 p=0.2466  -> Q no significativa: comparaciones por pares NO interpretables
+      static vs state-diff     solo a   0 solo b   3  p=   0.2500  Holm=   0.7500  no interpretable
+      state-diff vs trace-diff solo a   2 solo b   0  p=   0.5000  Holm=   1.0000  no interpretable
+      static vs trace-diff     solo a   2 solo b   3  p=   1.0000  Holm=   1.0000  no interpretable
+  qwen25-7b: n=16 pares · falsos positivos {'static': 2, 'state-diff': 2, 'trace-diff': 2} · Q=0.00 gl=2 p=1.0000  -> Q no significativa: comparaciones por pares NO interpretables
+      static vs state-diff     solo a   2 solo b   2  p=   1.0000  Holm=   1.0000  no interpretable
+      state-diff vs trace-diff solo a   0 solo b   0  p=   1.0000  Holm=   1.0000  no interpretable
+      static vs trace-diff     solo a   2 solo b   2  p=   1.0000  Holm=   1.0000  no interpretable
+
+==============================================================================
+H0-4: DETECCION Y LOCALIZACION EXACTA DE EXTREMO A EXTREMO (42 positivos)
+==============================================================================
+
+  llama31-8b: n=42 pares · aciertos {'static': 2, 'state-diff': 15, 'trace-diff': 13} · Q=14.70 gl=2 p=6.43e-04
+      static vs state-diff     solo a   1 solo b  14  p= 9.77e-04  Holm=   0.0029  SIGNIFICATIVA tras Holm
+      state-diff vs trace-diff solo a   7 solo b   5  p=   0.7744  Holm=   0.7744  no significativa
+      static vs trace-diff     solo a   1 solo b  12  p=   0.0034  Holm=   0.0068  SIGNIFICATIVA tras Holm
+  mistral-nemo: n=42 pares · aciertos {'static': 1, 'state-diff': 3, 'trace-diff': 11} · Q=12.00 gl=2 p=0.0025
+      static vs state-diff     solo a   1 solo b   3  p=   0.6250  Holm=   0.6250  no significativa
+      state-diff vs trace-diff solo a   2 solo b  10  p=   0.0386  Holm=   0.0771  no significativa
+      static vs trace-diff     solo a   1 solo b  11  p=   0.0063  Holm=   0.0190  SIGNIFICATIVA tras Holm
+  phi35: n=42 pares · aciertos {'static': 4, 'state-diff': 16, 'trace-diff': 14} · Q=10.33 gl=2 p=0.0057
+      static vs state-diff     solo a   3 solo b  15  p=   0.0075  Holm=   0.0226  SIGNIFICATIVA tras Holm
+      state-diff vs trace-diff solo a   9 solo b   7  p=   0.8036  Holm=   0.8036  no significativa
+      static vs trace-diff     solo a   2 solo b  12  p=   0.0129  Holm=   0.0259  SIGNIFICATIVA tras Holm
+  qwen25-7b: n=42 pares · aciertos {'static': 0, 'state-diff': 3, 'trace-diff': 7} · Q=8.22 gl=2 p=0.0164
+      static vs state-diff     solo a   0 solo b   3  p=   0.2500  Holm=   0.5000  no significativa
+      state-diff vs trace-diff solo a   2 solo b   6  p=   0.2891  Holm=   0.5000  no significativa
+      static vs trace-diff     solo a   0 solo b   7  p=   0.0156  Holm=   0.0469  SIGNIFICATIVA tras Holm
+
+==============================================================================
+H0-6: DETECCION Y CATEGORIA CORRECTAS CONTRA LA REFERENCIA CONSTANTE
+==============================================================================
+
+  Referencia: predice siempre regresion y la categoria "orden y continuidad del foco": 16/42 = 0.381
+  Prueba: McNemar exacto unilateral (estrategia mejor que la referencia), Holm sobre 3.
+
+  llama31-8b      static      aciertos  4/42 (ref 16)  solo estrategia  0  solo ref 12  p=   1.0000  Holm=   1.0000  no rechaza
+  llama31-8b      state-diff  aciertos 13/42 (ref 16)  solo estrategia  0  solo ref  3  p=   1.0000  Holm=   1.0000  no rechaza
+  llama31-8b      trace-diff  aciertos 17/42 (ref 16)  solo estrategia  3  solo ref  2  p=   0.5000  Holm=   1.0000  no rechaza
+  mistral-nemo    static      aciertos  5/42 (ref 16)  solo estrategia  2  solo ref 13  p=   0.9995  Holm=   1.0000  no rechaza
+  mistral-nemo    state-diff  aciertos  3/42 (ref 16)  solo estrategia  1  solo ref 14  p=   1.0000  Holm=   1.0000  no rechaza
+  mistral-nemo    trace-diff  aciertos 12/42 (ref 16)  solo estrategia  2  solo ref  6  p=   0.9648  Holm=   1.0000  no rechaza
+  phi35           static      aciertos  6/42 (ref 16)  solo estrategia  4  solo ref 14  p=   0.9962  Holm=   1.0000  no rechaza
+  phi35           state-diff  aciertos 15/42 (ref 16)  solo estrategia  0  solo ref  1  p=   1.0000  Holm=   1.0000  no rechaza
+  phi35           trace-diff  aciertos 15/42 (ref 16)  solo estrategia  3  solo ref  4  p=   0.7734  Holm=   1.0000  no rechaza
+  qwen25-7b       static      aciertos  0/42 (ref 16)  solo estrategia  0  solo ref 16  p=   1.0000  Holm=   1.0000  no rechaza
+  qwen25-7b       state-diff  aciertos  8/42 (ref 16)  solo estrategia  4  solo ref 12  p=   0.9894  Holm=   1.0000  no rechaza
+  qwen25-7b       trace-diff  aciertos  5/42 (ref 16)  solo estrategia  2  solo ref 13  p=   0.9995  Holm=   1.0000  no rechaza
+
+==============================================================================
+ED-1 (DESCRIPTIVA): FALSOS POSITIVOS EN LOS 6 PARES CON DEFECTO PREEXISTENTE
+==============================================================================
+
+  Sin contraste: con 6 discordancias en una direccion el McNemar exacto bilateral
+  da p=0,03125 y no supera el primer umbral de Holm de una familia de 3 (0,0167).
+  Intervalo de Wilson del 95 %. Los fallos no cuentan como falso positivo.
+
+  modelo                               static                state-diff                trace-diff
+  llama31-8b                  0/6 [0.00,0.39]           4/6 [0.30,0.90]           2/6 [0.10,0.70]
+  mistral-nemo                3/6 [0.19,0.81]           0/6 [0.00,0.39]           0/6 [0.00,0.39]
+  phi35                       3/6 [0.19,0.81]           4/6 [0.30,0.90]           2/6 [0.10,0.70]
+  qwen25-7b                   1/6 [0.03,0.56]           1/6 [0.03,0.56]           1/6 [0.03,0.56]
+  4 modelos (desc.)            7/24 [0.15,0.49]          9/24 [0.21,0.57]          5/24 [0.09,0.40]
+  El agregado de los cuatro modelos es solo descriptivo: sus 24 observaciones no son independientes.
+
+==============================================================================
+SENSIBILIDAD: EXCLUIR LOS SEIS POSITIVOS AAA (3.2.5, operador CCB)
+==============================================================================
+
+  Se recalculan H0-1, H0-2, H0-4 y H0-6 sin esos pares y se compara la decision.
+
+  H0-1 y H0-2 (52 pares)
+  modelo          hip.   n   solo a  solo b      p     decision      decision con 58   cambia
+  llama31-8b      H0-1   52       9      22     0.0294   RECHAZA      RECHAZA          no
+  llama31-8b      H0-2   52       5      13     0.0963   no rechaza   no rechaza       no
+  mistral-nemo    H0-1   52       9      15     0.3075   no rechaza   no rechaza       no
+  mistral-nemo    H0-2   52       4      14     0.0309   RECHAZA      no rechaza       SI
+  phi35           H0-1   52       4      18     0.0043   RECHAZA      RECHAZA          no
+  phi35           H0-2   52       4       6     0.7539   no rechaza   no rechaza       no
+  qwen25-7b       H0-1   52       2      16     0.0013   RECHAZA      RECHAZA          no
+  qwen25-7b       H0-2   52       7       5     0.7744   no rechaza   no rechaza       no
+
+  llama31-8b: n=36 pares · aciertos {'static': 2, 'state-diff': 13, 'trace-diff': 13} · Q=13.44 gl=2 p=0.0012
+      static vs state-diff     solo a   1 solo b  12  p=   0.0034  Holm=   0.0103  SIGNIFICATIVA tras Holm
+      state-diff vs trace-diff solo a   5 solo b   5  p=   1.0000  Holm=   1.0000  no significativa
+      static vs trace-diff     solo a   1 solo b  12  p=   0.0034  Holm=   0.0103  SIGNIFICATIVA tras Holm
+  mistral-nemo: n=36 pares · aciertos {'static': 1, 'state-diff': 2, 'trace-diff': 11} · Q=14.00 gl=2 p=9.12e-04
+      static vs state-diff     solo a   1 solo b   2  p=   1.0000  Holm=   1.0000  no significativa
+      state-diff vs trace-diff solo a   1 solo b  10  p=   0.0117  Holm=   0.0234  SIGNIFICATIVA tras Holm
+      static vs trace-diff     solo a   1 solo b  11  p=   0.0063  Holm=   0.0190  SIGNIFICATIVA tras Holm
+  phi35: n=36 pares · aciertos {'static': 4, 'state-diff': 14, 'trace-diff': 13} · Q=8.67 gl=2 p=0.0131
+      static vs state-diff     solo a   3 solo b  13  p=   0.0213  Holm=   0.0638  no significativa
+      state-diff vs trace-diff solo a   7 solo b   6  p=   1.0000  Holm=   1.0000  no significativa
+      static vs trace-diff     solo a   2 solo b  11  p=   0.0225  Holm=   0.0638  no significativa
+  qwen25-7b: n=36 pares · aciertos {'static': 0, 'state-diff': 3, 'trace-diff': 5} · Q=5.43 gl=2 p=0.0663  -> Q no significativa: comparaciones por pares NO interpretables
+      static vs state-diff     solo a   0 solo b   3  p=   0.2500  Holm=   0.5000  no interpretable
+      state-diff vs trace-diff solo a   2 solo b   4  p=   0.6875  Holm=   0.6875  no interpretable
+      static vs trace-diff     solo a   0 solo b   5  p=   0.0625  Holm=   0.1875  no interpretable
+
+  H0-4 (36 positivos): Q de Cochran y comparaciones interpretables
+    llama31-8b      Q p=0.0012 (42 pos: 6.43e-04)  significativas tras Holm: 2 de 3 · sin cambios
+    mistral-nemo    Q p=9.12e-04 (42 pos: 0.0025)  significativas tras Holm: 2 de 3 · CAMBIA: antes ['static vs trace-diff'] ahora ['state-diff vs trace-diff', 'static vs trace-diff']
+    phi35           Q p=0.0131 (42 pos: 0.0057)  significativas tras Holm: 0 de 3 · CAMBIA: antes ['static vs state-diff', 'static vs trace-diff'] ahora []
+    qwen25-7b       Q p=0.0663 (42 pos: 0.0164)  significativas tras Holm: 0 de 3 · CAMBIA: antes ['static vs trace-diff'] ahora []
+
+  H0-6 (36 positivos, referencia recalculada)
+    llama31-8b      static      42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    llama31-8b      state-diff  42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    llama31-8b      trace-diff  42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    mistral-nemo    static      42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    mistral-nemo    state-diff  42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    mistral-nemo    trace-diff  42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    phi35           static      42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    phi35           state-diff  42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    phi35           trace-diff  42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    qwen25-7b       static      42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    qwen25-7b       state-diff  42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+    qwen25-7b       trace-diff  42 pos: no rechaza 36 pos: no rechaza (ref 16/36, Holm 1.0000)  sin cambios
+
+  Resumen: la exclusion cambia 4 decision(es): mistral-nemo|H0-2, H0-4|mistral-nemo, H0-4|phi35, H0-4|qwen25-7b
+
