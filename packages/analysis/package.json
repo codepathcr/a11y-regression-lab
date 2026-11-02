@@ -8,7 +8,8 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "check": "tsx scripts/check-parse.ts"
+    "check": "tsx scripts/check-parse.ts",
+    "check:providers": "tsx scripts/check-providers.ts"
   },
   "dependencies": {
     "@a11y-lab/framework": "workspace:*"

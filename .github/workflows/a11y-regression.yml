@@ -5,6 +5,16 @@
 # simulador local (`pnpm --filter @a11y-lab/benchmark pr-check`); lo único que
 # cambia es de dónde salen los dos lados del cambio: acá, de dos checkouts.
 #
+# CONFIGURABLE SIN EDITAR ESTE ARCHIVO. Con las variables del repositorio sin
+# definir, el comportamiento es el original (ejecutor autoalojado y modelo de
+# analysis.config.json). Para usar otro ejecutor, otro modelo o ninguno, ver
+# docs/github-actions.md. Variables (Settings > Secrets and variables > Actions):
+#   vars.A11Y_RUNS_ON          JSON, p. ej. ["ubuntu-22.04"]       (por omisión autoalojado)
+#   vars.A11Y_MODE             model | no-model                    (por omisión model)
+#   vars.A11Y_PLAYWRIGHT_DEPS  true en ejecutores alojados por GitHub
+#   vars.A11Y_LLM_*            proveedor, modelo, URL, etc.
+#   secrets.A11Y_LLM_API_KEY   clave de la API del modelo
+#
 # EJECUTOR AUTOALOJADO, y no es una preferencia. Los cuatro modelos del estudio
 # corren localmente sobre la tarjeta gráfica del equipo de medición, de modo que
 # un ejecutor alojado por GitHub no puede consultarlos. Lo que sí correría en
@@ -32,7 +42,7 @@ permissions:
 
 jobs:
   diferencial:
-    runs-on: [self-hosted, a11y-lab]
+    runs-on: ${{ fromJSON(vars.A11Y_RUNS_ON || '["self-hosted","a11y-lab"]') }}
     timeout-minutes: 45
     env:
       # El endpoint del servidor de inferencia en el ejecutor. Dentro del
@@ -44,6 +54,21 @@ jobs:
       # veredictos por aplicación multiplicaría el tiempo sin agregar
       # información a quien revisa.
       A11Y_MODELS: ${{ vars.A11Y_PR_MODEL || 'llama31-8b' }}
+      # Vía opcional para elegir el modelo sin tocar analysis.config.json. Si
+      # A11Y_LLM_PROVIDER queda sin definir, estas variables no hacen nada.
+      A11Y_LLM_PROVIDER: ${{ vars.A11Y_LLM_PROVIDER }}
+      A11Y_LLM_MODEL: ${{ vars.A11Y_LLM_MODEL }}
+      A11Y_LLM_BASE_URL: ${{ vars.A11Y_LLM_BASE_URL }}
+      A11Y_LLM_ID: ${{ vars.A11Y_LLM_ID }}
+      A11Y_LLM_LABEL: ${{ vars.A11Y_LLM_LABEL }}
+      A11Y_LLM_TIMEOUT_MS: ${{ vars.A11Y_LLM_TIMEOUT_MS }}
+      A11Y_LLM_MAX_TOKENS: ${{ vars.A11Y_LLM_MAX_TOKENS }}
+      A11Y_LLM_TEMPERATURE: ${{ vars.A11Y_LLM_TEMPERATURE }}
+      A11Y_LLM_JSON_MODE: ${{ vars.A11Y_LLM_JSON_MODE }}
+      A11Y_LLM_NUM_CTX: ${{ vars.A11Y_LLM_NUM_CTX }}
+      A11Y_LLM_API_KEY: ${{ secrets.A11Y_LLM_API_KEY }}
+      # "no-model" compara y localiza, sin consultar ningún modelo.
+      A11Y_SIN_MODELO: ${{ vars.A11Y_MODE == 'no-model' && '--sin-modelo' || '' }}
 
     steps:
       - name: Lado modificado
@@ -83,7 +108,7 @@ jobs:
           # repositorio. Si el ejecutor trae otra, la medición aborta: el árbol
           # de accesibilidad lo computa el navegador y dos versiones emiten
           # distinta cantidad de nodos para el mismo marcado.
-          pnpm --filter @a11y-lab/benchmark exec playwright install chromium
+          pnpm --filter @a11y-lab/benchmark exec playwright install ${{ vars.A11Y_PLAYWRIGHT_DEPS == 'true' && '--with-deps' || '' }} chromium
           pnpm --filter @a11y-lab/benchmark build
 
       - name: Archivos del cambio
@@ -102,7 +127,7 @@ jobs:
         shell: bash
         continue-on-error: true
         run: |
-          pnpm --filter @a11y-lab/benchmark pr-check \
+          pnpm --filter @a11y-lab/benchmark pr-check $A11Y_SIN_MODELO \
             --base-dist ../base/packages/benchmark/dist \
             --base-apps ../base/packages/benchmark/apps \
             --base-label "${{ github.event.pull_request.base.ref }}" \

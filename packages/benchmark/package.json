@@ -21,7 +21,8 @@
     "run-analysis": "tsx scripts/run-analysis.ts",
     "token-probe": "tsx scripts/token-probe.ts",
     "pr-check": "tsx scripts/pr-check.ts",
-    "pr-selftest": "tsx scripts/pr-selftest.ts"
+    "pr-selftest": "tsx scripts/pr-selftest.ts",
+    "llm-check": "tsx scripts/llm-check.ts"
   },
   "dependencies": {
     "@a11y-lab/framework": "workspace:*",

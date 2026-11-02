@@ -50,10 +50,12 @@ accesible de actualizaciones dinámicas (4.1.3).
 
 ## 3. Defectos que se manifiestan en más de una transición
 
-Un defecto puede dejar rastro en varias transiciones. El caso conocido es
-`m01-kbd-activation`, que se manifiesta en dos (pasos 3 y 4): en la base el clic
-mueve el foco al botón, por lo que al enfocar el campo siguiente hay un `blur`
-que en el mutante no existe.
+Un defecto puede dejar rastro en varias transiciones, y es lo habitual: el
+`m01-kbd-activation` de `a01-landing` se manifiesta en los pasos 5 y 6 (en la
+base el clic mueve el foco al botón, por lo que al enfocar el campo siguiente
+hay un `blur` que en el mutante no existe), y lo mismo ocurre, por ejemplo, en
+`a03` (pasos 3 y 5), `a05` (8 y 9) y `a06` (7, 9 y 13). En todos, el
+`expectedStep` del manifiesto es el primero de la lista.
 
 **Regla adoptada: solo cuenta como exacta la primera transición**, es decir la
 registrada como `expectedStep` en el manifiesto del par. Nombrar la segunda no es

@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { readdir } from 'node:fs/promises';
-import { buildProviders, loadConfig } from '@a11y-lab/analysis';
+import { buildProviderFromEnv, buildProviders, loadConfig } from '@a11y-lab/analysis';
 import type { Provider } from '@a11y-lab/analysis';
 import { launchChromium } from './browser';
 import { ignoreBrokenPipe } from './io';
@@ -174,12 +174,31 @@ try {
   let provider: Provider | undefined;
   let modelLabel: string | undefined;
   if (!sinModelo) {
-    const config = await loadConfig();
-    const providers = buildProviders(config);
-    provider = modelId === undefined ? providers[0] : providers.find((p) => p.id === modelId);
-    if (provider === undefined) {
-      console.error(`Modelo desconocido: ${modelId}. Disponibles: ${providers.map((p) => p.id).join(', ')}`);
+    // Vía opcional: si A11Y_LLM_PROVIDER está definida, el modelo sale de las
+    // variables de entorno (Ollama remoto, API compatible con OpenAI o
+    // Anthropic) y no de analysis.config.json. Sin esa variable el
+    // comportamiento es el de siempre. Es lo que permite usar el framework en
+    // un repositorio ajeno sin tocar la configuración del estudio.
+    let fromEnv: Provider | null;
+    try {
+      fromEnv = buildProviderFromEnv();
+    } catch (error) {
+      console.error(`Configuración del modelo inválida: ${error instanceof Error ? error.message : String(error)}`);
       process.exit(1);
+    }
+    if (fromEnv !== null) {
+      if (modelId !== undefined) {
+        console.warn('Aviso: --model se ignora porque el modelo viene de las variables A11Y_LLM_*.');
+      }
+      provider = fromEnv;
+    } else {
+      const config = await loadConfig();
+      const providers = buildProviders(config);
+      provider = modelId === undefined ? providers[0] : providers.find((p) => p.id === modelId);
+      if (provider === undefined) {
+        console.error(`Modelo desconocido: ${modelId}. Disponibles: ${providers.map((p) => p.id).join(', ')}`);
+        process.exit(1);
+      }
     }
     modelLabel = provider.label;
     console.log(`Modelo: ${provider.label}`);

@@ -9,3 +9,8 @@ Instrumentos del estudio, en el sentido de la seccion 3.6 del documento:
   respuesta del modelo en categorias de la matriz de confusion.
 
 Ambos deben existir ANTES de ejecutar el benchmark.
+
+Guía operativa (no es un instrumento del estudio):
+
+- `github-actions.md` — cómo correr el framework en GitHub Actions, elegir el
+  modelo o ninguno, y recibir el reporte en el Pull Request.

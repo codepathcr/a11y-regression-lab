@@ -67,6 +67,14 @@ Variables del ejecutor: `A11Y_OLLAMA_URL` y `A11Y_PR_MODEL`, ambas con valor por
 omisión en el workflow. El modelo es uno solo y no cuatro: comparar familias es
 objeto del experimento, no de la verificación de un cambio.
 
+## Elegir el modelo
+
+Por omisión el modelo sale de `analysis.config.json`. Para usar otro (un Ollama
+remoto, OpenAI, Anthropic o cualquier API compatible) basta definir
+`A11Y_LLM_PROVIDER` y `A11Y_LLM_MODEL` como variables de entorno; sin esas
+variables, nada cambia. La configuración completa, los modos de ejecución y la
+guía de GitHub Actions están en [`github-actions.md`](github-actions.md).
+
 ## Uso local
 
 ```bash

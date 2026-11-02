@@ -120,3 +120,8 @@ académicos, conforme a la propuesta aprobada el 27 de agosto de 2026.
 
 Mientras tanto rige la licencia provisional de uso académico y educativo del
 archivo [`LICENSE`](LICENSE); los términos definitivos se fijarán con la donación.
+
+## Integración continua
+
+El framework puede correr en un Pull Request de GitHub Actions, con un modelo
+configurable o sin modelo. Ver [`docs/github-actions.md`](docs/github-actions.md).
