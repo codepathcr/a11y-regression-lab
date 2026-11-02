@@ -1006,7 +1006,7 @@ anfitrión, un acierto o un fallo del modelo no se puede atribuir.
 | 2.4.3 Focus Order | 16 |
 | 4.1.3 Status Messages | 9 |
 | 2.1.1 Keyboard | 7 |
-| 3.2.1 On Focus | 6 |
+| 3.2.5 Change on Request (AAA) | 6 |
 | 3.2.2 On Input | 4 |
 
 El reparto por criterio es desigual y conviene declararlo: 2.4.3 concentra
@@ -2049,3 +2049,46 @@ cualquier interacción. Por eso difieren los doce y la poda no poda nada en este
 par: el modelo recibió la traza completa. Y aun así localizó el paso 5 de forma
 exacta teniendo doce candidatos. La lectura tolerante habría dado un acierto
 trivial acá; la estricta midió algo.
+
+## Corrección de criterio de CCB: de 3.2.1 a 3.2.5 · 2026-10-30
+
+El documento de investigación asigna CCB al criterio 3.2.5 Cambio a solicitud
+(nivel AAA), y el repositorio lo tenía en 3.2.1. Prevalece el documento: la falla
+F9 de Ma11y tiene como única aplicabilidad documentada el 3.2.5, y el 3.2.1
+regula la recepción del foco, no su abandono.
+
+**Qué cambió.** La etiqueta `wcag` de los seis casos CCB (`app.json` de a04, a05,
+a06, a07, a09 y a10), la justificación de la verdad de terreno y los comentarios
+de sus mutaciones, la tabla de cobertura de `docs/protocolo-mutacion.md` y la de
+`docs/arquitectura.md`. Las entradas anteriores de esta bitácora conservan "3.2.1"
+porque registran lo que se escribió en su momento.
+
+**Decisión: repetir la campaña.** `CATEGORY_CRITERIA` en
+`packages/analysis/src/categories.ts` pasó de `3.2.1` y `3.2.2` a `3.2.5` y `3.2.2`
+para la categoría de cambios inesperados de contexto. Esa lista entra en el
+enunciado del prompt, de modo que cambia la huella de configuración (`systemHash`)
+y obliga a repetir el bloque completo y el de consistencia. La campaña anterior
+quedó archivada, sin borrarse, en `data/descartado/campana-prompt-3-2-1/` junto con
+sus reportes, como referencia de sensibilidad. El Capítulo 4 todavía no se había
+elaborado, por lo que ninguna cifra del documento depende de ella. Las trazas
+capturadas no cambian y no hace falta recapturarlas.
+
+## Campaña repetida con el prompt corregido y análisis confirmatorio · 2026-10-30
+
+Bloque completo (912 filas) y bloque de consistencia (720 filas) con
+`systemHash` `428633f86b1e`, una sola configuración y sin claves duplicadas.
+`phi35` registró 9 llamadas falladas (errores 500 por repetición de tokens) y 11
+respuestas ilegibles en la estrategia sin versión base.
+
+Los reportes agregados de `analyze.py` no seguían el diseño de la versión 25 del
+documento (análisis conjunto de los modelos, todos los pares, una sola familia
+para H0-1 y H0-2, H0-6 sobre los positivos detectados). Se agregó
+`analysis/confirmatorio.py`, que implementa 3.7.1: por modelo, 58 pares como
+análisis principal, Holm por familia, H0-6 de extremo a extremo sobre 42
+positivos, ED-1 descriptiva y sensibilidad sin los seis positivos AAA. El
+reporte agregado se conserva como descriptivo y lo declara en su encabezado.
+
+Lectura de lo que cambió: con el análisis por modelo, H0-1 se rechaza en tres de
+los cuatro modelos (no en `mistral-nemo`) y H0-2 no se rechaza en ninguno. El
+rechazo agregado de H0-2 de la corrida anterior dependía de combinar los
+registros de los cuatro modelos como independientes.

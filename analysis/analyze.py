@@ -261,8 +261,13 @@ def main() -> None:
 
     # --- 4. Contrastes -----------------------------------------------------
     say("=" * 78)
-    say("CONTRASTE DE HIPOTESIS")
+    say("CONTRASTE DE HIPOTESIS (AGREGADO DESCRIPTIVO)")
     say("=" * 78)
+    say()
+    say("  ATENCION: esta seccion combina los cuatro modelos y usa todos los pares. Es")
+    say("  DESCRIPTIVA. El analisis confirmatorio que declara 3.7.1 (por modelo, sobre los")
+    say("  58 pares del analisis principal, con las familias de Holm de la Tabla 3.9) esta")
+    say("  en analysis/confirmatorio.py y sale en out/confirmatorio-full.txt.")
     say()
 
     detection: dict[tuple, dict[str, bool]] = collections.defaultdict(dict)
@@ -589,7 +594,7 @@ def main() -> None:
 
     # --- 9bis. Mutation score y linea base del validador estatico ----------
     say("=" * 78)
-    say("MUTATION SCORE Y LINEA BASE DEL VALIDADOR ESTATICO")
+    say("TASA DE MUTANTES OBSERVABLES (MUTATION SCORE) Y LINEA BASE DEL VALIDADOR ESTATICO")
     say("=" * 78)
     say()
     say("  El mutation score es la proporcion de mutantes que producen alguna diferencia")
@@ -615,7 +620,7 @@ def main() -> None:
         gated_pairs = {key for key, how in positive_pairs.items() if how == {"gate"}}
         killed = len(positive_pairs) - len(gated_pairs)
         score = killed / len(positive_pairs)
-        say(f"  Mutation score: {killed}/{len(positive_pairs)} = {fmt(score)}")
+        say(f"  Tasa de mutantes observables (mutation score): {killed}/{len(positive_pairs)} = {fmt(score)}")
         say()
         say("  Contra el recall de cada estrategia, que es la comparacion que da sentido a")
         say("  la medida:")

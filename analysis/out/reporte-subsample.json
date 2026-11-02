@@ -6,7 +6,7 @@
     "numCtx": 26624,
     "numPredict": 2048,
     "seed": 7,
-    "systemHash": "ca4a8f6693bd",
+    "systemHash": "428633f86b1e",
     "temperature": 0
   },
   "models": [
@@ -23,16 +23,16 @@
       "scored": 228,
       "failed": 0,
       "invalid": 12,
-      "tp": 34,
-      "fp": 15,
-      "tn": 87,
-      "fn": 92,
-      "detection": 121,
-      "precision": 0.6938775510204082,
-      "recall": 0.2698412698412698,
-      "f1": 0.38857142857142857,
-      "fpr": 0.14705882352941177,
-      "accuracy": 0.5307017543859649,
+      "tp": 33,
+      "fp": 21,
+      "tn": 81,
+      "fn": 93,
+      "detection": 114,
+      "precision": 0.6111111111111112,
+      "recall": 0.2619047619047619,
+      "f1": 0.36666666666666675,
+      "fpr": 0.20588235294117646,
+      "accuracy": 0.5,
       "gated": 0
     },
     "state-diff": {
@@ -40,33 +40,33 @@
       "scored": 237,
       "failed": 3,
       "invalid": 0,
-      "tp": 81,
+      "tp": 76,
       "fp": 27,
       "tn": 81,
-      "fn": 48,
-      "detection": 162,
-      "precision": 0.75,
-      "recall": 0.627906976744186,
-      "f1": 0.6835443037974683,
+      "fn": 53,
+      "detection": 157,
+      "precision": 0.7378640776699029,
+      "recall": 0.5891472868217055,
+      "f1": 0.6551724137931034,
       "fpr": 0.25,
-      "accuracy": 0.6835443037974683,
+      "accuracy": 0.6624472573839663,
       "gated": 36
     },
     "trace-diff": {
       "calls": 240,
-      "scored": 233,
-      "failed": 7,
+      "scored": 234,
+      "failed": 6,
       "invalid": 0,
-      "tp": 95,
-      "fp": 18,
-      "tn": 90,
+      "tp": 98,
+      "fp": 25,
+      "tn": 81,
       "fn": 30,
-      "detection": 185,
-      "precision": 0.8407079646017699,
-      "recall": 0.76,
-      "f1": 0.7983193277310924,
-      "fpr": 0.16666666666666666,
-      "accuracy": 0.7939914163090128,
+      "detection": 179,
+      "precision": 0.7967479674796748,
+      "recall": 0.765625,
+      "f1": 0.7808764940239042,
+      "fpr": 0.2358490566037736,
+      "accuracy": 0.7649572649572649,
       "gated": 36
     }
   },
@@ -77,16 +77,16 @@
         "scored": 60,
         "failed": 0,
         "invalid": 0,
-        "tp": 13,
+        "tp": 14,
         "fp": 0,
         "tn": 27,
-        "fn": 20,
-        "detection": 40,
+        "fn": 19,
+        "detection": 41,
         "precision": 1.0,
-        "recall": 0.3939393939393939,
-        "f1": 0.5652173913043478,
+        "recall": 0.42424242424242425,
+        "f1": 0.5957446808510638,
         "fpr": 0.0,
-        "accuracy": 0.6666666666666666,
+        "accuracy": 0.6833333333333333,
         "gated": 0
       },
       "state-diff": {
@@ -94,16 +94,16 @@
         "scored": 60,
         "failed": 0,
         "invalid": 0,
-        "tp": 27,
+        "tp": 24,
         "fp": 9,
         "tn": 18,
-        "fn": 6,
-        "detection": 45,
-        "precision": 0.75,
-        "recall": 0.8181818181818182,
-        "f1": 0.7826086956521738,
+        "fn": 9,
+        "detection": 42,
+        "precision": 0.7272727272727273,
+        "recall": 0.7272727272727273,
+        "f1": 0.7272727272727273,
         "fpr": 0.3333333333333333,
-        "accuracy": 0.75,
+        "accuracy": 0.7,
         "gated": 9
       },
       "trace-diff": {
@@ -111,16 +111,16 @@
         "scored": 60,
         "failed": 0,
         "invalid": 0,
-        "tp": 27,
+        "tp": 30,
         "fp": 6,
         "tn": 21,
-        "fn": 6,
-        "detection": 48,
-        "precision": 0.8181818181818182,
-        "recall": 0.8181818181818182,
-        "f1": 0.8181818181818182,
+        "fn": 3,
+        "detection": 51,
+        "precision": 0.8333333333333334,
+        "recall": 0.9090909090909091,
+        "f1": 0.8695652173913043,
         "fpr": 0.2222222222222222,
-        "accuracy": 0.8,
+        "accuracy": 0.85,
         "gated": 9
       }
     },
@@ -130,16 +130,16 @@
         "scored": 60,
         "failed": 0,
         "invalid": 0,
-        "tp": 11,
-        "fp": 3,
-        "tn": 24,
-        "fn": 22,
-        "detection": 35,
-        "precision": 0.7857142857142857,
-        "recall": 0.3333333333333333,
-        "f1": 0.4680851063829786,
-        "fpr": 0.1111111111111111,
-        "accuracy": 0.5833333333333334,
+        "tp": 8,
+        "fp": 6,
+        "tn": 21,
+        "fn": 25,
+        "detection": 29,
+        "precision": 0.5714285714285714,
+        "recall": 0.24242424242424243,
+        "f1": 0.3404255319148936,
+        "fpr": 0.2222222222222222,
+        "accuracy": 0.48333333333333334,
         "gated": 0
       },
       "state-diff": {
@@ -183,16 +183,16 @@
         "scored": 48,
         "failed": 0,
         "invalid": 12,
-        "tp": 10,
-        "fp": 12,
-        "tn": 9,
-        "fn": 17,
-        "detection": 19,
-        "precision": 0.45454545454545453,
-        "recall": 0.37037037037037035,
-        "f1": 0.40816326530612246,
-        "fpr": 0.5714285714285714,
-        "accuracy": 0.3958333333333333,
+        "tp": 11,
+        "fp": 15,
+        "tn": 6,
+        "fn": 16,
+        "detection": 17,
+        "precision": 0.4230769230769231,
+        "recall": 0.4074074074074074,
+        "f1": 0.4150943396226415,
+        "fpr": 0.7142857142857143,
+        "accuracy": 0.3541666666666667,
         "gated": 0
       },
       "state-diff": {
@@ -200,33 +200,33 @@
         "scored": 57,
         "failed": 3,
         "invalid": 0,
-        "tp": 29,
+        "tp": 28,
         "fp": 12,
         "tn": 15,
-        "fn": 1,
-        "detection": 44,
-        "precision": 0.7073170731707317,
-        "recall": 0.9666666666666667,
-        "f1": 0.8169014084507042,
+        "fn": 2,
+        "detection": 43,
+        "precision": 0.7,
+        "recall": 0.9333333333333333,
+        "f1": 0.8,
         "fpr": 0.4444444444444444,
-        "accuracy": 0.7719298245614035,
+        "accuracy": 0.7543859649122807,
         "gated": 9
       },
       "trace-diff": {
         "calls": 60,
-        "scored": 53,
-        "failed": 7,
+        "scored": 54,
+        "failed": 6,
         "invalid": 0,
-        "tp": 26,
-        "fp": 12,
+        "tp": 29,
+        "fp": 10,
         "tn": 15,
         "fn": 0,
-        "detection": 41,
-        "precision": 0.6842105263157895,
+        "detection": 44,
+        "precision": 0.7435897435897436,
         "recall": 1.0,
-        "f1": 0.8125000000000001,
-        "fpr": 0.4444444444444444,
-        "accuracy": 0.7735849056603774,
+        "f1": 0.8529411764705882,
+        "fpr": 0.4,
+        "accuracy": 0.8148148148148148,
         "gated": 9
       }
     },
@@ -253,16 +253,16 @@
         "scored": 60,
         "failed": 0,
         "invalid": 0,
-        "tp": 13,
+        "tp": 12,
         "fp": 6,
         "tn": 21,
-        "fn": 20,
-        "detection": 34,
-        "precision": 0.6842105263157895,
-        "recall": 0.3939393939393939,
-        "f1": 0.5,
+        "fn": 21,
+        "detection": 33,
+        "precision": 0.6666666666666666,
+        "recall": 0.36363636363636365,
+        "f1": 0.4705882352941177,
         "fpr": 0.2222222222222222,
-        "accuracy": 0.5666666666666667,
+        "accuracy": 0.55,
         "gated": 9
       },
       "trace-diff": {
@@ -270,16 +270,16 @@
         "scored": 60,
         "failed": 0,
         "invalid": 0,
-        "tp": 15,
-        "fp": 0,
-        "tn": 27,
-        "fn": 18,
-        "detection": 42,
-        "precision": 1.0,
-        "recall": 0.45454545454545453,
-        "f1": 0.625,
-        "fpr": 0.0,
-        "accuracy": 0.7,
+        "tp": 12,
+        "fp": 9,
+        "tn": 18,
+        "fn": 21,
+        "detection": 30,
+        "precision": 0.5714285714285714,
+        "recall": 0.36363636363636365,
+        "f1": 0.4444444444444444,
+        "fpr": 0.3333333333333333,
+        "accuracy": 0.5,
         "gated": 9
       }
     }
@@ -289,10 +289,10 @@
       "a": "static",
       "b": "state-diff",
       "what": "tener una version base con que comparar",
-      "only_b": 22,
-      "only_a": 9,
-      "p": 0.029449373483657837,
-      "p_holm": 0.058898746967315674,
+      "only_b": 20,
+      "only_a": 8,
+      "p": 0.03569813817739487,
+      "p_holm": 0.07139627635478973,
       "verdict": "no se rechaza"
     },
     "H0-2": {
@@ -300,27 +300,27 @@
       "b": "trace-diff",
       "what": "los eventos de transicion: el contexto temporal",
       "only_b": 12,
-      "only_a": 3,
-      "p": 0.03515625,
-      "p_holm": 0.058898746967315674,
+      "only_a": 4,
+      "p": 0.076812744140625,
+      "p_holm": 0.076812744140625,
       "verdict": "no se rechaza"
     },
     "extra": {
       "a": "static",
       "b": "trace-diff",
       "what": "el efecto acumulado de las dos variables",
-      "only_b": 25,
-      "only_a": 4,
-      "p": 0.00010371580719947815,
+      "only_b": 26,
+      "only_a": 6,
+      "p": 0.0005350527353584766,
       "p_holm": null,
       "verdict": "RECHAZADA"
     }
   },
   "h0_2_by_model": {
     "llama31-8b": {
-      "only_trace": 3,
-      "only_state": 2,
-      "p": 1.0
+      "only_trace": 4,
+      "only_state": 1,
+      "p": 0.375
     },
     "mistral-nemo": {
       "only_trace": 5,
@@ -328,48 +328,48 @@
       "p": 0.0625
     },
     "phi35": {
-      "only_trace": 0,
+      "only_trace": 1,
       "only_state": 0,
       "p": 1.0
     },
     "qwen25-7b": {
-      "only_trace": 4,
-      "only_state": 1,
-      "p": 0.375
+      "only_trace": 2,
+      "only_state": 3,
+      "p": 1.0
     }
   },
   "cochran": {
-    "q": 18.0,
+    "q": 16.0,
     "df": 2,
-    "p": 0.00012340980408667962,
+    "p": 0.0003354626279025119,
     "hits": [
-      39,
-      51,
-      60
+      38,
+      50,
+      58
     ],
-    "n": 75
+    "n": 76
   },
   "bootstrap": {
     "state-diff-static": {
-      "observed": 0.29497287522603977,
-      "low": 0.19124013241660298,
-      "high": 0.41561777549447726,
+      "observed": 0.2885057471264367,
+      "low": 0.17291650424885008,
+      "high": 0.40834845735027225,
       "excludes_zero": true,
       "clusters": 10,
       "draws": 4000
     },
     "trace-diff-state-diff": {
-      "observed": 0.11477502393362404,
-      "low": -0.01881657360048794,
-      "high": 0.22414414414414408,
-      "excludes_zero": false,
+      "observed": 0.12570408023080082,
+      "low": 0.02746667645870826,
+      "high": 0.2320928110539009,
+      "excludes_zero": true,
       "clusters": 10,
       "draws": 4000
     },
     "trace-diff-static": {
-      "observed": 0.4097478991596638,
-      "low": 0.2606494413407821,
-      "high": 0.5668181818181819,
+      "observed": 0.4142098273572375,
+      "low": 0.2602464168971586,
+      "high": 0.5865099203249493,
       "excludes_zero": true,
       "clusters": 10,
       "draws": 4000
@@ -382,11 +382,11 @@
         "n": 126
       },
       "negative": {
-        "fp": 6,
+        "fp": 7,
         "n": 33
       },
       "benign-divergent": {
-        "fp": 6,
+        "fp": 11,
         "n": 45
       },
       "preexisting": {
@@ -415,18 +415,18 @@
     "trace-diff": {
       "positive": {
         "fp": 0,
-        "n": 125
+        "n": 128
       },
       "negative": {
         "fp": 0,
         "n": 36
       },
       "benign-divergent": {
-        "fp": 12,
-        "n": 48
+        "fp": 13,
+        "n": 46
       },
       "preexisting": {
-        "fp": 6,
+        "fp": 12,
         "n": 24
       }
     }
@@ -436,73 +436,105 @@
     "baseline_label": "orden y continuidad del foco",
     "by_strategy": {
       "static": {
-        "hits": 16,
-        "n": 34,
-        "accuracy": 0.47058823529411764
+        "hits": 18,
+        "n": 33,
+        "accuracy": 0.5454545454545454
       },
       "state-diff": {
         "hits": 30,
-        "n": 81,
-        "accuracy": 0.37037037037037035
+        "n": 76,
+        "accuracy": 0.39473684210526316
       },
       "trace-diff": {
-        "hits": 39,
-        "n": 95,
-        "accuracy": 0.4105263157894737
+        "hits": 38,
+        "n": 98,
+        "accuracy": 0.3877551020408163
       }
     },
     "matrix": {
-      "operación mediante teclado|orden y continuidad del foco": 17,
-      "orden y continuidad del foco|orden y continuidad del foco": 36,
-      "cambios inesperados de contexto|orden y continuidad del foco": 25,
-      "cambios inesperados de contexto|operación mediante teclado": 4,
+      "operación mediante teclado|orden y continuidad del foco": 15,
+      "orden y continuidad del foco|orden y continuidad del foco": 31,
+      "cambios inesperados de contexto|orden y continuidad del foco": 27,
+      "comunicación accesible de actualizaciones dinámicas|orden y continuidad del foco": 3,
+      "cambios inesperados de contexto|operación mediante teclado": 6,
       "comunicación accesible de actualizaciones dinámicas|operación mediante teclado": 3,
+      "operación mediante teclado|comunicación accesible de actualizaciones dinámicas": 1,
       "orden y continuidad del foco|operación mediante teclado": 3,
-      "comunicación accesible de actualizaciones dinámicas|comunicación accesible de actualizaciones dinámicas": 3,
+      "comunicación accesible de actualizaciones dinámicas|comunicación accesible de actualizaciones dinámicas": 5,
       "operación mediante teclado|cambios inesperados de contexto": 1,
-      "comunicación accesible de actualizaciones dinámicas|cambios inesperados de contexto": 3
+      "operación mediante teclado|operación mediante teclado": 2,
+      "comunicación accesible de actualizaciones dinámicas|cambios inesperados de contexto": 1
     }
   },
   "localization": {
     "static": {
       "exact": 3,
-      "within": 17,
-      "n": 34
+      "within": 18,
+      "n": 33
     },
     "state-diff": {
-      "exact": 41,
-      "within": 78,
-      "n": 81
+      "exact": 37,
+      "within": 73,
+      "n": 76
     },
     "trace-diff": {
-      "exact": 42,
-      "within": 95,
-      "n": 95
+      "exact": 45,
+      "within": 98,
+      "n": 98
     }
   },
   "efficiency": {
     "static": {
       "tokens_median": 11699.5,
-      "latency_median_ms": 2092.5,
-      "latency_q1_ms": 727,
-      "latency_q3_ms": 11252,
+      "latency_median_ms": 1546.0,
+      "latency_q1_ms": 540,
+      "latency_q3_ms": 11237,
       "n": 240
     },
     "state-diff": {
       "tokens_median": 1315,
-      "latency_median_ms": 1035,
-      "latency_q1_ms": 793,
-      "latency_q3_ms": 1880,
+      "latency_median_ms": 1003,
+      "latency_q1_ms": 643,
+      "latency_q3_ms": 1869,
       "n": 201
     },
     "trace-diff": {
-      "tokens_median": 2167,
-      "latency_median_ms": 1116,
-      "latency_q1_ms": 697,
-      "latency_q3_ms": 1667,
-      "n": 197
+      "tokens_median": 2156.5,
+      "latency_median_ms": 1022.0,
+      "latency_q1_ms": 668,
+      "latency_q3_ms": 1672,
+      "n": 198
     },
-    "cliffs_delta_latency_static_vs_trace": 0.26376633986928105
+    "cliffs_delta_latency_static_vs_trace": 0.1923202614379085
+  },
+  "power": {
+    "H0-1": {
+      "discordance": 0.3684210526315789,
+      "observed_difference": 0.15789473684210525,
+      "units_pair_model": 76,
+      "pairs": 20,
+      "min_detectable_at_pairs": 0.3582275553655415,
+      "power_at_pairs": 0.20468099597354739,
+      "power_at_pair_model": 0.6250602219582513
+    },
+    "H0-2": {
+      "discordance": 0.20253164556962025,
+      "observed_difference": 0.10126582278481013,
+      "units_pair_model": 79,
+      "pairs": 20,
+      "min_detectable_at_pairs": null,
+      "power_at_pairs": 0.16385046482464227,
+      "power_at_pair_model": 0.5163878369209012
+    },
+    "extra": {
+      "discordance": 0.42105263157894735,
+      "observed_difference": 0.2631578947368421,
+      "units_pair_model": 76,
+      "pairs": 20,
+      "min_detectable_at_pairs": 0.38296136533698555,
+      "power_at_pairs": 0.4364310774766678,
+      "power_at_pair_model": 0.9576175347578849
+    }
   },
   "mutation_score": {
     "killed": 11,
@@ -547,21 +579,21 @@
   "by_operator": {
     "ccb": {
       "static": {
-        "tp": 10,
+        "tp": 11,
         "n": 24
       },
       "state-diff": {
-        "tp": 22,
+        "tp": 21,
         "n": 24
       },
       "trace-diff": {
-        "tp": 17,
-        "n": 20
+        "tp": 21,
+        "n": 24
       }
     },
     "ccs": {
       "static": {
-        "tp": 6,
+        "tp": 3,
         "n": 12
       },
       "state-diff": {
@@ -575,21 +607,21 @@
     },
     "cto": {
       "static": {
-        "tp": 8,
+        "tp": 7,
         "n": 24
       },
       "state-diff": {
-        "tp": 15,
+        "tp": 12,
         "n": 24
       },
       "trace-diff": {
-        "tp": 18,
+        "tp": 15,
         "n": 24
       }
     },
     "focus-loss-after-update": {
       "static": {
-        "tp": 1,
+        "tp": 3,
         "n": 21
       },
       "state-diff": {
@@ -597,13 +629,13 @@
         "n": 24
       },
       "trace-diff": {
-        "tp": 21,
-        "n": 24
+        "tp": 19,
+        "n": 22
       }
     },
     "kbd-activation-removal": {
       "static": {
-        "tp": 3,
+        "tp": 2,
         "n": 21
       },
       "state-diff": {
@@ -611,21 +643,21 @@
         "n": 21
       },
       "trace-diff": {
-        "tp": 18,
-        "n": 21
+        "tp": 19,
+        "n": 22
       }
     },
     "status-announcement-removal": {
       "static": {
-        "tp": 6,
+        "tp": 7,
         "n": 24
       },
       "state-diff": {
-        "tp": 11,
+        "tp": 10,
         "n": 24
       },
       "trace-diff": {
-        "tp": 9,
+        "tp": 12,
         "n": 24
       }
     }
@@ -633,29 +665,29 @@
   "by_stratum": {
     "small": {
       "static": {
-        "tp": 14,
+        "tp": 12,
         "n": 48
       },
       "state-diff": {
-        "tp": 34,
+        "tp": 30,
         "n": 48
       },
       "trace-diff": {
         "tp": 31,
-        "n": 43
+        "n": 46
       }
     },
     "medium": {
       "static": {
-        "tp": 17,
+        "tp": 18,
         "n": 48
       },
       "state-diff": {
-        "tp": 32,
+        "tp": 31,
         "n": 48
       },
       "trace-diff": {
-        "tp": 37,
+        "tp": 40,
         "n": 46
       }
     },
@@ -676,9 +708,9 @@
   },
   "discordant_pairs": [
     {
-      "app": "a06-equipo",
-      "variant": "m05-status-silent",
-      "winner": "state-diff",
+      "app": "a08-contacto",
+      "variant": "m02-cto-extra-unreachable",
+      "winner": "trace-diff",
       "models": 1
     },
     {
@@ -697,17 +729,23 @@
       "app": "a10-tramites",
       "variant": "n01-benign-count-and-caption",
       "winner": "trace-diff",
-      "models": 2
+      "models": 1
     },
     {
       "app": "a10-tramites",
       "variant": "p01-preexisting-cto-defect",
       "winner": "trace-diff",
-      "models": 2
+      "models": 1
     },
     {
       "app": "a01-landing",
       "variant": "m01-kbd-activation",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
       "winner": "state-diff",
       "models": 1
     },
@@ -721,6 +759,12 @@
       "app": "a04-multipaso",
       "variant": "m01-focus-loss-step-change",
       "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "p01-preexisting-cto-defect",
+      "winner": "state-diff",
       "models": 1
     },
     {
@@ -740,23 +784,29 @@
       "variant": "m04-kbd-activation-removed",
       "winner": "trace-diff",
       "models": 1
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m05-status-silent",
+      "winner": "trace-diff",
+      "models": 1
     }
   ],
   "consistencia": {
     "repeticiones": 3,
     "grupos_evaluables": 208,
     "grupos_descartados": 8,
-    "unanimes": 202,
-    "proporcion_unanimidad": 0.9711538461538461,
+    "unanimes": 201,
+    "proporcion_unanimidad": 0.9663461538461539,
     "fleiss": {
-      "kappa": 0.9586846170823217,
-      "acuerdo_observado": 0.9807692307692307,
-      "acuerdo_esperado": 0.5345373109796187,
+      "kappa": 0.953157172271792,
+      "acuerdo_observado": 0.9775641025641029,
+      "acuerdo_esperado": 0.5210387902695595,
       "items": 208,
       "evaluadores": 3,
       "marginales": [
-        0.3685897435897436,
-        0.6314102564102564
+        0.3974358974358974,
+        0.6025641025641025
       ]
     },
     "por_modelo": {
@@ -767,30 +817,30 @@
       },
       "mistral-nemo": {
         "grupos": 54,
-        "unanimes": 52,
-        "proporcion": 0.9629629629629629
+        "unanimes": 51,
+        "proporcion": 0.9444444444444444
       },
       "phi35": {
         "grupos": 46,
-        "unanimes": 44,
-        "proporcion": 0.9565217391304348
+        "unanimes": 43,
+        "proporcion": 0.9347826086956522
       },
       "qwen25-7b": {
         "grupos": 54,
-        "unanimes": 53,
-        "proporcion": 0.9814814814814815
+        "unanimes": 54,
+        "proporcion": 1.0
       }
     },
     "por_estrategia": {
       "static": {
         "grupos": 76,
-        "unanimes": 72,
-        "proporcion": 0.9473684210526315
+        "unanimes": 70,
+        "proporcion": 0.9210526315789473
       },
       "state-diff": {
         "grupos": 67,
-        "unanimes": 65,
-        "proporcion": 0.9701492537313433
+        "unanimes": 66,
+        "proporcion": 0.9850746268656716
       },
       "trace-diff": {
         "grupos": 65,
@@ -799,31 +849,37 @@
       }
     },
     "categoria_unanime": {
-      "unanimes": 129,
-      "grupos": 129
+      "unanimes": 120,
+      "grupos": 122
     },
     "transicion_unanime": {
-      "unanimes": 129,
-      "grupos": 129
+      "unanimes": 121,
+      "grupos": 122
     },
     "discordantes": [
       {
         "model": "llama31-8b",
         "strategy": "static",
-        "app": "a04-multipaso",
-        "variant": "m01-focus-loss-step-change"
-      },
-      {
-        "model": "mistral-nemo",
-        "strategy": "static",
-        "app": "a02-piscina",
-        "variant": "m01-cto-slot-tab-order"
-      },
-      {
-        "model": "mistral-nemo",
-        "strategy": "static",
         "app": "a05-blog",
         "variant": "m02-ccb-search-on-blur"
+      },
+      {
+        "model": "mistral-nemo",
+        "strategy": "static",
+        "app": "a01-landing",
+        "variant": "m01-kbd-activation"
+      },
+      {
+        "model": "mistral-nemo",
+        "strategy": "static",
+        "app": "a01-landing",
+        "variant": "n01-benign-rewording"
+      },
+      {
+        "model": "mistral-nemo",
+        "strategy": "static",
+        "app": "a03-panel",
+        "variant": "m06-neutral-table-refactor"
       },
       {
         "model": "phi35",
@@ -838,10 +894,10 @@
         "variant": "m01-cto-slot-tab-order"
       },
       {
-        "model": "qwen25-7b",
-        "strategy": "state-diff",
-        "app": "a07-perfil",
-        "variant": "m01-ccb-autosave-on-blur"
+        "model": "phi35",
+        "strategy": "static",
+        "app": "a06-equipo",
+        "variant": "m05-status-silent"
       }
     ]
   }

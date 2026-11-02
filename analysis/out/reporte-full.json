@@ -6,7 +6,7 @@
     "numCtx": 26624,
     "numPredict": 2048,
     "seed": 7,
-    "systemHash": "ca4a8f6693bd",
+    "systemHash": "428633f86b1e",
     "temperature": 0
   },
   "models": [
@@ -21,50 +21,50 @@
       "scored": 292,
       "failed": 1,
       "invalid": 11,
-      "tp": 44,
-      "fp": 37,
-      "tn": 93,
-      "fn": 118,
-      "detection": 137,
-      "precision": 0.5432098765432098,
-      "recall": 0.2716049382716049,
-      "f1": 0.3621399176954732,
-      "fpr": 0.2846153846153846,
-      "accuracy": 0.4691780821917808,
+      "tp": 38,
+      "fp": 41,
+      "tn": 89,
+      "fn": 124,
+      "detection": 127,
+      "precision": 0.4810126582278481,
+      "recall": 0.2345679012345679,
+      "f1": 0.3153526970954356,
+      "fpr": 0.3153846153846154,
+      "accuracy": 0.4349315068493151,
       "gated": 0
     },
     "state-diff": {
       "calls": 304,
-      "scored": 302,
-      "failed": 2,
+      "scored": 301,
+      "failed": 3,
       "invalid": 0,
-      "tp": 97,
+      "tp": 100,
       "fp": 24,
-      "tn": 112,
-      "fn": 69,
-      "detection": 209,
-      "precision": 0.8016528925619835,
-      "recall": 0.5843373493975904,
-      "f1": 0.6759581881533102,
-      "fpr": 0.17647058823529413,
-      "accuracy": 0.6920529801324503,
+      "tn": 111,
+      "fn": 66,
+      "detection": 211,
+      "precision": 0.8064516129032258,
+      "recall": 0.6024096385542169,
+      "f1": 0.689655172413793,
+      "fpr": 0.17777777777777778,
+      "accuracy": 0.7009966777408638,
       "gated": 72
     },
     "trace-diff": {
       "calls": 304,
-      "scored": 301,
-      "failed": 3,
+      "scored": 299,
+      "failed": 5,
       "invalid": 0,
       "tp": 113,
-      "fp": 20,
+      "fp": 17,
       "tn": 116,
-      "fn": 52,
+      "fn": 53,
       "detection": 229,
-      "precision": 0.849624060150376,
-      "recall": 0.6848484848484848,
-      "f1": 0.7583892617449663,
-      "fpr": 0.14705882352941177,
-      "accuracy": 0.760797342192691,
+      "precision": 0.8692307692307693,
+      "recall": 0.6807228915662651,
+      "f1": 0.7635135135135136,
+      "fpr": 0.12781954887218044,
+      "accuracy": 0.7658862876254181,
       "gated": 72
     }
   },
@@ -75,16 +75,16 @@
         "scored": 76,
         "failed": 0,
         "invalid": 0,
-        "tp": 11,
-        "fp": 9,
-        "tn": 25,
-        "fn": 31,
-        "detection": 36,
-        "precision": 0.55,
-        "recall": 0.2619047619047619,
-        "f1": 0.3548387096774194,
-        "fpr": 0.2647058823529412,
-        "accuracy": 0.47368421052631576,
+        "tp": 9,
+        "fp": 10,
+        "tn": 24,
+        "fn": 33,
+        "detection": 33,
+        "precision": 0.47368421052631576,
+        "recall": 0.21428571428571427,
+        "f1": 0.29508196721311475,
+        "fpr": 0.29411764705882354,
+        "accuracy": 0.4342105263157895,
         "gated": 0
       },
       "state-diff": {
@@ -93,15 +93,15 @@
         "failed": 0,
         "invalid": 0,
         "tp": 33,
-        "fp": 10,
-        "tn": 24,
+        "fp": 11,
+        "tn": 23,
         "fn": 9,
-        "detection": 57,
-        "precision": 0.7674418604651163,
+        "detection": 56,
+        "precision": 0.75,
         "recall": 0.7857142857142857,
-        "f1": 0.7764705882352941,
-        "fpr": 0.29411764705882354,
-        "accuracy": 0.75,
+        "f1": 0.7674418604651163,
+        "fpr": 0.3235294117647059,
+        "accuracy": 0.7368421052631579,
         "gated": 18
       },
       "trace-diff": {
@@ -109,16 +109,16 @@
         "scored": 76,
         "failed": 0,
         "invalid": 0,
-        "tp": 37,
-        "fp": 9,
-        "tn": 25,
-        "fn": 5,
-        "detection": 62,
-        "precision": 0.8043478260869565,
-        "recall": 0.8809523809523809,
-        "f1": 0.8409090909090908,
-        "fpr": 0.2647058823529412,
-        "accuracy": 0.8157894736842105,
+        "tp": 36,
+        "fp": 6,
+        "tn": 28,
+        "fn": 6,
+        "detection": 64,
+        "precision": 0.8571428571428571,
+        "recall": 0.8571428571428571,
+        "f1": 0.8571428571428571,
+        "fpr": 0.17647058823529413,
+        "accuracy": 0.8421052631578947,
         "gated": 18
       }
     },
@@ -128,16 +128,16 @@
         "scored": 76,
         "failed": 0,
         "invalid": 0,
-        "tp": 15,
-        "fp": 13,
-        "tn": 21,
-        "fn": 27,
-        "detection": 36,
-        "precision": 0.5357142857142857,
-        "recall": 0.35714285714285715,
-        "f1": 0.4285714285714286,
-        "fpr": 0.38235294117647056,
-        "accuracy": 0.47368421052631576,
+        "tp": 11,
+        "fp": 15,
+        "tn": 19,
+        "fn": 31,
+        "detection": 30,
+        "precision": 0.4230769230769231,
+        "recall": 0.2619047619047619,
+        "f1": 0.3235294117647059,
+        "fpr": 0.4411764705882353,
+        "accuracy": 0.39473684210526316,
         "gated": 0
       },
       "state-diff": {
@@ -162,16 +162,16 @@
         "scored": 76,
         "failed": 0,
         "invalid": 0,
-        "tp": 22,
-        "fp": 0,
-        "tn": 34,
-        "fn": 20,
-        "detection": 56,
-        "precision": 1.0,
-        "recall": 0.5238095238095238,
-        "f1": 0.6875000000000001,
-        "fpr": 0.0,
-        "accuracy": 0.7368421052631579,
+        "tp": 21,
+        "fp": 1,
+        "tn": 33,
+        "fn": 21,
+        "detection": 54,
+        "precision": 0.9545454545454546,
+        "recall": 0.5,
+        "f1": 0.65625,
+        "fpr": 0.029411764705882353,
+        "accuracy": 0.7105263157894737,
         "gated": 18
       }
     },
@@ -181,50 +181,50 @@
         "scored": 64,
         "failed": 1,
         "invalid": 11,
-        "tp": 17,
+        "tp": 18,
         "fp": 14,
         "tn": 14,
-        "fn": 19,
-        "detection": 31,
-        "precision": 0.5483870967741935,
-        "recall": 0.4722222222222222,
-        "f1": 0.5074626865671641,
+        "fn": 18,
+        "detection": 32,
+        "precision": 0.5625,
+        "recall": 0.5,
+        "f1": 0.5294117647058824,
         "fpr": 0.5,
-        "accuracy": 0.484375,
+        "accuracy": 0.5,
         "gated": 0
       },
       "state-diff": {
         "calls": 76,
-        "scored": 74,
-        "failed": 2,
+        "scored": 73,
+        "failed": 3,
         "invalid": 0,
-        "tp": 36,
-        "fp": 12,
+        "tp": 39,
+        "fp": 11,
         "tn": 22,
-        "fn": 4,
-        "detection": 58,
-        "precision": 0.75,
-        "recall": 0.9,
-        "f1": 0.8181818181818182,
-        "fpr": 0.35294117647058826,
-        "accuracy": 0.7837837837837838,
+        "fn": 1,
+        "detection": 61,
+        "precision": 0.78,
+        "recall": 0.975,
+        "f1": 0.8666666666666667,
+        "fpr": 0.3333333333333333,
+        "accuracy": 0.8356164383561644,
         "gated": 18
       },
       "trace-diff": {
         "calls": 76,
-        "scored": 73,
-        "failed": 3,
+        "scored": 71,
+        "failed": 5,
         "invalid": 0,
-        "tp": 37,
-        "fp": 9,
-        "tn": 25,
-        "fn": 2,
-        "detection": 62,
-        "precision": 0.8043478260869565,
-        "recall": 0.9487179487179487,
-        "f1": 0.8705882352941177,
-        "fpr": 0.2647058823529412,
-        "accuracy": 0.8493150684931506,
+        "tp": 40,
+        "fp": 8,
+        "tn": 23,
+        "fn": 0,
+        "detection": 63,
+        "precision": 0.8333333333333334,
+        "recall": 1.0,
+        "f1": 0.9090909090909091,
+        "fpr": 0.25806451612903225,
+        "accuracy": 0.8873239436619719,
         "gated": 18
       }
     },
@@ -234,16 +234,16 @@
         "scored": 76,
         "failed": 0,
         "invalid": 0,
-        "tp": 1,
-        "fp": 1,
-        "tn": 33,
-        "fn": 41,
-        "detection": 34,
-        "precision": 0.5,
-        "recall": 0.023809523809523808,
-        "f1": 0.04545454545454545,
-        "fpr": 0.029411764705882353,
-        "accuracy": 0.4473684210526316,
+        "tp": 0,
+        "fp": 2,
+        "tn": 32,
+        "fn": 42,
+        "detection": 32,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.058823529411764705,
+        "accuracy": 0.42105263157894735,
         "gated": 0
       },
       "state-diff": {
@@ -268,16 +268,16 @@
         "scored": 76,
         "failed": 0,
         "invalid": 0,
-        "tp": 17,
+        "tp": 16,
         "fp": 2,
         "tn": 32,
-        "fn": 25,
-        "detection": 49,
-        "precision": 0.8947368421052632,
-        "recall": 0.40476190476190477,
-        "f1": 0.5573770491803278,
+        "fn": 26,
+        "detection": 48,
+        "precision": 0.8888888888888888,
+        "recall": 0.38095238095238093,
+        "f1": 0.5333333333333333,
         "fpr": 0.058823529411764705,
-        "accuracy": 0.6447368421052632,
+        "accuracy": 0.631578947368421,
         "gated": 18
       }
     }
@@ -287,87 +287,87 @@
       "a": "static",
       "b": "state-diff",
       "what": "tener una version base con que comparar",
-      "only_b": 91,
-      "only_a": 27,
-      "p": 2.6899026850690616e-09,
-      "p_holm": 5.379805370138123e-09,
+      "only_b": 101,
+      "only_a": 24,
+      "p": 1.9702912858306397e-12,
+      "p_holm": 3.940582571661279e-12,
       "verdict": "RECHAZADA"
     },
     "H0-2": {
       "a": "state-diff",
       "b": "trace-diff",
       "what": "los eventos de transicion: el contexto temporal",
-      "only_b": 40,
+      "only_b": 38,
       "only_a": 19,
-      "p": 0.008641499683281734,
-      "p_holm": 0.008641499683281734,
+      "p": 0.01634810389737615,
+      "p_holm": 0.01634810389737615,
       "verdict": "RECHAZADA"
     },
     "extra": {
       "a": "static",
       "b": "trace-diff",
       "what": "el efecto acumulado de las dos variables",
-      "only_b": 104,
-      "only_a": 19,
-      "p": 2.219868911451848e-15,
+      "only_b": 111,
+      "only_a": 16,
+      "p": 1.1179658505994963e-18,
       "p_holm": null,
       "verdict": "RECHAZADA"
     }
   },
   "h0_2_by_model": {
     "llama31-8b": {
-      "only_trace": 10,
-      "only_state": 5,
-      "p": 0.3017578125
+      "only_trace": 14,
+      "only_state": 6,
+      "p": 0.11531829833984375
     },
     "mistral-nemo": {
       "only_trace": 14,
-      "only_state": 4,
-      "p": 0.0308837890625
+      "only_state": 6,
+      "p": 0.11531829833984375
     },
     "phi35": {
-      "only_trace": 6,
-      "only_state": 1,
-      "p": 0.125
+      "only_trace": 3,
+      "only_state": 0,
+      "p": 0.25
     },
     "qwen25-7b": {
-      "only_trace": 10,
-      "only_state": 9,
+      "only_trace": 7,
+      "only_state": 7,
       "p": 1.0
     }
   },
   "cochran": {
-    "q": 77.47297297297297,
+    "q": 96.87581699346406,
     "df": 2,
-    "p": 1.5029954664199458e-17,
+    "p": 9.197792863549393e-22,
     "hits": [
-      135,
-      198,
-      219
+      124,
+      199,
+      218
     ],
-    "n": 288
+    "n": 286
   },
   "bootstrap": {
     "state-diff-static": {
-      "observed": 0.313818270457837,
-      "low": 0.20456089277049982,
-      "high": 0.4503866300823147,
+      "observed": 0.3743024753183574,
+      "low": 0.2862858719646798,
+      "high": 0.48453471392539493,
       "excludes_zero": true,
       "clusters": 10,
       "draws": 4000
     },
     "trace-diff-state-diff": {
-      "observed": 0.08243107359165613,
-      "low": 0.028630091748388264,
-      "high": 0.13590733590733584,
+      "observed": 0.07385834109972056,
+      "low": 0.044052863436123246,
+      "high": 0.10895660203139423,
       "excludes_zero": true,
       "clusters": 10,
       "draws": 4000
     },
     "trace-diff-static": {
-      "observed": 0.39624934404949314,
-      "low": 0.28509168216848246,
-      "high": 0.5193448061372591,
+      "observed": 0.448160816418078,
+      "low": 0.34976309779459386,
+      "high": 0.5716339448557023,
       "excludes_zero": true,
       "clusters": 10,
       "draws": 4000
@@ -380,15 +380,15 @@
         "n": 162
       },
       "negative": {
-        "fp": 18,
+        "fp": 21,
         "n": 69
       },
       "benign-divergent": {
-        "fp": 10,
+        "fp": 13,
         "n": 38
       },
       "preexisting": {
-        "fp": 9,
+        "fp": 7,
         "n": 23
       }
     },
@@ -403,7 +403,7 @@
       },
       "benign-divergent": {
         "fp": 15,
-        "n": 40
+        "n": 39
       },
       "preexisting": {
         "fp": 9,
@@ -413,19 +413,19 @@
     "trace-diff": {
       "positive": {
         "fp": 0,
-        "n": 165
+        "n": 166
       },
       "negative": {
         "fp": 0,
         "n": 72
       },
       "benign-divergent": {
-        "fp": 13,
-        "n": 40
+        "fp": 12,
+        "n": 39
       },
       "preexisting": {
-        "fp": 7,
-        "n": 24
+        "fp": 5,
+        "n": 22
       }
     }
   },
@@ -434,52 +434,52 @@
     "baseline_label": "orden y continuidad del foco",
     "by_strategy": {
       "static": {
-        "hits": 17,
-        "n": 44,
-        "accuracy": 0.38636363636363635
+        "hits": 15,
+        "n": 38,
+        "accuracy": 0.39473684210526316
       },
       "state-diff": {
-        "hits": 36,
-        "n": 97,
-        "accuracy": 0.3711340206185567
+        "hits": 39,
+        "n": 100,
+        "accuracy": 0.39
       },
       "trace-diff": {
-        "hits": 46,
+        "hits": 49,
         "n": 113,
-        "accuracy": 0.40707964601769914
+        "accuracy": 0.4336283185840708
       }
     },
     "matrix": {
       "operación mediante teclado|orden y continuidad del foco": 11,
-      "comunicación accesible de actualizaciones dinámicas|cambios inesperados de contexto": 4,
+      "comunicación accesible de actualizaciones dinámicas|cambios inesperados de contexto": 3,
       "orden y continuidad del foco|orden y continuidad del foco": 39,
-      "cambios inesperados de contexto|orden y continuidad del foco": 17,
-      "comunicación accesible de actualizaciones dinámicas|orden y continuidad del foco": 9,
-      "operación mediante teclado|cambios inesperados de contexto": 3,
-      "cambios inesperados de contexto|cambios inesperados de contexto": 3,
-      "orden y continuidad del foco|cambios inesperados de contexto": 3,
-      "cambios inesperados de contexto|operación mediante teclado": 9,
+      "cambios inesperados de contexto|orden y continuidad del foco": 15,
+      "comunicación accesible de actualizaciones dinámicas|orden y continuidad del foco": 10,
+      "operación mediante teclado|cambios inesperados de contexto": 4,
+      "cambios inesperados de contexto|cambios inesperados de contexto": 4,
+      "cambios inesperados de contexto|comunicación accesible de actualizaciones dinámicas": 3,
       "operación mediante teclado|operación mediante teclado": 3,
-      "orden y continuidad del foco|operación mediante teclado": 6,
+      "cambios inesperados de contexto|operación mediante teclado": 8,
+      "orden y continuidad del foco|operación mediante teclado": 5,
+      "comunicación accesible de actualizaciones dinámicas|comunicación accesible de actualizaciones dinámicas": 3,
       "comunicación accesible de actualizaciones dinámicas|operación mediante teclado": 1,
-      "operación mediante teclado|comunicación accesible de actualizaciones dinámicas": 2,
-      "comunicación accesible de actualizaciones dinámicas|comunicación accesible de actualizaciones dinámicas": 1,
-      "cambios inesperados de contexto|comunicación accesible de actualizaciones dinámicas": 2
+      "operación mediante teclado|comunicación accesible de actualizaciones dinámicas": 3,
+      "orden y continuidad del foco|cambios inesperados de contexto": 1
     }
   },
   "localization": {
     "static": {
-      "exact": 10,
-      "within": 24,
-      "n": 44
+      "exact": 7,
+      "within": 17,
+      "n": 38
     },
     "state-diff": {
-      "exact": 36,
-      "within": 96,
-      "n": 97
+      "exact": 37,
+      "within": 99,
+      "n": 100
     },
     "trace-diff": {
-      "exact": 46,
+      "exact": 45,
       "within": 113,
       "n": 113
     }
@@ -487,54 +487,54 @@
   "efficiency": {
     "static": {
       "tokens_median": 9759,
-      "latency_median_ms": 3497,
-      "latency_q1_ms": 2034,
-      "latency_q3_ms": 11471,
+      "latency_median_ms": 3469,
+      "latency_q1_ms": 1743,
+      "latency_q3_ms": 13627,
       "n": 303
     },
     "state-diff": {
-      "tokens_median": 1658.5,
-      "latency_median_ms": 1671.5,
-      "latency_q1_ms": 1082,
-      "latency_q3_ms": 2313,
-      "n": 230
-    },
-    "trace-diff": {
-      "tokens_median": 2285,
-      "latency_median_ms": 1634,
-      "latency_q1_ms": 1046,
-      "latency_q3_ms": 2217,
+      "tokens_median": 1658,
+      "latency_median_ms": 1504,
+      "latency_q1_ms": 1037,
+      "latency_q3_ms": 2482,
       "n": 229
     },
-    "cliffs_delta_latency_static_vs_trace": 0.5057424001814882
+    "trace-diff": {
+      "tokens_median": 2322,
+      "latency_median_ms": 1434,
+      "latency_q1_ms": 957,
+      "latency_q3_ms": 2470,
+      "n": 227
+    },
+    "cliffs_delta_latency_static_vs_trace": 0.4778244101633394
   },
   "power": {
     "H0-1": {
-      "discordance": 0.4054982817869416,
-      "observed_difference": 0.21993127147766323,
-      "units_pair_model": 291,
+      "discordance": 0.43103448275862066,
+      "observed_difference": 0.2655172413793103,
+      "units_pair_model": 290,
       "pairs": 76,
-      "min_detectable_at_pairs": 0.20148213187143227,
-      "power_at_pairs": 0.8686150511003452,
-      "power_at_pair_model": 0.9999860226519148
+      "min_detectable_at_pairs": 0.20772943307361713,
+      "power_at_pairs": 0.9565490808093104,
+      "power_at_pair_model": 0.9999999642495951
     },
     "H0-2": {
-      "discordance": 0.19732441471571907,
-      "observed_difference": 0.07023411371237458,
-      "units_pair_model": 299,
+      "discordance": 0.19256756756756757,
+      "observed_difference": 0.06418918918918919,
+      "units_pair_model": 296,
       "pairs": 76,
-      "min_detectable_at_pairs": 0.1405505145737047,
-      "power_at_pairs": 0.2779283081417043,
-      "power_at_pair_model": 0.7834397155458472
+      "min_detectable_at_pairs": 0.13884607285465028,
+      "power_at_pairs": 0.24440180275647633,
+      "power_at_pair_model": 0.7131803803640284
     },
     "extra": {
-      "discordance": 0.42560553633217996,
-      "observed_difference": 0.29411764705882354,
-      "units_pair_model": 289,
+      "discordance": 0.4409722222222222,
+      "observed_difference": 0.3298611111111111,
+      "units_pair_model": 288,
       "pairs": 76,
-      "min_detectable_at_pairs": 0.20641709542762854,
-      "power_at_pairs": 0.9863562041564489,
-      "power_at_pair_model": 0.9999999999173402
+      "min_detectable_at_pairs": 0.21011044612537388,
+      "power_at_pairs": 0.99684551299555,
+      "power_at_pair_model": 0.9999999999999549
     }
   },
   "mutation_score": {
@@ -580,25 +580,25 @@
   "by_operator": {
     "ccb": {
       "static": {
-        "tp": 6,
+        "tp": 4,
         "n": 23
       },
       "state-diff": {
-        "tp": 18,
+        "tp": 17,
         "n": 24
       },
       "trace-diff": {
-        "tp": 18,
+        "tp": 17,
         "n": 24
       }
     },
     "ccs": {
       "static": {
-        "tp": 5,
+        "tp": 4,
         "n": 16
       },
       "state-diff": {
-        "tp": 11,
+        "tp": 12,
         "n": 15
       },
       "trace-diff": {
@@ -608,25 +608,25 @@
     },
     "cto": {
       "static": {
-        "tp": 10,
+        "tp": 9,
         "n": 31
       },
       "state-diff": {
-        "tp": 21,
+        "tp": 20,
         "n": 32
       },
       "trace-diff": {
-        "tp": 23,
+        "tp": 20,
         "n": 32
       }
     },
     "focus-loss-after-update": {
       "static": {
-        "tp": 8,
+        "tp": 7,
         "n": 30
       },
       "state-diff": {
-        "tp": 13,
+        "tp": 15,
         "n": 32
       },
       "trace-diff": {
@@ -636,7 +636,7 @@
     },
     "kbd-activation-removal": {
       "static": {
-        "tp": 7,
+        "tp": 5,
         "n": 27
       },
       "state-diff": {
@@ -644,21 +644,21 @@
         "n": 27
       },
       "trace-diff": {
-        "tp": 19,
-        "n": 26
+        "tp": 21,
+        "n": 27
       }
     },
     "status-announcement-removal": {
       "static": {
-        "tp": 8,
+        "tp": 9,
         "n": 35
       },
       "state-diff": {
-        "tp": 13,
+        "tp": 15,
         "n": 36
       },
       "trace-diff": {
-        "tp": 15,
+        "tp": 17,
         "n": 35
       }
     }
@@ -666,21 +666,21 @@
   "by_stratum": {
     "small": {
       "static": {
-        "tp": 11,
+        "tp": 7,
         "n": 32
       },
       "state-diff": {
-        "tp": 19,
+        "tp": 18,
         "n": 31
       },
       "trace-diff": {
-        "tp": 19,
-        "n": 31
+        "tp": 20,
+        "n": 32
       }
     },
     "medium": {
       "static": {
-        "tp": 28,
+        "tp": 26,
         "n": 80
       },
       "state-diff": {
@@ -688,7 +688,7 @@
         "n": 80
       },
       "trace-diff": {
-        "tp": 59,
+        "tp": 56,
         "n": 78
       }
     },
@@ -698,22 +698,16 @@
         "n": 50
       },
       "state-diff": {
-        "tp": 26,
+        "tp": 30,
         "n": 55
       },
       "trace-diff": {
-        "tp": 35,
+        "tp": 37,
         "n": 56
       }
     }
   },
   "discordant_pairs": [
-    {
-      "app": "a01-landing",
-      "variant": "m02-status-silent",
-      "winner": "trace-diff",
-      "models": 1
-    },
     {
       "app": "a02-piscina",
       "variant": "m02-focus-loss-confirmation",
@@ -721,15 +715,39 @@
       "models": 1
     },
     {
+      "app": "a02-piscina",
+      "variant": "n01-benign-rewording",
+      "winner": "trace-diff",
+      "models": 2
+    },
+    {
       "app": "a03-panel",
       "variant": "m02-cto-tab-order",
       "winner": "state-diff",
-      "models": 2
+      "models": 1
     },
     {
       "app": "a04-multipaso",
       "variant": "m05-status-silent",
       "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "n01-benign-indicator-rewording",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a04-multipaso",
+      "variant": "p01-preexisting-cto-defect",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a06-equipo",
+      "variant": "m05-status-silent",
+      "winner": "state-diff",
       "models": 1
     },
     {
@@ -742,6 +760,12 @@
       "app": "a06-equipo",
       "variant": "p01-preexisting-focus-defect",
       "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a08-contacto",
+      "variant": "m02-cto-extra-unreachable",
+      "winner": "trace-diff",
       "models": 1
     },
     {
@@ -758,6 +782,12 @@
     },
     {
       "app": "a09-tienda",
+      "variant": "m06-status-removed",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a09-tienda",
       "variant": "m07-focus-loss-on-remove",
       "winner": "trace-diff",
       "models": 2
@@ -769,10 +799,10 @@
       "models": 1
     },
     {
-      "app": "a10-tramites",
-      "variant": "m01-focus-loss-view-change",
+      "app": "a09-tienda",
+      "variant": "p01-preexisting-cto-defect",
       "winner": "trace-diff",
-      "models": 3
+      "models": 1
     },
     {
       "app": "a10-tramites",
@@ -790,17 +820,23 @@
       "app": "a10-tramites",
       "variant": "n01-benign-count-and-caption",
       "winner": "trace-diff",
-      "models": 2
+      "models": 1
     },
     {
       "app": "a10-tramites",
       "variant": "p01-preexisting-cto-defect",
       "winner": "trace-diff",
-      "models": 2
+      "models": 1
     },
     {
       "app": "a01-landing",
       "variant": "m01-kbd-activation",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
+      "app": "a02-piscina",
+      "variant": "m01-cto-slot-tab-order",
       "winner": "state-diff",
       "models": 1
     },
@@ -832,25 +868,13 @@
       "app": "a04-multipaso",
       "variant": "m04-cto-back-tab-order",
       "winner": "state-diff",
-      "models": 1
-    },
-    {
-      "app": "a04-multipaso",
-      "variant": "n01-benign-indicator-rewording",
-      "winner": "state-diff",
-      "models": 1
+      "models": 2
     },
     {
       "app": "a05-blog",
       "variant": "m03-focus-loss-pagination",
       "winner": "trace-diff",
       "models": 2
-    },
-    {
-      "app": "a05-blog",
-      "variant": "m04-cto-pagination",
-      "winner": "trace-diff",
-      "models": 1
     },
     {
       "app": "a06-equipo",
@@ -860,15 +884,9 @@
     },
     {
       "app": "a07-perfil",
-      "variant": "m01-ccb-autosave-on-blur",
-      "winner": "state-diff",
-      "models": 1
-    },
-    {
-      "app": "a08-contacto",
-      "variant": "n01-benign-label-rewording",
-      "winner": "state-diff",
-      "models": 1
+      "variant": "m02-status-removed",
+      "winner": "trace-diff",
+      "models": 2
     },
     {
       "app": "a09-tienda",
@@ -884,8 +902,8 @@
     },
     {
       "app": "a10-tramites",
-      "variant": "m04-ccs-navigate-on-tab",
-      "winner": "trace-diff",
+      "variant": "m03-kbd-activation-detail",
+      "winner": "state-diff",
       "models": 1
     },
     {
@@ -902,14 +920,14 @@
     },
     {
       "app": "a04-multipaso",
-      "variant": "m03-ccb-advance-on-blur",
-      "winner": "state-diff",
+      "variant": "m02-kbd-activation-mouse-only",
+      "winner": "trace-diff",
       "models": 1
     },
     {
       "app": "a04-multipaso",
-      "variant": "m04-cto-back-tab-order",
-      "winner": "trace-diff",
+      "variant": "m03-ccb-advance-on-blur",
+      "winner": "state-diff",
       "models": 1
     },
     {
@@ -931,6 +949,12 @@
       "models": 1
     },
     {
+      "app": "a08-contacto",
+      "variant": "n01-benign-label-rewording",
+      "winner": "state-diff",
+      "models": 1
+    },
+    {
       "app": "a09-tienda",
       "variant": "m04-kbd-activation-removed",
       "winner": "trace-diff",
@@ -944,50 +968,26 @@
     },
     {
       "app": "a10-tramites",
+      "variant": "m01-focus-loss-view-change",
+      "winner": "trace-diff",
+      "models": 1
+    },
+    {
+      "app": "a10-tramites",
       "variant": "m02-cto-nav-tab-order",
       "winner": "trace-diff",
       "models": 1
     },
     {
       "app": "a10-tramites",
-      "variant": "m03-kbd-activation-detail",
+      "variant": "m05-ccb-confirm-on-blur",
       "winner": "state-diff",
-      "models": 1
-    },
-    {
-      "app": "a02-piscina",
-      "variant": "n01-benign-rewording",
-      "winner": "trace-diff",
-      "models": 1
-    },
-    {
-      "app": "a05-blog",
-      "variant": "n01-benign-reading-time",
-      "winner": "trace-diff",
       "models": 1
     },
     {
       "app": "a05-blog",
       "variant": "p01-preexisting-focus-defect",
       "winner": "trace-diff",
-      "models": 1
-    },
-    {
-      "app": "a06-equipo",
-      "variant": "m05-status-silent",
-      "winner": "trace-diff",
-      "models": 1
-    },
-    {
-      "app": "a07-perfil",
-      "variant": "m02-status-removed",
-      "winner": "trace-diff",
-      "models": 1
-    },
-    {
-      "app": "a09-tienda",
-      "variant": "m06-status-removed",
-      "winner": "state-diff",
       "models": 1
     }
   ]
