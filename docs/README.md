@@ -14,3 +14,5 @@ Guía operativa (no es un instrumento del estudio):
 
 - `github-actions.md` — cómo correr el framework en GitHub Actions, elegir el
   modelo o ninguno, y recibir el reporte en el Pull Request.
+  Incluye cómo usarlo en otro repositorio mediante el workflow reutilizable.
+- `ejemplos/` — `a11y-lab.json` y el workflow llamador de ejemplo para ese caso.

@@ -7,6 +7,7 @@ import type { Evidence, EvidenceFormat, Provider, Strategy, Verdict } from '@a11
 import type { Browser } from 'playwright';
 import { reportEnvironment } from './environment';
 import { serveDist } from './static-server';
+import type { StaticServer } from './static-server';
 import type { AppFile } from './spec';
 
 /**
@@ -82,6 +83,19 @@ export interface PrCheckOptions {
   modelLabel?: string;
   basePort?: number;
   headPort?: number;
+  /**
+   * Cómo servir cada lado compilado. Por omisión `serveDist`, que es lo que usa
+   * el benchmark. El modo de repositorio externo pasa un servidor que añade la
+   * salida de rutas del lado cliente y la señal de "lista" (ver external-server).
+   */
+  serve?: (port: number, root: string) => Promise<StaticServer>;
+  /**
+   * URL de la aplicación dentro del servidor de un lado. Por omisión el esquema
+   * del benchmark (`/?app=<id>&variant=base`).
+   */
+  urlFor?: (origin: string, appId: string, side: 'base' | 'head') => string;
+  /** Espera máxima a la señal de "lista"; por omisión la del framework. */
+  readyTimeoutMs?: number;
 }
 
 export interface PrCheckResult {
@@ -125,8 +139,11 @@ export async function runPrCheck(options: PrCheckOptions): Promise<PrCheckResult
   const basePort = options.basePort ?? 5401;
   const headPort = options.headPort ?? 5402;
 
-  const baseServer = await serveDist(basePort, options.base.dist);
-  const headServer = await serveDist(headPort, options.head.dist);
+  const serve = options.serve ?? serveDist;
+  const urlFor =
+    options.urlFor ?? ((origin: string, appId: string) => `${origin}/?app=${appId}&variant=base`);
+  const baseServer = await serve(basePort, options.base.dist);
+  const headServer = await serve(headPort, options.head.dist);
   const verdicts: AppVerdict[] = [];
   let browserVersion: string | undefined;
 
@@ -156,14 +173,16 @@ export async function runPrCheck(options: PrCheckOptions): Promise<PrCheckResult
 
       try {
         const left: Trace = await captureTrace(options.browser, {
-          url: `${baseServer.origin}/?app=${appId}&variant=base`,
+          url: urlFor(baseServer.origin, appId, 'base'),
           scenario,
           repetition: 1,
+          readyTimeoutMs: options.readyTimeoutMs,
         });
         const right: Trace = await captureTrace(options.browser, {
-          url: `${headServer.origin}/?app=${appId}&variant=base`,
+          url: urlFor(headServer.origin, appId, 'head'),
           scenario,
           repetition: 1,
+          readyTimeoutMs: options.readyTimeoutMs,
         });
         if (browserVersion === undefined) {
           // Misma garantía que el resto de los scripts: el entorno se informa y

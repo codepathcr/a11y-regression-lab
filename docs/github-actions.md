@@ -197,16 +197,160 @@ produjo.
 | `La API respondió 400` con un modelo nuevo | El modelo no acepta `temperature` | Define `A11Y_LLM_TEMPERATURE=omit` |
 | El reporte dice que no completó | La comparación no produjo reporte | Mira el registro de la corrida, paso "Comparación diferencial" |
 
+## Usarlo en otro repositorio
+
+El framework **no se copia** al repositorio nuevo. Ese repositorio mantiene solo
+dos cosas suyas y llama al workflow reutilizable de este (`a11y-reusable.yml`),
+que descarga el framework durante la corrida:
+
+```
+tu-repositorio/
+├── a11y-lab.json                          # tus recorridos (Paso 1)
+└── .github/workflows/accesibilidad.yml    # el llamador de ~25 líneas (Paso 2)
+```
+
+En cada Pull Request el workflow compila la base y el cambio con tus comandos,
+corre tus recorridos sobre las dos compilaciones, compara con el mismo motor y la
+misma compuerta del estudio, y comenta el resultado. Con `mode: no-model` no
+consulta ningún modelo.
+
+### Paso 1: `a11y-lab.json`
+
+Un ejemplo completo está en [`ejemplos/a11y-lab.json`](ejemplos/a11y-lab.json).
+
+| Campo | Obligatorio | Qué es |
+|---|---|---|
+| `apps[].id` | sí | Identificador estable (minúsculas, dígitos, `.`, `-`, `_`). Une el recorrido de la base con el del cambio. |
+| `apps[].title` | no | Nombre legible para el reporte. |
+| `apps[].path` | no | Ruta inicial en la compilación; por omisión `/`. Puede llevar hash: `/#/cuenta`. |
+| `apps[].watch` | no | Prefijos de carpeta cuyo cambio afecta a esta aplicación. Sin `watch`, cualquier cambio no ignorado la afecta. |
+| `apps[].scenario.steps` | sí | El recorrido: lista de pasos. |
+| `ready` | no | Cómo se decide que la página está lista (ver abajo). |
+| `ignore` | no | Cambios que no afectan a nada. `*.md` es una extensión; lo demás es un prefijo. Por omisión: `.github/`, `docs/`, `*.md`, `*.mdx`, `LICENSE`. |
+| `readyTimeoutMs` | no | Espera máxima a la señal de listo. |
+
+Los pasos son los del framework:
+
+| `action` | Campos | Qué hace |
+|---|---|---|
+| `focus` | `selector` | Pone el foco en el elemento. |
+| `fill` | `selector`, `value` | Escribe en un campo. |
+| `click` | `selector` | Hace clic. |
+| `press` | `key` | Pulsa una tecla del teclado (`Tab`, `Enter`, `Space`, `Escape`, ...). |
+| `settle` | `ms` | Espera sin hacer nada. |
+
+Todos aceptan `ms` para cambiar la pausa posterior (150 ms por omisión).
+
+El archivo se valida al empezar: un campo mal escrito detiene la corrida con un
+mensaje que dice cuál y por qué.
+
+### Paso 2: el llamador
+
+Copia [`ejemplos/a11y-llamador.yml`](ejemplos/a11y-llamador.yml) como
+`.github/workflows/accesibilidad.yml` y ajusta los tres valores de tu
+aplicación:
+
+| Entrada (`with:`) | Por omisión | Para qué |
+|---|---|---|
+| `install-command` | `npm ci` | Instala las dependencias (`pnpm install --frozen-lockfile`, `yarn --immutable`, ...). |
+| `build-command` | `npm run build` | Compila la aplicación. |
+| `dist-dir` | `dist` | Carpeta de la compilación (`build`, `out`, ...). |
+| `config-file` | `a11y-lab.json` | Ruta del archivo de recorridos. |
+| `mode` | `model` | `model` o `no-model`. |
+| `node-version` | `22` | Mínimo 20.11. |
+| `runs-on` | `["ubuntu-22.04"]` | Ejecutor, como lista JSON. |
+| `playwright-deps` | `true` | Dependencias del sistema de Chromium (déjalo en `true` en ejecutores de GitHub). |
+| `fail-on-regression` | `true` | Falla la comprobación si se reporta una regresión. |
+| `framework-ref` | `main` | Rama, etiqueta o commit del framework. Una etiqueta (por ejemplo `estudio-v1`) hace las corridas reproducibles. |
+
+La aplicación debe compilarse para servirse desde la raíz (`/`). Si usa una ruta
+base (por ejemplo `base: '/mi-repo/'` en Vite), compílala con la raíz en el
+`build-command`.
+
+### Paso 3: el modelo
+
+Es el mismo mecanismo de [Modo B](#modo-b-con-un-modelo-por-api) y
+[Modo C](#modo-c-sin-modelo-el-más-rápido-para-probar). En el repositorio nuevo,
+en Settings > Secrets and variables > Actions:
+
+- Variables: `A11Y_LLM_PROVIDER`, `A11Y_LLM_MODEL`, y las que necesite
+  (`A11Y_LLM_BASE_URL`, ...). Cada una también puede pasarse como entrada
+  (`llm-provider`, `llm-model`, ...), que tiene prioridad sobre la variable.
+- Secreto: `A11Y_LLM_API_KEY`, que el llamador reenvía en `secrets:`.
+- O `mode: no-model` (o la variable `A11Y_MODE=no-model`) para no usar ninguno.
+
+Con `model`, antes de comparar se hace una consulta mínima de prueba
+(`llm-check`): si la clave o la URL están mal, la corrida falla en un minuto y
+con un mensaje claro, no después de compilar y capturar todo.
+
+### Paso 4: si el framework es un repositorio privado
+
+Dos cosas, y las dos hacen falta:
+
+1. En el repositorio del framework: Settings > Actions > General > Access, para
+   permitir que otros repositorios de la organización usen sus workflows.
+2. Un secreto `FRAMEWORK_TOKEN` en el repositorio nuevo, con un token (fine-grained)
+   que tenga permiso de lectura de contenido (*Contents: Read*) sobre el
+   repositorio del framework. El token de la corrida solo alcanza al repositorio
+   que la dispara, de modo que no puede descargar el framework.
+
+Si el framework es público, no hace falta nada de esto.
+
+### Cómo se decide que la página está lista
+
+Las aplicaciones del benchmark avisan al framework poniendo
+`data-harness-ready="true"` en `<html>`. Una aplicación ajena no lo hace, así
+que el servidor que sirve la compilación inyecta un script mínimo que lo pone
+cuando la página terminó de cargar, existe el elemento de `ready.selector` (si lo
+indicas) y el DOM estuvo quieto `ready.quietMs` (300 ms por omisión). No cambia
+tu marcado ni instrumenta nada.
+
+```json
+"ready": { "selector": "#root > *", "quietMs": 300, "timeoutMs": 10000 }
+```
+
+Pon un `selector` si tu aplicación tarda en montar o carga datos. Si prefieres que
+la propia aplicación señale cuándo está lista, usa `"ready": { "mode": "app" }`
+y haz que ponga `data-harness-ready="true"` (o `data-harness-error="motivo"` si
+falla).
+
+### Cómo se eligen las aplicaciones afectadas
+
+El workflow calcula los archivos modificados entre la base y el cambio. Se
+descartan los de `ignore`. Una aplicación se evalúa si cambió algún archivo bajo
+sus prefijos `watch` (o cualquiera, si no los declaró). Si lo que cambió es el
+propio `a11y-lab.json`, se evalúan todas las aplicaciones, de modo que un
+recorrido modificado se reporte como tal.
+
+Cada lado trae su propia copia del archivo. Si el cambio altera el recorrido de
+una aplicación, no se comparan trazas (serían de recorridos distintos) y el
+reporte dice **No comparable**. En el primer Pull Request que agrega el archivo,
+las aplicaciones aparecen como **Nueva**: aún no hay base con qué comparar.
+
+### Cómo escribir buenos recorridos
+
+- Usa selectores estables (`[data-testid=...]`, roles, ids) y no clases generadas.
+- Haz que el recorrido visite el lugar donde puede estar el defecto: un recorrido
+  que no pasa por un componente no puede detectar su regresión.
+- Evita contenido que cambie solo entre corridas (fechas, aleatorios, animaciones
+  largas): aparece como diferencia sin ser una regresión.
+- La compilación se sirve de forma estática: lo que dependa de un servidor o de
+  una sesión iniciada no se verá.
+
 ## Límites que conviene tener presentes
 
 - **Las cifras del documento no se pueden comparar con las de otros modelos.**
   Los resultados del estudio corresponden a cuatro modelos locales con
   parámetros fijos. Un modelo por API puede dar otros resultados, y por eso esta
   vía sirve para revisar cambios, no para reproducir las mediciones.
-- **El workflow trabaja sobre la estructura de este repositorio.** Compila las
-  apps de `packages/benchmark/apps/`, cada una con su `app.json` y su escenario de
-  interacción. Usarlo en un repositorio con otra estructura exige llevar esas
-  piezas (el framework y el formato de aplicación) a ese repositorio. Hoy no está
-  empaquetado como acción reutilizable.
+- **El workflow `a11y-regression.yml` trabaja sobre la estructura de este
+  repositorio** (las aplicaciones de `packages/benchmark/apps/`). Para otro
+  repositorio se usa el workflow reutilizable, descrito en "Usarlo en otro
+  repositorio". Eso no es una acción publicada en el Marketplace: se llama por
+  su ruta y su rama o etiqueta.
+- **El modo para otros repositorios sirve compilaciones estáticas.** No levanta
+  tu backend ni inicia sesiones, y exige que la aplicación se sirva desde `/`.
+- **Un cambio que es solo de estilos o de datos puede no aparecer.** Se evalúa
+  lo que cambia en la estructura y los eventos de accesibilidad, no el aspecto.
 - El veredicto de un modelo no es un oráculo: la decisión sobre el hallazgo queda
   en la persona que revisa.

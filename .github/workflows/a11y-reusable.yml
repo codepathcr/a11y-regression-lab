@@ -1,0 +1,312 @@
+# Detección diferencial de regresiones dinámicas de accesibilidad: WORKFLOW REUTILIZABLE.
+#
+# Es la misma comprobación de `a11y-regression.yml`, pensada para aplicarse a
+# OTRO repositorio. El repositorio consumidor no copia el framework: llama a este
+# archivo con `uses:` (ver docs/ejemplos/a11y-llamador.yml) y mantiene solo dos
+# cosas suyas, un `a11y-lab.json` con sus recorridos y el llamador de ~15 líneas.
+#
+# Qué hace en cada Pull Request del repositorio consumidor:
+#   1. Descarga la base, el cambio y este framework.
+#   2. Compila la base y el cambio con el comando que se indique.
+#   3. Corre los recorridos de `a11y-lab.json` sobre las dos compilaciones,
+#      con el mismo motor, la misma normalización y la misma compuerta
+#      determinista que el estudio.
+#   4. Con modelo (opcional), le pide un veredicto SOLO donde las trazas difieren.
+#   5. Publica un comentario único en el Pull Request y, si hay regresión, falla.
+#
+# Los resultados de esta vía NO son comparables con las cifras del estudio: otro
+# modelo, otras aplicaciones, otros recorridos. Es una herramienta de revisión, no
+# una medición. Detalle y limitaciones en docs/github-actions.md.
+name: Regresiones dinámicas de accesibilidad (reutilizable)
+
+on:
+  workflow_call:
+    inputs:
+      build-command:
+        description: Comando que compila la aplicación.
+        type: string
+        default: npm run build
+      install-command:
+        description: Comando que instala las dependencias de la aplicación.
+        type: string
+        default: npm ci
+      dist-dir:
+        description: Carpeta (relativa a la raíz del repositorio) donde queda la compilación.
+        type: string
+        default: dist
+      config-file:
+        description: Ruta del archivo de recorridos dentro del repositorio.
+        type: string
+        default: a11y-lab.json
+      node-version:
+        description: Versión de Node para compilar la aplicación y correr el framework (mínimo 20.11).
+        type: string
+        default: '22'
+      mode:
+        description: model | no-model. Vacío usa la variable A11Y_MODE del repositorio, y si no existe, model.
+        type: string
+        default: ''
+      runs-on:
+        description: Ejecutor, como lista JSON.
+        type: string
+        default: '["ubuntu-22.04"]'
+      playwright-deps:
+        description: Instalar las dependencias del sistema de Chromium (necesario en ejecutores alojados por GitHub).
+        type: boolean
+        default: true
+      fail-on-regression:
+        description: Fallar la comprobación cuando se reporte una regresión.
+        type: boolean
+        default: true
+      framework-repository:
+        description: Repositorio del framework.
+        type: string
+        default: codepathcr/a11y-regression-lab
+      framework-ref:
+        description: Rama, etiqueta o commit del framework. Fijar una etiqueta da corridas reproducibles.
+        type: string
+        default: main
+      # Modelo. Cada valor vacío cae a la variable del repositorio con el mismo
+      # nombre en mayúsculas (vars.A11Y_LLM_*); ver docs/github-actions.md.
+      llm-provider:
+        description: ollama | openai | openai-compatible | anthropic
+        type: string
+        default: ''
+      llm-model:
+        type: string
+        default: ''
+      llm-base-url:
+        type: string
+        default: ''
+      llm-id:
+        type: string
+        default: ''
+      llm-label:
+        type: string
+        default: ''
+      llm-timeout-ms:
+        type: string
+        default: ''
+      llm-max-tokens:
+        type: string
+        default: ''
+      llm-temperature:
+        type: string
+        default: ''
+      llm-json-mode:
+        type: string
+        default: ''
+      llm-num-ctx:
+        type: string
+        default: ''
+    secrets:
+      A11Y_LLM_API_KEY:
+        description: Clave de la API del modelo. No hace falta con mode no-model ni con servidores sin clave.
+        required: false
+      FRAMEWORK_TOKEN:
+        description: Token con permiso de lectura sobre el repositorio del framework, si es privado.
+        required: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  diferencial:
+    runs-on: ${{ fromJSON(inputs.runs-on) }}
+    timeout-minutes: 45
+    env:
+      A11Y_MODE_EFECTIVO: ${{ inputs.mode || vars.A11Y_MODE || 'model' }}
+      A11Y_LLM_PROVIDER: ${{ inputs.llm-provider || vars.A11Y_LLM_PROVIDER }}
+      A11Y_LLM_MODEL: ${{ inputs.llm-model || vars.A11Y_LLM_MODEL }}
+      A11Y_LLM_BASE_URL: ${{ inputs.llm-base-url || vars.A11Y_LLM_BASE_URL }}
+      A11Y_LLM_ID: ${{ inputs.llm-id || vars.A11Y_LLM_ID }}
+      A11Y_LLM_LABEL: ${{ inputs.llm-label || vars.A11Y_LLM_LABEL }}
+      A11Y_LLM_TIMEOUT_MS: ${{ inputs.llm-timeout-ms || vars.A11Y_LLM_TIMEOUT_MS }}
+      A11Y_LLM_MAX_TOKENS: ${{ inputs.llm-max-tokens || vars.A11Y_LLM_MAX_TOKENS }}
+      A11Y_LLM_TEMPERATURE: ${{ inputs.llm-temperature || vars.A11Y_LLM_TEMPERATURE }}
+      A11Y_LLM_JSON_MODE: ${{ inputs.llm-json-mode || vars.A11Y_LLM_JSON_MODE }}
+      A11Y_LLM_NUM_CTX: ${{ inputs.llm-num-ctx || vars.A11Y_LLM_NUM_CTX }}
+      A11Y_LLM_API_KEY: ${{ secrets.A11Y_LLM_API_KEY }}
+      # Los textos que el repositorio consumidor controla (comandos, nombres de
+      # rama) llegan siempre por variables de entorno y nunca interpolados en el
+      # script, para que un nombre de rama con comillas no pueda ejecutar nada.
+      A11Y_INSTALL: ${{ inputs.install-command }}
+      A11Y_BUILD: ${{ inputs.build-command }}
+      A11Y_DIST: ${{ inputs.dist-dir }}
+      A11Y_CONFIG: ${{ inputs.config-file }}
+      A11Y_BASE_REF: ${{ github.event.pull_request.base.ref }}
+      A11Y_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+      A11Y_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      A11Y_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
+    steps:
+      - name: Validar la configuración
+        shell: bash
+        run: |
+          if [ "$A11Y_MODE_EFECTIVO" != "model" ] && [ "$A11Y_MODE_EFECTIVO" != "no-model" ]; then
+            echo "::error::mode debe ser 'model' o 'no-model' (llegó '$A11Y_MODE_EFECTIVO')."
+            exit 1
+          fi
+          if [ -z "$A11Y_BASE_SHA" ]; then
+            echo "::error::Este workflow se llama desde un evento pull_request."
+            exit 1
+          fi
+          if [ "$A11Y_MODE_EFECTIVO" = "model" ] && [ -z "$A11Y_LLM_PROVIDER" ]; then
+            echo "::error::mode 'model' necesita llm-provider (o la variable A11Y_LLM_PROVIDER). Para comparar sin modelo, usar mode: no-model."
+            exit 1
+          fi
+
+      - name: Lado modificado
+        uses: actions/checkout@v4
+        with:
+          path: head
+          ref: ${{ github.event.pull_request.head.sha }}
+          # Historia completa: la lista de archivos del cambio se calcula acá.
+          fetch-depth: 0
+
+      - name: Lado base
+        uses: actions/checkout@v4
+        with:
+          path: base
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Framework
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.framework-repository }}
+          ref: ${{ inputs.framework-ref }}
+          path: a11y-framework
+          token: ${{ secrets.FRAMEWORK_TOKEN || github.token }}
+
+      - name: Node y pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+      - run: corepack enable
+        shell: bash
+
+      - name: Instalar el framework
+        working-directory: a11y-framework
+        shell: bash
+        run: |
+          pnpm install --frozen-lockfile --filter "@a11y-lab/benchmark..."
+          # El navegador queda fijado por la versión de Playwright del framework.
+          # Si el ejecutor trae otra, la medición aborta: el árbol de
+          # accesibilidad lo computa el navegador.
+          pnpm --filter @a11y-lab/benchmark exec playwright install ${{ inputs.playwright-deps && '--with-deps' || '' }} chromium
+
+      - name: Compilar el lado base
+        working-directory: base
+        shell: bash
+        run: |
+          bash -ec "$A11Y_INSTALL"
+          bash -ec "$A11Y_BUILD"
+          test -f "$A11Y_DIST/index.html" || { echo "::error::El lado base no produjo $A11Y_DIST/index.html. Revisar build-command y dist-dir."; exit 1; }
+
+      - name: Compilar el lado modificado
+        working-directory: head
+        shell: bash
+        run: |
+          bash -ec "$A11Y_INSTALL"
+          bash -ec "$A11Y_BUILD"
+          test -f "$A11Y_DIST/index.html" || { echo "::error::El lado modificado no produjo $A11Y_DIST/index.html. Revisar build-command y dist-dir."; exit 1; }
+
+      - name: Comprobar la conexión con el modelo
+        if: env.A11Y_MODE_EFECTIVO == 'model'
+        working-directory: a11y-framework
+        shell: bash
+        run: pnpm --filter @a11y-lab/benchmark llm-check
+
+      - name: Archivos del cambio
+        working-directory: head
+        shell: bash
+        run: |
+          git diff --name-only "$A11Y_BASE_SHA...$A11Y_HEAD_SHA" > "${RUNNER_TEMP}/cambios.txt"
+          echo "Archivos modificados:"
+          cat "${RUNNER_TEMP}/cambios.txt"
+
+      - name: Comparación diferencial
+        id: diferencial
+        working-directory: a11y-framework
+        shell: bash
+        continue-on-error: true
+        run: |
+          SIN_MODELO=""
+          if [ "$A11Y_MODE_EFECTIVO" = "no-model" ]; then SIN_MODELO="--sin-modelo"; fi
+          # Rutas absolutas: `pnpm --filter` ejecuta el script dentro de
+          # packages/benchmark y una ruta relativa se resolvería desde ahí.
+          pnpm --filter @a11y-lab/benchmark pr-check $SIN_MODELO --external \
+            --config-rel "$A11Y_CONFIG" \
+            --base-config "$GITHUB_WORKSPACE/base/$A11Y_CONFIG" \
+            --head-config "$GITHUB_WORKSPACE/head/$A11Y_CONFIG" \
+            --base-dist "$GITHUB_WORKSPACE/base/$A11Y_DIST" \
+            --head-dist "$GITHUB_WORKSPACE/head/$A11Y_DIST" \
+            --base-label "$A11Y_BASE_REF" \
+            --head-label "$A11Y_HEAD_REF" \
+            --changed-from "${RUNNER_TEMP}/cambios.txt" \
+            --out "${RUNNER_TEMP}/reporte.md"
+
+      - name: Guardar el reporte
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-accesibilidad-dinamica
+          path: ${{ runner.temp }}/reporte.md
+          if-no-files-found: ignore
+
+      - name: Comentario en el Pull Request
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const marca = '<!-- a11y-regresiones-dinamicas -->';
+            let cuerpo;
+            try {
+              cuerpo = fs.readFileSync(`${process.env.RUNNER_TEMP}/reporte.md`, 'utf8');
+            } catch {
+              cuerpo = [
+                '### Accesibilidad dinámica: la comprobación no se completó',
+                '',
+                'La comparación no llegó a producir un reporte. Revisar el registro de la corrida.',
+              ].join('\n');
+            }
+            const texto = `${marca}\n${cuerpo}`;
+            // Un comentario por Pull Request, actualizado en cada empuje.
+            // Desde un fork el token es de solo lectura y no puede comentar: el
+            // reporte queda igualmente en el artefacto de la corrida.
+            try {
+              const previos = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                per_page: 100,
+              });
+              const mio = previos.data.find((c) => c.body && c.body.includes(marca));
+              if (mio) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: mio.id,
+                  body: texto,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: texto,
+                });
+              }
+            } catch (error) {
+              core.warning(`No se pudo comentar en el Pull Request: ${error.message}. El reporte está en el artefacto.`);
+            }
+
+      - name: Resultado de la comprobación
+        if: steps.diferencial.outcome == 'failure' && inputs.fail-on-regression
+        shell: bash
+        run: |
+          echo "La comparación reportó una regresión, o no se pudo completar." >&2
+          echo "El detalle está en el comentario del Pull Request y en el artefacto de la corrida." >&2
+          exit 1

@@ -125,3 +125,8 @@ archivo [`LICENSE`](LICENSE); los términos definitivos se fijarán con la donac
 
 El framework puede correr en un Pull Request de GitHub Actions, con un modelo
 configurable o sin modelo. Ver [`docs/github-actions.md`](docs/github-actions.md).
+
+También puede aplicarse a **otro repositorio** sin copiar el framework: ese repositorio
+solo agrega un `a11y-lab.json` con sus recorridos y llama al workflow reutilizable
+(`.github/workflows/a11y-reusable.yml`). Ver la sección "Usarlo en otro repositorio"
+de la misma guía.

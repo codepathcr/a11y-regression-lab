@@ -1,0 +1,21 @@
+{
+  "apps": [
+    {
+      "id": "checkout",
+      "title": "Flujo de pago",
+      "path": "/",
+      "watch": ["src/checkout/", "src/components/"],
+      "scenario": {
+        "steps": [
+          { "action": "focus", "selector": "[data-testid=email]" },
+          { "action": "fill", "selector": "[data-testid=email]", "value": "persona@ejemplo.com" },
+          { "action": "press", "key": "Tab" },
+          { "action": "click", "selector": "button[aria-controls=detalles]" },
+          { "action": "press", "key": "Enter" }
+        ]
+      }
+    }
+  ],
+  "ready": { "selector": "#root > *", "quietMs": 300 },
+  "ignore": [".github/", "docs/", "*.md"]
+}

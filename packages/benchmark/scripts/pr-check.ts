@@ -7,6 +7,14 @@ import { readdir } from 'node:fs/promises';
 import { buildProviderFromEnv, buildProviders, loadConfig } from '@a11y-lab/analysis';
 import type { Provider } from '@a11y-lab/analysis';
 import { launchChromium } from './browser';
+import {
+  externalUrl,
+  loadExternalConfig,
+  resolveExternalAffected,
+  stageAppsRoot,
+} from './external';
+import type { ExternalConfig } from './external';
+import { serveExternal } from './external-server';
 import { ignoreBrokenPipe } from './io';
 import { resolveAffected, runPrCheck } from './pr-core';
 import { exitCode, renderReport } from './pr-report';
@@ -29,6 +37,17 @@ import { exitCode, renderReport } from './pr-report';
  *     --base-dist <dir> --base-apps <dir> --base-label <texto> \
  *     --head-dist <dir> --head-apps <dir> --head-label <texto> \
  *     --changed-from <archivo con un camino por línea>
+ *
+ * Y el modo de repositorio externo, que es el que usa el workflow reutilizable.
+ * Los escenarios no salen de `packages/benchmark/apps` sino de un archivo
+ * `a11y-lab.json` que mantiene el repositorio consumidor, uno por cada lado:
+ *
+ *   pnpm --filter @a11y-lab/benchmark pr-check --external \
+ *     --base-config <a11y-lab.json de la base> --head-config <a11y-lab.json del cambio> \
+ *     --base-dist <dir> --head-dist <dir> --changed-from <archivo> [--config-rel <ruta>]
+ *
+ * Pasar rutas ABSOLUTAS: `pnpm --filter` ejecuta el script dentro de
+ * `packages/benchmark`, de modo que una ruta relativa se resuelve desde ahí.
  *
  * Por omisión compara `HEAD~1` contra el árbol de trabajo tal como está, que es
  * el caso de uso de quien está escribiendo el cambio. `--head <ref>` compara dos
@@ -61,6 +80,13 @@ const headLabel = flag('head-label');
  *  la referencia base del Pull Request y la pasa por archivo, en lugar de
  *  obligar a que los dos lados vivan en el mismo repositorio local. */
 const changedFrom = flag('changed-from');
+/** Modo de repositorio externo: ver external.ts. */
+const external = args.includes('--external');
+const baseConfigPath = flag('base-config');
+const headConfigPath = flag('head-config');
+/** Ruta del archivo de configuración dentro del repositorio consumidor, tal
+ *  como aparece en la lista de archivos modificados. */
+const configRel = flag('config-rel') ?? 'a11y-lab.json';
 const outFile = flag('out') ?? join(ROOT, 'data', 'pr-report.md');
 const modelId = flag('model');
 const sinModelo = args.includes('--sin-modelo');
@@ -136,6 +162,19 @@ async function prepareWorkdir(): Promise<Side> {
   };
 }
 
+/** Un lado del repositorio externo: la carpeta compilada y la raíz de apps
+ *  fabricada desde su a11y-lab.json (vacía si el archivo no existía en ese lado). */
+async function prepareExternal(dist: string, config: ExternalConfig | undefined, label: string): Promise<Side> {
+  const appsRoot =
+    config === undefined ? await mkdtemp(join(tmpdir(), 'a11y-ext-')) : await stageAppsRoot(config);
+  return {
+    dist: resolve(dist),
+    appsRoot,
+    label,
+    cleanup: () => rm(appsRoot, { recursive: true, force: true }),
+  };
+}
+
 async function listApps(appsRoot: string): Promise<string[]> {
   const entries = await readdir(appsRoot, { withFileTypes: true });
   return entries
@@ -148,6 +187,34 @@ const sides: Side[] = [];
 try {
   // --- Qué cambió ----------------------------------------------------------
   const diffTarget = headRef ?? '';
+  let externalHead: ExternalConfig | undefined;
+  let externalBase: ExternalConfig | undefined;
+  if (external) {
+    if (
+      headConfigPath === undefined ||
+      baseDist === undefined ||
+      headDist === undefined ||
+      changedFrom === undefined
+    ) {
+      console.error(
+        'El modo --external necesita --head-config, --base-dist, --head-dist y --changed-from ' +
+          '(y --base-config si la base ya tenía el archivo).'
+      );
+      process.exit(1);
+    }
+    try {
+      externalHead = await loadExternalConfig(resolve(headConfigPath));
+      // En el primer Pull Request que agrega a11y-lab.json la base no lo tiene:
+      // todas las aplicaciones se reportan como nuevas, no como error.
+      externalBase =
+        baseConfigPath !== undefined && (await exists(resolve(baseConfigPath)))
+          ? await loadExternalConfig(resolve(baseConfigPath))
+          : undefined;
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : String(error));
+      process.exit(1);
+    }
+  }
   const changedRaw =
     changedFrom !== undefined
       ? await readFile(changedFrom, 'utf8')
@@ -156,8 +223,12 @@ try {
         : await git('diff', '--name-only', `${baseRef}...${diffTarget}`);
   const changed = changedRaw.split('\n').map((line) => line.trim()).filter((line) => line !== '');
 
-  const allApps = await listApps(headApps !== undefined ? resolve(headApps) : join(ROOT, 'apps'));
-  const affected = resolveAffected(changed, allApps);
+  const affected = externalHead
+    ? resolveExternalAffected(changed, externalHead, configRel)
+    : resolveAffected(
+        changed,
+        await listApps(headApps !== undefined ? resolve(headApps) : join(ROOT, 'apps'))
+      );
 
   const etiquetaBase = baseLabel ?? baseRef;
   const etiquetaHead = headLabel ?? headRef ?? WORKDIR;
@@ -209,13 +280,15 @@ try {
 
   // --- Los dos lados -------------------------------------------------------
   if (affected.apps.length > 0) {
-    const base =
-      baseDist !== undefined && baseApps !== undefined
+    const base = external
+      ? await prepareExternal(baseDist!, externalBase, etiquetaBase)
+      : baseDist !== undefined && baseApps !== undefined
         ? prepareGiven(baseDist, baseApps, etiquetaBase)
         : await prepareRef(baseRef);
     sides.push(base);
-    const head =
-      headDist !== undefined && headApps !== undefined
+    const head = external
+      ? await prepareExternal(headDist!, externalHead, etiquetaHead)
+      : headDist !== undefined && headApps !== undefined
         ? prepareGiven(headDist, headApps, etiquetaHead)
         : headRef === undefined
           ? await prepareWorkdir()
@@ -231,6 +304,19 @@ try {
         apps: affected.apps,
         provider,
         modelLabel,
+        // Solo en modo externo: otro servidor (salida SPA y señal de listo) y
+        // otra forma de armar la URL. Sin --external no se pasa nada y el
+        // motor se comporta como siempre.
+        ...(externalHead
+          ? {
+              serve: (port: number, root: string) =>
+                serveExternal(port, root, { ready: externalHead!.ready }),
+              urlFor: (origin: string, appId: string, side: 'base' | 'head') =>
+                externalUrl(side === 'base' ? (externalBase ?? externalHead!) : externalHead!, origin, appId),
+              readyTimeoutMs:
+                externalHead.readyTimeoutMs ?? (externalHead.ready?.timeoutMs ?? 10_000) + 5_000,
+            }
+          : {}),
       });
       const report = renderReport(result, affected);
       await writeFile(outFile, `${report}\n`, 'utf8');
@@ -243,10 +329,18 @@ try {
       await browser.close();
     }
   } else {
-    const report = renderReport(
+    const generic = renderReport(
       { verdicts: [], base: etiquetaBase, head: etiquetaHead, strategy: 'trace-diff' },
       affected
     );
+    const report = external
+      ? [
+          '### Accesibilidad dinámica: sin aplicaciones afectadas',
+          '',
+          `Ningún archivo del cambio afecta a las aplicaciones declaradas en \`${configRel}\` ` +
+            '(se ignoran documentación, `.github/` y lo indicado en `ignore`).',
+        ].join('\n')
+      : generic;
     await writeFile(outFile, `${report}\n`, 'utf8');
     console.log(report);
   }
