@@ -126,14 +126,22 @@ jobs:
         working-directory: head
         shell: bash
         continue-on-error: true
+        env:
+          # Los nombres de rama los controla quien abre el Pull Request: llegan
+          # por variable de entorno y no interpolados en el script.
+          A11Y_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          A11Y_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
+          # Rutas absolutas: `pnpm --filter` ejecuta el script dentro de
+          # packages/benchmark, así que una ruta relativa se resolvería desde ahí
+          # y no desde la raíz de `head`.
           pnpm --filter @a11y-lab/benchmark pr-check $A11Y_SIN_MODELO \
-            --base-dist ../base/packages/benchmark/dist \
-            --base-apps ../base/packages/benchmark/apps \
-            --base-label "${{ github.event.pull_request.base.ref }}" \
-            --head-dist packages/benchmark/dist \
-            --head-apps packages/benchmark/apps \
-            --head-label "${{ github.event.pull_request.head.ref }}" \
+            --base-dist "$GITHUB_WORKSPACE/base/packages/benchmark/dist" \
+            --base-apps "$GITHUB_WORKSPACE/base/packages/benchmark/apps" \
+            --base-label "$A11Y_BASE_REF" \
+            --head-dist "$GITHUB_WORKSPACE/head/packages/benchmark/dist" \
+            --head-apps "$GITHUB_WORKSPACE/head/packages/benchmark/apps" \
+            --head-label "$A11Y_HEAD_REF" \
             --changed-from "${RUNNER_TEMP}/cambios.txt" \
             --out "${RUNNER_TEMP}/reporte.md"
 
