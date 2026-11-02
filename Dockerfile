@@ -26,6 +26,7 @@ COPY pnpm-lock.yaml* ./
 COPY packages/framework/package.json ./packages/framework/
 COPY packages/ui/package.json        ./packages/ui/
 COPY packages/benchmark/package.json ./packages/benchmark/
+COPY packages/analysis/package.json  ./packages/analysis/
 
 # El lockfile está versionado: la instalación es reproducible y la imagen falla
 # de inmediato si alguien cambió un manifiesto sin regenerarlo.
