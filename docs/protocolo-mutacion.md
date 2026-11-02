@@ -98,7 +98,7 @@ material del protocolo:
 ### CCB — Change Context on Blur
 
 - **Categoría en el paper:** Understandable / Predictable, falla F9
-- **Criterio:** 3.2.1 On Focus
+- **Criterio:** 3.2.5 Change on Request (nivel AAA)
 - **Transformación:** al abandonar un campo del formulario se inserta, **por
   encima de él**, un bloque de opciones con controles tabulables que antes no
   existía.
@@ -190,7 +190,7 @@ Un control negativo que no toca la estructura no pone a prueba nada.
 | --- | --- |
 | 2.1.1 Keyboard | Eliminación de activación mediante teclado |
 | 2.4.3 Focus Order | CTO · Pérdida de foco tras actualización dinámica |
-| 3.2.1 On Focus | CCB |
+| 3.2.5 Change on Request | CCB |
 | 3.2.2 On Input | CCS |
 | 4.1.3 Status Messages | Eliminación del anuncio de mensaje de estado |
 
@@ -224,8 +224,13 @@ Ma11y: A mutation framework for web accessibility testing. *Proceedings of the
 > transformación concreta de los tres y la asignación de criterio de este
 > protocolo son por tanto propias de este estudio.
 >
-> **Punto abierto:** CCB actúa al abandonar un campo, y este protocolo le asigna
-> el criterio 3.2.1 Al recibir el foco, que regula lo que ocurre cuando un
-> componente RECIBE el foco. La asignación es defendible —el bloque insertado
-> aparece en el momento en que el foco pasa al componente siguiente— pero hay que
-> escribir esa justificación aquí o remapear el operador.
+> **Asignación de CCB (resuelta el 30 de octubre de 2026):** CCB se asigna al criterio
+> 3.2.5 Cambio a solicitud (Change on Request, nivel AAA), no al 3.2.1. La razón es
+> doble. La falla F9 que Ma11y asocia a CCB tiene como única aplicabilidad documentada
+> ese criterio. Y el 3.2.1 regula lo que ocurre cuando un componente recibe el foco,
+> mientras que CCB actúa al abandonar un campo, de modo que asignarlo a 3.2.1 era
+> incorrecto. La asignación sigue el documento de investigación (3.5.4), que mezcla
+> niveles de conformidad de forma declarada; los seis casos de CCB se tratan por tanto
+> como un subconjunto AAA, y el análisis de sensibilidad que los excluye está
+> previsto en 3.7.1. Solo cambia la etiqueta de criterio: la transformación, el
+> oráculo y la verdad de terreno de los casos no cambian.

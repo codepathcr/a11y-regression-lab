@@ -149,7 +149,7 @@
         "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F9) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
       },
       "wcag": [
-        "3.2.1"
+        "3.2.5"
       ],
       "groundTruth": {
         "regression": true,
@@ -157,7 +157,7 @@
         "expectedStep": 4,
         "expectedEvidence": "cambio de paso completo al tabular fuera del ultimo campo, con el reemplazo del contenido y el anuncio del paso siguiente",
         "staticallyDetectable": false,
-        "rationale": "El marcado es valido en todo momento. Lo que pretende ser una comodidad es exactamente lo que el criterio 3.2.1 prohibe.",
+        "rationale": "El marcado es valido en todo momento. Lo que pretende ser una comodidad es exactamente lo que el criterio 3.2.5 prohibe.",
         "note": "Operacionalizacion mas severa que la de a09-tienda, donde el cambio de contexto es la insercion de un bloque dentro del mismo dialogo. Dos magnitudes del mismo operador permiten ver si el detector depende de que el cambio sea grande."
       }
     },

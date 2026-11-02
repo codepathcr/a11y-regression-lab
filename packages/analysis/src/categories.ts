@@ -20,7 +20,7 @@ export type Category = (typeof CATEGORIES)[number];
 export const CATEGORY_CRITERIA: Record<Category, string[]> = {
   'orden y continuidad del foco': ['2.4.3'],
   'operación mediante teclado': ['2.1.1'],
-  'cambios inesperados de contexto': ['3.2.1', '3.2.2'],
+  'cambios inesperados de contexto': ['3.2.5', '3.2.2'],
   'comunicación accesible de actualizaciones dinámicas': ['4.1.3'],
 };
 

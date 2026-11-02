@@ -213,7 +213,7 @@
         "transformation": "Al abandonar el campo de nombre se inserta, justo debajo de el y dentro del dialogo modal, un bloque de opciones de envio con controles tabulables que antes no existia. El punto de insercion se eligio por realismo: revelar campos dependientes debajo del que se acaba de abandonar es el caso corriente."
       },
       "wcag": [
-        "3.2.1"
+        "3.2.5"
       ],
       "groundTruth": {
         "regression": true,

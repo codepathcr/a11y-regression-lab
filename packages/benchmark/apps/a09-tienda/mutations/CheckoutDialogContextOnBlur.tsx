@@ -5,7 +5,7 @@ import { useStore } from '../store/store-context';
 
 /**
  * MUTACIÓN · CCB, Change Context on Blur · operador de Ma11y
- * (Tafreshipour et al., 2024) · criterio 3.2.1
+ * (Tafreshipour et al., 2024) · criterio 3.2.5
  *
  * El paper define el operador por su nombre y su categoría —Understandable /
  * Predictable, falla F9— pero no detalla la transformación. La

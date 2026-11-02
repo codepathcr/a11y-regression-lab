@@ -1,0 +1,352 @@
+BLOQUE full · 912 filas · 912 claves unicas · 4 modelos
+
+Configuracion unica de la corrida:
+  charsPerToken    3.3
+  evidenceFormat   json
+  numCtx           26624
+  numPredict       2048
+  seed             7
+  systemHash       ca4a8f6693bd
+  temperature      0
+
+Respuestas por modelo:
+  modelo           llamadas  falladas  no interpretables
+  llama31-8b           228         0                  0
+  mistral-nemo         228         0                  0
+  phi35                228         6                 11
+  qwen25-7b            228         0                  0
+
+==============================================================================
+DESEMPENO AGREGADO DE LOS CUATRO MODELOS
+==============================================================================
+
+  estrategia     det/punt    TP  FP  TN  FN   precision  recall    F1      TFP
+  static        137/292     44  37  93 118   0.543      0.272   0.362   0.285
+  state-diff    209/302     97  24 112  69   0.802      0.584   0.676   0.176
+  trace-diff    229/301    113  20 116  52   0.850      0.685   0.758   0.147
+
+  Las tres estrategias ven los MISMOS pares. El paso de la primera a la segunda
+  agrega la version base y, con ella, la poda de los pasos sin divergencia: mide
+  el efecto conjunto de las dos operaciones, y no puede separarlas porque la poda
+  es imposible sin un segundo lado con el que comparar. El paso de la segunda a la
+  tercera agrega solo los eventos de transicion sobre la misma seleccion de pasos,
+  y es el contraste que aisla el contexto temporal.
+
+  Exactitud global, (VP+VN) sobre el total puntuado:
+    static 0.469   state-diff 0.692   trace-diff 0.761
+  Se reporta porque el alcance la compromete, y se lee con cuidado: el conjunto
+  no esta balanceado, de modo que una exactitud alta puede venir de acertar el
+  lado negativo. Las medidas que separan los dos lados son el recall y la TFP.
+
+==============================================================================
+POR MODELO Y ESTRATEGIA
+==============================================================================
+
+  F1
+  modelo                  static   state-diff   trace-diff
+  llama31-8b              0.355        0.776        0.841
+  mistral-nemo            0.429        0.444        0.688
+  phi35                   0.507        0.818        0.871
+  qwen25-7b               0.045        0.533        0.557
+
+  RECALL
+  modelo                  static   state-diff   trace-diff
+  llama31-8b              0.262        0.786        0.881
+  mistral-nemo            0.357        0.286        0.524
+  phi35                   0.472        0.900        0.949
+  qwen25-7b               0.024        0.381        0.405
+
+  PRECISION
+  modelo                  static   state-diff   trace-diff
+  llama31-8b              0.550        0.767        0.804
+  mistral-nemo            0.536        1.000        1.000
+  phi35                   0.548        0.750        0.804
+  qwen25-7b               0.500        0.889        0.895
+
+  FPR
+  modelo                  static   state-diff   trace-diff
+  llama31-8b              0.265        0.294        0.265
+  mistral-nemo            0.382        0.000        0.000
+  phi35                   0.500        0.353        0.265
+  qwen25-7b               0.029        0.059        0.059
+
+==============================================================================
+CONTRASTE DE HIPOTESIS
+==============================================================================
+
+  McNemar exacto sobre la deteccion. Observaciones pareadas: las tres estrategias
+  se aplican a los mismos pares, de modo que las pruebas respetan el apareamiento.
+
+  hip.   comparacion                  solo 2o  solo 1o   discord.   p        p (Holm)
+  H0-1   static      vs state-diff       91       27       118   2.69e-09  5.38e-09
+  H0-2   state-diff  vs trace-diff       40       19        59   8.64e-03  8.64e-03
+  extra  static      vs trace-diff      104       19       123   2.22e-15       —  
+
+  H0-1: RECHAZADA. Lo que aporta: tener una version base con que comparar.
+  H0-2: RECHAZADA. Lo que aporta: los eventos de transicion: el contexto temporal.
+
+  Los valores p llevan la correccion de Holm declarada en 3.7.3 antes de ver los
+  datos. El contraste 'extra' no entra en la familia: es descriptivo.
+
+  H0-2 por modelo, para ver si el agregado esconde heterogeneidad:
+
+  modelo           solo trace   solo state   discord.    p        direccion
+  llama31-8b              10            5         15    0.3018   trace-diff
+  mistral-nemo            14            4         18    0.0309   trace-diff
+  phi35                    6            1          7    0.1250   trace-diff
+  qwen25-7b               10            9         19    1.0000   trace-diff
+
+  Con quince a veinte pares discordantes por modelo, cada contraste individual
+  carece de potencia. Lo que sostiene el resultado es el agregado mas la
+  consistencia de la direccion, no cada modelo por separado.
+
+  Q de Cochran sobre las tres estrategias: Q=77.47, gl=2, p=1.503e-17
+    casos con las tres puntuadas: 288 · aciertos: static=135, state-diff=198, trace-diff=219
+
+==============================================================================
+MAGNITUD DEL EFECTO CON INTERVALOS POR CONGLOMERADO
+==============================================================================
+
+  Los pares proceden de diez aplicaciones y no son independientes: los de una
+  misma aplicacion comparten escenario, componentes y estilo de marcado. El
+  remuestreo toma APLICACIONES completas, no pares.
+
+  diferencia de F1                        observada   IC 95%                excluye 0
+  state-diff menos static               +0.314      [+0.205, +0.450]       si
+  trace-diff menos state-diff           +0.082      [+0.029, +0.136]       si
+  trace-diff menos static               +0.396      [+0.285, +0.519]       si
+
+  10 conglomerados remuestreados. Con diez, la potencia efectiva es menor
+  que la nominal, y eso se declara junto al resultado.
+
+==============================================================================
+FALSOS POSITIVOS POR CLASE DE PAR
+==============================================================================
+
+  Es el desglose que justifica haber construido las clases de divergencia benigna
+  y defecto preexistente: sin ellas, la tasa de falsos positivos de las dos
+  estrategias diferenciales sale CERO por construccion, porque la compuerta
+  determinista resuelve los negativos de divergencia nula sin consultar al modelo.
+
+  estrategia                 positive            negative    benign-divergent         preexisting
+  static                       0/162               18/69               10/38                9/23
+  state-diff                   0/166                0/72               15/40                9/24
+  trace-diff                   0/165                0/72               13/40                7/24
+
+  Casos resueltos por la compuerta sin inferencia: 144
+
+==============================================================================
+EXACTITUD DE CATEGORIA CONTRA SU LINEA BASE
+==============================================================================
+
+  Linea base (H0-6): responder siempre la categoria mas frecuente del benchmark
+    = 16/42 = 0.381  ("orden y continuidad del foco")
+
+  estrategia     aciertos   exactitud   contra la linea base
+  static          17/44        0.386   por encima
+  state-diff      36/97        0.371   POR DEBAJO
+  trace-diff      46/113       0.407   por encima
+
+  Una exactitud cercana a la linea base es compatible con un sesgo hacia una
+  etiqueta y no con discriminacion entre categorias. De ahi la matriz que sigue.
+
+  MATRIZ DE CONFUSION DE CATEGORIA (trace-diff, los cuatro modelos)
+  verdad \ respuesta            orden  operaci  cambios  comunic     nula
+  orden                            39        6        3        0        0
+  operación                        11        3        3        2        0
+  cambios                          17        9        3        2        0
+  comunicación                      9        1        4        1        0
+
+==============================================================================
+LOCALIZACION DE LA TRANSICION, EN SUS DOS LECTURAS
+==============================================================================
+
+  estrategia     paso exacto      dentro de la evidencia
+  static         10/44    0.227    24/44    0.545
+  state-diff     36/97    0.371    96/97    0.990
+  trace-diff     46/113   0.407   113/113   1.000
+
+  La lectura tolerante se interpreta POR ESTRATEGIA y no como cifra global: en las
+  dos diferenciales la evidencia contiene unicamente los pasos divergentes, de modo
+  que nombrar uno de ellos esta casi forzado. En la estrategia sin version base, que
+  recibe todos los pasos, la misma medida si discrimina.
+
+==============================================================================
+EFICIENCIA
+==============================================================================
+
+  estrategia     tokens prompt (mediana)   latencia (mediana)   rango intercuartil
+  static                          9759                 3.5s   [2.0s, 11.5s]
+  state-diff                      1658                 1.7s   [1.1s, 2.3s]
+  trace-diff                      2285                 1.6s   [1.0s, 2.2s]
+
+  Delta de Cliff de la latencia, sin version base contra diferencial de trazas: +0.506
+  La compuerta determinista no solo evita llamadas: abarata las que hace.
+
+==============================================================================
+POTENCIA DEL CONTRASTE Y UNIDAD DE ANALISIS
+==============================================================================
+
+  Esta seccion existe porque 3.5 justifica el tamano de la muestra con cifras de
+  potencia, y una cifra que este comando no puede recalcular no es verificable.
+  El metodo es el de Connor (1987) para proporciones pareadas.
+
+  La potencia de un contraste pareado depende de la tasa de discordancia, es
+  decir de en que proporcion de casos las dos condiciones difieren, y el diseno
+  no puede fijarla de antemano. Por eso se reporta con la discordancia OBSERVADA
+  en lugar de con un supuesto.
+
+  Y hay dos unidades de analisis posibles, que dan respuestas distintas:
+    · el PAR, que son 76 observaciones independientes
+    · el par por MODELO, que son unas 300 pero NO independientes, porque cada
+      par lo ven los cuatro modelos
+  Las pruebas de arriba usan la segunda. Reportar la potencia en las dos es lo
+  que permite ver cuanto de la significancia viene del apareamiento repetido.
+
+  contraste                      discord.  delta    n=76: minimo  potencia   n=par x modelo: potencia
+  H0-1   static      vs state-diff 0.405   +0.220    0.201    0.869       1.000
+  H0-2   state-diff  vs trace-diff 0.197   +0.070    0.141    0.278       0.783
+  extra  static      vs trace-diff 0.426   +0.294    0.206    0.986       1.000
+
+  Como se lee. Un contraste cuya potencia al nivel del par es alta se sostiene
+  con cualquiera de las dos unidades. Uno cuya potencia al nivel del par es baja
+  y alta al nivel de par por modelo debe su significancia al apareamiento
+  repetido, y entonces lo que sostiene la conclusion no es el valor p sino el
+  intervalo por conglomerado, que remuestrea aplicaciones completas y arrastra
+  juntas las filas de los cuatro modelos.
+
+  Advertencia adicional sobre la magnitud. Un rechazo obtenido con potencia baja
+  tiende a sobreestimar el efecto, porque solo las estimaciones grandes alcanzan
+  la significancia. Donde eso ocurra, la magnitud se lee del intervalo y no del
+  valor puntual.
+
+==============================================================================
+MUTATION SCORE Y LINEA BASE DEL VALIDADOR ESTATICO
+==============================================================================
+
+  El mutation score es la proporcion de mutantes que producen alguna diferencia
+  observable en la traza normalizada. Se calcula sobre la comparacion
+  determinista, SIN una sola llamada al modelo, y acota por arriba al recall:
+  un defecto que no deja rastro no puede ser detectado por ningun analizador
+  que reciba solo esa evidencia.
+
+  Mutation score: 42/42 = 1.000
+
+  Contra el recall de cada estrategia, que es la comparacion que da sentido a
+  la medida:
+  estrategia      recall    techo    brecha
+  static         0.272   1.000   0.728
+  state-diff     0.584   1.000   0.416
+  trace-diff     0.685   1.000   0.315
+
+  El techo es 1,000: TODA no deteccion es atribuible al modelo y no a la
+  evidencia ni al escenario. Es la rama que el mutation score existe para
+  cerrar, y queda cerrada.
+
+  Y la advertencia que va con la cifra: un mutation score de 1,000 NO es un
+  hallazgo independiente. Es la verificacion de que el criterio de admision 3
+  del protocolo de mutacion se cumplio, porque una mutacion sin rastro
+  observable no entraba al benchmark. El protocolo documenta una
+  operacionalizacion descartada por esa razon, que es la evidencia de que esos
+  casos existen. Lo que la cifra habilita es la descomposicion del recall, no
+  una afirmacion sobre el metodo.
+
+  Por operador:
+    ccb                                6/6
+    ccs                                4/4
+    cto                                8/8
+    focus-loss-after-update            8/8
+    kbd-activation-removal             7/7
+    status-announcement-removal        9/9
+
+  Linea base del validador estatico (OE5):
+    Variantes del benchmark comprobadas: 86 · limpias: 86 · con hallazgos: 0
+    Son las diez versiones base y los setenta y seis mutantes.
+    Deteccion sobre los 42 pares positivos: 0/42 = 0,000
+
+    Es cero por construccion y no por desempeno. El criterio de admision 2 del
+    protocolo exige que la variante mutante pase el validador SIN hallazgos: un
+    caso que el validador resuelve no sirve, porque ya estaria resuelto sin
+    trazas ni modelos. La comparacion del OE5 contra el validador estatico no
+    mide por tanto cual herramienta es mejor en general; establece que los 42
+    defectos de este benchmark caen fuera del alcance de la validacion estatica
+    basada en reglas, que es la premisa del estudio, y la establece verificando
+    en lugar de suponiendo.
+
+==============================================================================
+DESGLOSE POR OPERADOR Y POR ESTRATO (solo pares positivos)
+==============================================================================
+
+  SENSIBILIDAD POR OPERADOR
+  operador                                   static   state-diff   trace-diff
+  ccb                                          6/23        18/24        18/24
+  ccs                                          5/16        11/15        13/16
+  cto                                         10/31        21/32        23/32
+  focus-loss-after-update                      8/30        13/32        25/32
+  kbd-activation-removal                       7/27        21/27        19/26
+  status-announcement-removal                  8/35        13/36        15/35
+
+  SENSIBILIDAD POR ESTRATO
+  estrato            static   state-diff   trace-diff
+  small               11/32        19/31        19/31
+  medium              28/80        52/80        59/78
+  large                5/50        26/55        35/56
+
+==============================================================================
+DISCORDANCIAS PAR POR PAR entre diferencial de estados y de trazas
+==============================================================================
+
+  Regla de reporte de 3.7.3: toda comparacion entre condiciones se acompana de los
+  pares en que discrepan. Un cuadro resumen puede mostrar totales identicos para
+  dos condiciones que fallan en pares distintos, y con pocas observaciones esa
+  coincidencia es probable.
+
+  par                                                clase              gana        modelos
+  a10-tramites/m01-focus-loss-view-change           positive           trace-diff  3
+  a03-panel/m02-cto-tab-order                       positive           state-diff  2
+  a03-panel/m03-focus-loss-remount                  positive           trace-diff  2
+  a03-panel/m04-ccs-focus-steal                     positive           trace-diff  2
+  a05-blog/m03-focus-loss-pagination                positive           trace-diff  2
+  a09-tienda/m01-ccs-context-on-selection           positive           state-diff  2
+  a09-tienda/m02-focus-loss-view-change             positive           trace-diff  2
+  a09-tienda/m07-focus-loss-on-remove               positive           trace-diff  2
+  a10-tramites/m05-ccb-confirm-on-blur              positive           trace-diff  2
+  a10-tramites/n01-benign-count-and-caption         benign-divergent   trace-diff  2
+  a10-tramites/p01-preexisting-cto-defect           preexisting        trace-diff  2
+  a01-landing/m01-kbd-activation                    positive           state-diff  1
+  a01-landing/m01-kbd-activation                    positive           trace-diff  1
+  a01-landing/m02-status-silent                     positive           trace-diff  1
+  a02-piscina/m01-cto-slot-tab-order                positive           trace-diff  1
+  a02-piscina/m02-focus-loss-confirmation           positive           state-diff  1
+  a02-piscina/n01-benign-rewording                  benign-divergent   trace-diff  1
+  a03-panel/m01-kbd-activation-mouse-only           positive           state-diff  1
+  a04-multipaso/m01-focus-loss-step-change          positive           trace-diff  1
+  a04-multipaso/m03-ccb-advance-on-blur             positive           state-diff  1
+  a04-multipaso/m04-cto-back-tab-order              positive           state-diff  1
+  a04-multipaso/m04-cto-back-tab-order              positive           trace-diff  1
+  a04-multipaso/m05-status-silent                   positive           trace-diff  1
+  a04-multipaso/n01-benign-indicator-rewording      benign-divergent   state-diff  1
+  a05-blog/m04-cto-pagination                       positive           trace-diff  1
+  a05-blog/n01-benign-reading-time                  benign-divergent   trace-diff  1
+  a05-blog/p01-preexisting-focus-defect             preexisting        trace-diff  1
+  a06-equipo/m01-focus-loss-row-removal             positive           trace-diff  1
+  a06-equipo/m02-cto-row-tab-order                  positive           trace-diff  1
+  a06-equipo/m04-ccb-send-on-blur                   positive           trace-diff  1
+  a06-equipo/m05-status-silent                      positive           trace-diff  1
+  a06-equipo/n01-benign-better-label                benign-divergent   state-diff  1
+  a06-equipo/p01-preexisting-focus-defect           preexisting        state-diff  1
+  a07-perfil/m01-ccb-autosave-on-blur               positive           state-diff  1
+  a07-perfil/m02-status-removed                     positive           state-diff  1
+  a07-perfil/m02-status-removed                     positive           trace-diff  1
+  a08-contacto/n01-benign-label-rewording           benign-divergent   state-diff  1
+  a09-tienda/m03-ccb-context-on-blur                positive           state-diff  1
+  a09-tienda/m04-kbd-activation-removed             positive           trace-diff  1
+  a09-tienda/m05-cto-cart-unreachable               positive           trace-diff  1
+  a09-tienda/m06-status-removed                     positive           state-diff  1
+  a09-tienda/n01-benign-extra-disclosure            benign-divergent   trace-diff  1
+  a10-tramites/m02-cto-nav-tab-order                positive           state-diff  1
+  a10-tramites/m02-cto-nav-tab-order                positive           trace-diff  1
+  a10-tramites/m03-kbd-activation-detail            positive           state-diff  1
+  a10-tramites/m04-ccs-navigate-on-tab              positive           trace-diff  1
+  a10-tramites/m06-status-silent                    positive           trace-diff  1
+

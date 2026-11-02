@@ -4,7 +4,7 @@ import { STEPS, useWizard } from '../store/wizard-context';
 
 /**
  * MUTACIÓN · CCB, Change Context on Blur · operador de Ma11y
- * (Tafreshipour et al., 2024) · criterio 3.2.1
+ * (Tafreshipour et al., 2024) · criterio 3.2.5
  *
  * El paper define el operador por nombre y categoría —Understandable /
  * Predictable, falla F9— pero no detalla la transformación. La
@@ -21,7 +21,7 @@ import { STEPS, useWizard } from '../store/wizard-context';
  * cambio sea grande.
  *
  * Lo que pretende ser una comodidad —"avanzamos solos para ahorrarte un clic"—
- * es exactamente lo que el criterio 3.2.1 prohíbe.
+ * es exactamente lo que el criterio 3.2.5 prohíbe.
  */
 export function StepFieldsAdvanceOnBlur() {
   const { step, values, setValue, error, submitted, next } = useWizard();

@@ -115,7 +115,7 @@ en el alcance aprobado:
 | Acción ejecutada | contexto de todas |
 | Eventos de teclado | 2.1.1 Keyboard |
 | Secuencia de foco | 2.4.3 Focus Order |
-| Altas y bajas de nodos interactivos | 3.2.1 On Focus |
+| Altas y bajas de nodos interactivos | 3.2.5 Change on Request |
 | Cambios en atributos ARIA, rol y tabindex | 3.2.2 On Input |
 | Anuncios de regiones live | 4.1.3 Status Messages |
 | Árbol de accesibilidad por paso | verificación de todas |

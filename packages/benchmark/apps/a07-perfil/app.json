@@ -83,7 +83,7 @@
         "transformation": "Abandonar el campo de nombre visible guarda los cambios. El boton Guardar cambios se deshabilita por si solo en el instante en que la persona tabula hacia el."
       },
       "wcag": [
-        "3.2.1"
+        "3.2.5"
       ],
       "groundTruth": {
         "regression": true,

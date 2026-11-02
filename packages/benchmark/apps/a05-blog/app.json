@@ -116,7 +116,7 @@
         "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F9) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
       },
       "wcag": [
-        "3.2.1"
+        "3.2.5"
       ],
       "groundTruth": {
         "regression": true,
@@ -124,7 +124,7 @@
         "expectedStep": 2,
         "expectedEvidence": "ejecucion de la busqueda al tabular fuera del campo, ya en la primera salida del campo (paso 2) y de nuevo en la segunda (paso 12), con el anuncio del recuento y el reinicio de la paginacion que la base no produce",
         "staticallyDetectable": false,
-        "rationale": "El marcado es valido en todo momento. Es el caso que mas se defiende como mejora, y exactamente lo que el criterio 3.2.1 prohibe.",
+        "rationale": "El marcado es valido en todo momento. Es el caso que mas se defiende como mejora, y exactamente lo que el criterio 3.2.5 prohibe.",
         "note": "La medicion mostro que el defecto se manifiesta en CUALQUIER abandono del campo, de modo que el primer punto de manifestacion es la primera tabulacion fuera de el y no la busqueda intencional. La verdad de terreno se corrigio al dato en lugar de dejarla prometiendo un paso posterior."
       }
     },

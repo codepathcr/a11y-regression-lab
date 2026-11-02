@@ -5,7 +5,7 @@ import { useBlog } from '../store/blog-context';
 
 /**
  * MUTACIÓN · CCB, Change Context on Blur · operador de Ma11y
- * (Tafreshipour et al., 2024) · criterio 3.2.1
+ * (Tafreshipour et al., 2024) · criterio 3.2.5
  *
  * El paper define el operador por nombre y categoría —Understandable /
  * Predictable, falla F9— pero no detalla la transformación. La
@@ -17,7 +17,7 @@ import { useBlog } from '../store/blog-context';
  * siguiente control.
  *
  * Es el caso que más se defiende como mejora: "le ahorramos un clic". Y es
- * exactamente lo que el criterio 3.2.1 prohíbe, porque quien tabula para
+ * exactamente lo que el criterio 3.2.5 prohíbe, porque quien tabula para
  * revisar el botón antes de pulsarlo se encuentra con que el contenido ya
  * cambió.
  *

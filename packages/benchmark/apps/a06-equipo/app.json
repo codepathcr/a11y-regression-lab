@@ -176,7 +176,7 @@
         "paperDetail": "El paper define el operador por nombre y categoria (Understandable / Predictable, falla F9) pero no detalla la transformacion. La operacionalizacion es propia de este estudio."
       },
       "wcag": [
-        "3.2.1"
+        "3.2.5"
       ],
       "groundTruth": {
         "regression": true,
