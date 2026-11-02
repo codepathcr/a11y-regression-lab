@@ -813,14 +813,20 @@ falsas. Corregido: los valores pasan por la misma limpieza.
 
 ## Pendiente
 
-- Recalcular el piso de ruido en el entorno de medición definitivo.
-- Medir el piso de ruido sobre una app del estrato grande, que es donde la
-  compuerta de viabilidad realmente se cruza o no.
-- `m01-kbd-activation` se manifiesta en **dos** transiciones (pasos 3 y 4), no en
-  una: en la base el clic mueve el foco al botón, de modo que al enfocar el
-  campo siguiente hay un `blur` que en el mutante no existe. La rúbrica del
-  Instrumento 4 debe decidir si el modelo acierta nombrando cualquiera de las dos
-  o si debe nombrar la primera.
+Estado al cierre de la campaña vigente (v25):
+
+- ~~Recalcular el piso de ruido en el entorno definitivo.~~ Resuelto: se midió en
+  el contenedor fijado (Chromium 130); ver «Réplica en el entorno fijado». Las
+  notas «pendiente recalcular en el definitivo» de las entradas anteriores
+  corresponden al contenedor de desarrollo y quedan superadas por esa sección.
+- ~~Medir el piso de ruido en una app del estrato grande.~~ Resuelto: el piso es
+  0,0 % en las diez apps, incluidas las grandes.
+- ~~`m01-kbd-activation` en dos transiciones.~~ Decidido: cuenta como exacta solo
+  la primera (`expectedStep`); la lectura tolerante queda como indicador
+  secundario. No cambia ninguna cifra, porque la campaña ya se puntuó así. Ver
+  `docs/rubrica-clasificacion.md`, sección 3.
+- Abierto: doble etiquetado de 60 respuestas y kappa de Cohen (Instrumento 4,
+  sección 5). No ejecutado.
 
 ---
 

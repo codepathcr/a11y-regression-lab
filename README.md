@@ -117,3 +117,6 @@ ninguna cifra que vaya al documento.
 
 El prototipo será donado a la Universidad CENFOTEC y podrá usarse con fines
 académicos, conforme a la propuesta aprobada el 27 de agosto de 2026.
+
+Mientras tanto rige la licencia provisional de uso académico y educativo del
+archivo [`LICENSE`](LICENSE); los términos definitivos se fijarán con la donación.
