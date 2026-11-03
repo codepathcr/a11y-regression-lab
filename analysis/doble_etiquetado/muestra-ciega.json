@@ -1,0 +1,247 @@
+{
+  "version": 1,
+  "semilla": 20261102,
+  "total": 60,
+  "respuestas": [
+    {
+      "id": "R01",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": []\n}"
+    },
+    {
+      "id": "R02",
+      "respuesta": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan cambios en el árbol de accesibilidad que indiquen una regresión en ninguna de las categorías.\"\n}"
+    },
+    {
+      "id": "R03",
+      "respuesta": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": null\n}"
+    },
+    {
+      "id": "R04",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna diferencia en el árbol de accesibilidad que indique una regresión en las cuatro categorías evaluadas.\"\n}"
+    },
+    {
+      "id": "R05",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión de accesibilidad en la secuencia de interacciones proporcionada.\"\n}"
+    },
+    {
+      "id": "R06",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 9,\n  \"evidence\": \"En el paso 9, el foco se desplaza a un nodo diferente en la versión modificada, pero no en la versión base. Esto indica una regresión en la continuidad del foco.\"\n}"
+    },
+    {
+      "id": "R07",
+      "respuesta": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan cambios en el orden ni continuidad del foco, operación mediante teclado, cambios inesperados de contexto ni comunicación accesible de actualizaciones dinámicas entre las versiones base y modificada.\"\n}"
+    },
+    {
+      "id": "R08",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": null\n}"
+    },
+    {
+      "id": "R09",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 8,\n    \"evidence\": \"En el paso 8, el foco estaba en el elemento 'Reserva confirmada' con la etiqueta 'body/div/div/div/main' en la versión base, pero en la versión modificada ha cambiado al elemento 'heading' con el camino 'body/div/div/div/main/div[2]/h2', lo que indica una alteración en la estructura del árbol de accesibilidad y la secuencia de foco, sin una clara continuidad o sincronización, potencialmente interrumpiendo el seguimiento del foco para usuarios dependientes de teclado.\"\n  }"
+    },
+    {
+      "id": "R10",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"operación mediante teclado\",\n    \"transitionStep\": 22,\n    \"evidence\": \"El paso 22 introduce un nuevo nodo 'paragraph' que no es accesible mediante teclado, lo que viola el criterio 2.1.1 de operación mediante teclado.\"\n}"
+    },
+    {
+      "id": "R11",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 13,\n  \"evidence\": \"En el paso 13, el foco se mueve a un elemento nuevo después de un click, pero el árbol de accesibilidad no muestra el cambio de foco. Esto indica una regresión en la continuidad del foco.\"\n}"
+    },
+    {
+      "id": "R12",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 8,\n  \"evidence\": \"En el paso 8, el foco se desplaza a un elemento diferente en la versión modificada, pero no en la versión base. Esto indica una posible regresión en la orden y continuidad del foco.\"\n}"
+    },
+    {
+      "id": "R13",
+      "respuesta": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"El botón 'Invitar' en la versión base se ha modificado a 'Invitar a una persona al equipo' en la versión modificada, pero el foco y el comportamiento son consistentes en ambos casos.\"\n}"
+    },
+    {
+      "id": "R14",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observó ninguna regresión en los pasos proporcionados.\"\n}"
+    },
+    {
+      "id": "R15",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 10\n  }"
+    },
+    {
+      "id": "R16",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"operación mediante teclado\",\n  \"transitionStep\": 26,\n  \"evidence\": \"En el paso 26, la acción 'press tecla Tab' cambió el estado del campo 'Correo electrónico' a no estar enfocado, lo que indica que la operación mediante teclado no está funcionando correctamente.\"\n}"
+    },
+    {
+      "id": "R17",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 25,\n    \"evidence\": \"En el paso 25, la acción de presionar Tab no conduce a un cambio en el enfoque o en la estructura del árbol de accesibilidad, lo que podría interrumpir el orden y la continuidad del foco, especialmente dado que los elementos 'Opciones de envío' son accesibles solo en la versión modificada y no en la base.\"\n  }"
+    },
+    {
+      "id": "R18",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión de accesibilidad. La interacción sigue una secuencia consistente y la estructura del árbol de accesibilidad se mantiene a lo largo de todos los pasos. Los cambios introducidos, como llenar un correo electrónico con un valor específico y presionar un botón, se manejan de manera consistente con las mecánicas de interacción previamente establecidas. No hay discontinuidad en el foco, operación mediante teclado, cambios inesperados de contexto o comunicación accesible de actualizaciones dinámicas que sugieran una disminución en la accesibilidad.\"\n}"
+    },
+    {
+      "id": "R19",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observan cambios en el foco ni en la operación mediante teclado que indiquen una regresión.\"\n}"
+    },
+    {
+      "id": "R20",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"operación mediante teclado\",\n  \"transitionStep\": 23,\n  \"evidence\": \"En el paso 23, la versión modificada muestra un banner y enlaces de navegación en lugar de un diálogo de datos de envío, lo que impide la operación mediante teclado.\"\n}"
+    },
+    {
+      "id": "R21",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observó ninguna regresión en los pasos proporcionados.\"\n}"
+    },
+    {
+      "id": "R22",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"comunicación accesible de actualizaciones dinámicas\",\n    \"transitionStep\": 10,\n    \"evidence\": \"En el paso 10, la acción es 'press tecla Enter' y el arbol de accesibilidad muestra 'status': '2 incidencias. Filtro Abierto.' Sin embargo, no hay una comunicación clara o accesible de la actualización del estado del filtro, lo que puede confundir al usuario con discapacidad sobre el estado del filtro.\"\n  }"
+    },
+    {
+      "id": "R23",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"comunicación accesible de actualizaciones dinámicas\",\n    \"transitionStep\": 17,\n    \"evidence\": \"En el paso 17, al hacer clic en el elemento con el atributo data-testid=iniciar, el arbol de accesibilidad cambia para mostrar un diálogo con una confirmación, lo cual es una comunicación dinámica que parece introducir una nueva acción o estado en la interfaz. Si esta interacción no estaba presente o no se manejaba de manera accesible en la versión base, representaría una regresión en la categoría de comunicación accesible de actualizaciones dinámicas.\"\n  }"
+    },
+    {
+      "id": "R24",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observan diferencias en el orden y continuidad del foco, operación mediante teclado, cambios inesperados de contexto o comunicación accesible de actualizaciones dinámicas en ninguno de los pasos.\"\n}"
+    },
+    {
+      "id": "R25",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"comunicación accesible de actualizaciones dinámicas\",\n  \"transitionStep\": 18,\n  \"evidence\": \"En el paso 18, el evento 'press tecla Enter' cambia el arbol de accesibilidad de tener 'Teclado mecánico TK-84' y '2 artículos en el carrito' a 'Teclado ergonómico dividido ED-2' y '2 artículos en el carrito'. El mensaje de confirmación 'Pedido confirmado. Recibirás un correo con el detalle.' no se menciona en la versión base, lo que indica una nueva comunicación accesible que no estaba presente antes del cambio, lo que podría afectar la forma en que los usuarios con discapacidades cognitivas se perciben o entienden la acción sin una adecuada comunicación accesible.\"\n}"
+    },
+    {
+      "id": "R26",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observaron cambios en el orden y continuidad del foco, operación mediante teclado, cambios inesperados de contexto o comunicación accesible de actualizaciones dinámicas.\"\n}"
+    },
+    {
+      "id": "R27",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": null\n}"
+    },
+    {
+      "id": "R28",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 8,\n  \"evidence\": \"En el paso 8, el nodo 'button' con rol 'Página 2' tiene el campo 'enfocado?' true en la versión base, pero no en la versión modificada. Esto indica que el foco se mantuvo en el botón en la versión base, pero no en la versión modificada.\"\n}"
+    },
+    {
+      "id": "R29",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión de accesibilidad en la secuencia de interacciones proporcionada.\"\n}"
+    },
+    {
+      "id": "R30",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"El conjunto de eventos y el arbol de accesibilidad permanecen consistentes en todas las etapas, mostrando un flujo de interacción similar a lo largo del recorrido. No hay cambios en la estructura, la navegación por teclado o la comunicación de actualizaciones dinámicas que indiquen una regresión. Los cambios son en la entrada de datos del campo de correo electrónico, que se pasan de una entrada sin arrobas a una con arrobas, siguiendo una instrucción asertiva, y luego devolviendo al formulario de entrada de correo electrónico con el correo especificado, lo cual es un cambio esperado y no una regresión en términos de accesibilidad.\"\n}"
+    },
+    {
+      "id": "R31",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 11,\n  \"evidence\": \"En el paso 11, el foco se mueve a un botón con un rol diferente en la versión modificada (\\\"Guardar cambios de la cuenta\\\") en comparación con la versión base (\\\"Guardar cambios\\\"). Esto indica una regresión en la orden y continuidad del foco.\"\n}"
+    },
+    {
+      "id": "R32",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No hay diferencias en los eventos ni en el árbol de accesibilidad entre la versión base y la modificada en los pasos proporcionados.\"\n}"
+    },
+    {
+      "id": "R33",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": null\n}"
+    },
+    {
+      "id": "R34",
+      "respuesta": "{\"regression\":true,\"category\":\"operación mediante teclado\",\"transitionStep\":13,\"evidence\":\"En el paso 13, el cambio introduce una regresión en la operación mediante teclado, ya que el segundo tab no se puede seleccionar con el teclado. El cambio modifica el atributo \\\"tabindex\\\" del segundo tab para que no sea seleccionable con el teclado, pero no se puede seleccionar con el teclado en absoluto. El usuario no puede seleccionar el segundo tab con el teclado, lo que representa una regresión en la operación mediante teclado.\"}"
+    },
+    {
+      "id": "R35",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"operación mediante teclado\",\n  \"transitionStep\": 11,\n  \"evidence\": \"El cambio eliminó el evento de blur del botón 'Guardar cambios' cuando se presiona Enter, lo que puede afectar la navegación por teclado.\"\n}"
+    },
+    {
+      "id": "R36",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 7,\n  \"evidence\": \"En el paso 7, el foco se desplaza a la tabla de invitaciones, pero no se mantiene en ella después de que se retira a Ana Pérez del equipo. En la versión modificada, el foco se mantiene en la tabla después de la retirada.\"\n}"
+    },
+    {
+      "id": "R37",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión de accesibilidad en la secuencia de interacciones proporcionada.\"\n}"
+    },
+    {
+      "id": "R38",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observaron cambios en el orden y continuidad del foco, operación mediante teclado, cambios inesperados de contexto o comunicación accesible de actualizaciones dinámicas.\"\n}"
+    },
+    {
+      "id": "R39",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión de accesibilidad en la secuencia de interacción proporcionada.\"\n}"
+    },
+    {
+      "id": "R40",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observaron cambios en los eventos ni en el árbol de accesibilidad en ninguno de los pasos.\"\n}"
+    },
+    {
+      "id": "R41",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 5\n  }"
+    },
+    {
+      "id": "R42",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": []\n}"
+    },
+    {
+      "id": "R43",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": null\n}"
+    },
+    {
+      "id": "R44",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 11,\n    \"evidence\": \"En el Paso 11, el evento 'fill [data-testid=extra] valor \\\"F-20260418\\\"' ocurre para el campo 'Número de factura', que debería estar en la sección base del formulario. Sin embargo, en la versión modificada, este evento ocurre después del evento 'focus' en el botón 'Enviar mensaje'. Esto altera el orden esperado y la continuidad del foco, ya que el enfoque se desplaza del campo de entrada al botón después de llenar el campo, lo que no era el caso en la versión base.\"\n  }"
+    },
+    {
+      "id": "R45",
+      "respuesta": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observa ninguna regresión en el orden y continuidad del foco, operación mediante teclado, cambios inesperados de contexto ni comunicación accesible de actualizaciones dinámicas a lo largo del recorrido de interacción.\"\n}"
+    },
+    {
+      "id": "R46",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 8\n  }"
+    },
+    {
+      "id": "R47",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 8,\n  \"evidence\": \"En el paso 8, el nodo enfocado cambia de 'generic' a 'heading' en la versión modificada, lo que indica una interrupción en la continuidad del foco. Esto se debe a que el nodo 'generic' en la versión base tiene un valor de 'enfocado?' true, mientras que el nodo 'heading' en la versión modificada no tiene ese valor.\"\n}"
+    },
+    {
+      "id": "R48",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión en los pasos proporcionados.\"\n}"
+    },
+    {
+      "id": "R49",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 6\n  }"
+    },
+    {
+      "id": "R50",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión en los pasos analizados. En el paso 9, la adición de un mensaje 'Cambios guardados' no afecta la accesibilidad. En los pasos 10 y 11, la adición de un nodo 'StaticText' en la versión modificada no altera el foco ni la interacción. En el paso 12, el 'settle' no introduce cambios en el árbol de accesibilidad.\"\n}"
+    },
+    {
+      "id": "R51",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": null\n}"
+    },
+    {
+      "id": "R52",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No hay diferencias en los eventos ni en el árbol de accesibilidad entre la versión base y la modificada en los pasos 22 y 23.\"\n}"
+    },
+    {
+      "id": "R53",
+      "respuesta": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No se observan diferencias en el árbol de accesibilidad que indiquen problemas en las cuatro categorías revisadas.\"\n}"
+    },
+    {
+      "id": "R54",
+      "respuesta": "{\n  \"regression\": true,\n  \"category\": \"orden y continuidad del foco\",\n  \"transitionStep\": 11,\n  \"evidence\": \"En el paso 11, el foco se desplaza a un heading en la versión base, pero en la versión modificada el foco se desplaza al body. Esto indica una regresión en la orden y continuidad del foco.\"\n}"
+    },
+    {
+      "id": "R55",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión de accesibilidad. La interacción sigue siendo consistente a través de todos los pasos, con teclas de tabulación y entrada de texto funcionando correctamente para navegar y llenar campos, y cambios de contexto manejados sin cambios inesperados. El estado de la página se actualiza adecuadamente cuando se presentan solicitudes, y el estado de la página refleja el número de trámites encontrados y el estado de la solicitud presentada. No hay evidencia de problemas con el orden y la continuidad del foco, operación mediante teclado, cambios inesperados de contexto, o comunicación accesible de actualizaciones dinámicas.\"\n}"
+    },
+    {
+      "id": "R56",
+      "respuesta": "{\n    \"regression\": true,\n    \"category\": \"orden y continuidad del foco\",\n    \"transitionStep\": 6\n  }"
+    },
+    {
+      "id": "R57",
+      "respuesta": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": \"No hay diferencias entre los eventos ni los árboles de accesibilidad en cualquier paso, lo que indica que el cambio no introdujo ninguna regresión de accesibilidad.\"\n  }"
+    },
+    {
+      "id": "R58",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No hay diferencias en los eventos ni en el árbol de accesibilidad entre la versión base y la modificada en los pasos proporcionados.\"\n}"
+    },
+    {
+      "id": "R59",
+      "respuesta": "{\n  \"regression\": false,\n  \"category\": null,\n  \"transitionStep\": null,\n  \"evidence\": \"No se observa ninguna regresión de accesibilidad en la interacción proporcionada.\"\n}"
+    },
+    {
+      "id": "R60",
+      "respuesta": "{\n    \"regression\": false,\n    \"category\": null,\n    \"transitionStep\": null,\n    \"evidence\": null\n}"
+    }
+  ]
+}
