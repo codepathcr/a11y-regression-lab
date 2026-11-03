@@ -261,6 +261,7 @@ aplicación:
 | `runs-on` | `["ubuntu-22.04"]` | Ejecutor, como lista JSON. |
 | `playwright-deps` | `true` | Dependencias del sistema de Chromium (déjalo en `true` en ejecutores de GitHub). |
 | `fail-on-regression` | `true` | Falla la comprobación si se reporta una regresión. |
+| `run-axe` | `false` | Agrega al reporte el resultado del validador estático axe (ver abajo). |
 | `framework-ref` | `main` | Rama, etiqueta o commit del framework. Una etiqueta (por ejemplo `estudio-v1`) hace las corridas reproducibles. |
 
 La aplicación debe compilarse para servirse desde la raíz (`/`). Si usa una ruta
@@ -295,6 +296,27 @@ Dos cosas, y las dos hacen falta:
    que la dispara, de modo que no puede descargar el framework.
 
 Si el framework es público, no hace falta nada de esto.
+
+### Comparar con un validador estático (axe)
+
+Con `run-axe: true` en el llamador, el workflow corre además **axe-core** (la
+misma versión y configuración que el chequeo estático del estudio) sobre la base
+y el cambio, y agrega su tabla al mismo comentario. Sirve para tener, sobre los
+mismos Pull Requests, la línea base de comparación: lo que un validador estático
+encuentra frente a lo que encuentra la comparación de trazas.
+
+Se evalúa en dos momentos: el estado inicial (la página recién montada, que es lo
+que mira el chequeo estático del estudio) y el estado final tras ejecutar el
+recorrido de `a11y-lab.json`. La tabla informa los hallazgos de cada lado y los
+**nuevos en el cambio**. axe es una fotografía de un instante y no compara
+versiones, por lo que un defecto que solo aparece en una transición, como un
+estado ARIA que deja de actualizarse, puede dejar la columna de nuevos en cero.
+Nunca hace fallar la comprobación y también queda en el artefacto de la corrida
+(`axe.md` y `axe.json`).
+
+Para correrlo a mano: `pnpm --filter @a11y-lab/benchmark axe-external
+--head-config <a11y-lab.json> --head-dist <dir> [--base-config ... --base-dist ...]`,
+con rutas absolutas.
 
 ### Cómo se decide que la página está lista
 

@@ -58,6 +58,10 @@ on:
         description: Fallar la comprobación cuando se reporte una regresión.
         type: boolean
         default: true
+      run-axe:
+        description: Correr además el validador estático (axe-core, el mismo del estudio) sobre los mismos lados y añadir su resultado al reporte. Nunca hace fallar la comprobación.
+        type: boolean
+        default: false
       framework-repository:
         description: Repositorio del framework.
         type: string
@@ -247,12 +251,33 @@ jobs:
             --changed-from "${RUNNER_TEMP}/cambios.txt" \
             --out "${RUNNER_TEMP}/reporte.md"
 
+      - name: Validador estático (axe)
+        if: inputs.run-axe
+        working-directory: a11y-framework
+        shell: bash
+        # Informativo: es la línea base de comparación, no parte de la decisión.
+        continue-on-error: true
+        run: |
+          BASE_ARGS=()
+          if [ -f "$GITHUB_WORKSPACE/base/$A11Y_CONFIG" ]; then
+            BASE_ARGS=(--base-config "$GITHUB_WORKSPACE/base/$A11Y_CONFIG" --base-dist "$GITHUB_WORKSPACE/base/$A11Y_DIST")
+          fi
+          pnpm --filter @a11y-lab/benchmark axe-external \
+            --head-config "$GITHUB_WORKSPACE/head/$A11Y_CONFIG" \
+            --head-dist "$GITHUB_WORKSPACE/head/$A11Y_DIST" \
+            "${BASE_ARGS[@]}" \
+            --out-md "${RUNNER_TEMP}/axe.md" \
+            --out-json "${RUNNER_TEMP}/axe.json"
+
       - name: Guardar el reporte
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: reporte-accesibilidad-dinamica
-          path: ${{ runner.temp }}/reporte.md
+          path: |
+            ${{ runner.temp }}/reporte.md
+            ${{ runner.temp }}/axe.md
+            ${{ runner.temp }}/axe.json
           if-no-files-found: ignore
 
       - name: Comentario en el Pull Request
@@ -271,6 +296,13 @@ jobs:
                 '',
                 'La comparación no llegó a producir un reporte. Revisar el registro de la corrida.',
               ].join('\n');
+            }
+            // Si se pidió el validador estático, su tabla va al final del mismo
+            // comentario, para verlos juntos.
+            try {
+              cuerpo += `\n\n${fs.readFileSync(`${process.env.RUNNER_TEMP}/axe.md`, 'utf8')}`;
+            } catch {
+              // sin axe.md: no se pidió o no se pudo ejecutar
             }
             const texto = `${marca}\n${cuerpo}`;
             // Un comentario por Pull Request, actualizado en cada empuje.
