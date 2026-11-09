@@ -1,0 +1,970 @@
+{
+  "version": 1,
+  "semilla": 20261102,
+  "por_celda": 5,
+  "fuente": "full.jsonl",
+  "fuente_sha256": "b6f8c37598211cdbff0dfcf6861ffd22dc58ad472d6870b90387e945b6cb7fc2",
+  "aviso": "Archivo del coordinador. No compartir con quienes etiquetan antes de que terminen.",
+  "filas": [
+    {
+      "id": "R01",
+      "modelo": "mistral-nemo",
+      "estrategia": "static",
+      "app": "a09-tienda",
+      "variante": "m05-cto-cart-unreachable",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 4
+      }
+    },
+    {
+      "id": "R02",
+      "modelo": "qwen25-7b",
+      "estrategia": "state-diff",
+      "app": "a09-tienda",
+      "variante": "p01-preexisting-cto-defect",
+      "clase": "preexisting",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R03",
+      "modelo": "qwen25-7b",
+      "estrategia": "static",
+      "app": "a10-tramites",
+      "variante": "m01-focus-loss-view-change",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 11
+      }
+    },
+    {
+      "id": "R04",
+      "modelo": "qwen25-7b",
+      "estrategia": "state-diff",
+      "app": "a09-tienda",
+      "variante": "m07-focus-loss-on-remove",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 21
+      }
+    },
+    {
+      "id": "R05",
+      "modelo": "llama31-8b",
+      "estrategia": "static",
+      "app": "a03-panel",
+      "variante": "n01-benign-added-total",
+      "clase": "benign-divergent",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R06",
+      "modelo": "llama31-8b",
+      "estrategia": "trace-diff",
+      "app": "a06-equipo",
+      "variante": "p01-preexisting-focus-defect",
+      "clase": "preexisting",
+      "automatico": "false-positive",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R07",
+      "modelo": "qwen25-7b",
+      "estrategia": "trace-diff",
+      "app": "a07-perfil",
+      "variante": "n01-benign-better-label",
+      "clase": "benign-divergent",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R08",
+      "modelo": "mistral-nemo",
+      "estrategia": "static",
+      "app": "a10-tramites",
+      "variante": "p01-preexisting-cto-defect",
+      "clase": "preexisting",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R09",
+      "modelo": "phi35",
+      "estrategia": "trace-diff",
+      "app": "a02-piscina",
+      "variante": "m02-focus-loss-confirmation",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": true,
+      "automatico_paso_exacto": true,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 8
+      }
+    },
+    {
+      "id": "R10",
+      "modelo": "qwen25-7b",
+      "estrategia": "trace-diff",
+      "app": "a10-tramites",
+      "variante": "n01-benign-count-and-caption",
+      "clase": "benign-divergent",
+      "automatico": "false-positive",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R11",
+      "modelo": "llama31-8b",
+      "estrategia": "trace-diff",
+      "app": "a05-blog",
+      "variante": "n01-benign-reading-time",
+      "clase": "benign-divergent",
+      "automatico": "false-positive",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R12",
+      "modelo": "llama31-8b",
+      "estrategia": "trace-diff",
+      "app": "a08-contacto",
+      "variante": "n01-benign-label-rewording",
+      "clase": "benign-divergent",
+      "automatico": "false-positive",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R13",
+      "modelo": "qwen25-7b",
+      "estrategia": "trace-diff",
+      "app": "a06-equipo",
+      "variante": "p01-preexisting-focus-defect",
+      "clase": "preexisting",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R14",
+      "modelo": "mistral-nemo",
+      "estrategia": "state-diff",
+      "app": "a03-panel",
+      "variante": "n01-benign-added-total",
+      "clase": "benign-divergent",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R15",
+      "modelo": "phi35",
+      "estrategia": "state-diff",
+      "app": "a03-panel",
+      "variante": "m02-cto-tab-order",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": true,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 4
+      }
+    },
+    {
+      "id": "R16",
+      "modelo": "llama31-8b",
+      "estrategia": "state-diff",
+      "app": "a09-tienda",
+      "variante": "m01-ccs-context-on-selection",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 9
+      }
+    },
+    {
+      "id": "R17",
+      "modelo": "phi35",
+      "estrategia": "state-diff",
+      "app": "a09-tienda",
+      "variante": "m03-ccb-context-on-blur",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": true,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 25
+      }
+    },
+    {
+      "id": "R18",
+      "modelo": "phi35",
+      "estrategia": "static",
+      "app": "a01-landing",
+      "variante": "m03-neutral-refactor",
+      "clase": "negative",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R19",
+      "modelo": "qwen25-7b",
+      "estrategia": "trace-diff",
+      "app": "a06-equipo",
+      "variante": "m01-focus-loss-row-removal",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 7
+      }
+    },
+    {
+      "id": "R20",
+      "modelo": "qwen25-7b",
+      "estrategia": "state-diff",
+      "app": "a09-tienda",
+      "variante": "m01-ccs-context-on-selection",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 9
+      }
+    },
+    {
+      "id": "R21",
+      "modelo": "mistral-nemo",
+      "estrategia": "state-diff",
+      "app": "a03-panel",
+      "variante": "p01-preexisting-kbd-defect",
+      "clase": "preexisting",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R22",
+      "modelo": "phi35",
+      "estrategia": "static",
+      "app": "a03-panel",
+      "variante": "m02-cto-tab-order",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 4
+      }
+    },
+    {
+      "id": "R23",
+      "modelo": "phi35",
+      "estrategia": "static",
+      "app": "a10-tramites",
+      "variante": "m07-status-no-busy",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": true,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "comunicación accesible de actualizaciones dinámicas",
+        "paso": 8
+      }
+    },
+    {
+      "id": "R24",
+      "modelo": "llama31-8b",
+      "estrategia": "state-diff",
+      "app": "a09-tienda",
+      "variante": "m02-focus-loss-view-change",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 13
+      }
+    },
+    {
+      "id": "R25",
+      "modelo": "phi35",
+      "estrategia": "trace-diff",
+      "app": "a09-tienda",
+      "variante": "m01-ccs-context-on-selection",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 9
+      }
+    },
+    {
+      "id": "R26",
+      "modelo": "mistral-nemo",
+      "estrategia": "trace-diff",
+      "app": "a09-tienda",
+      "variante": "m03-ccb-context-on-blur",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 25
+      }
+    },
+    {
+      "id": "R27",
+      "modelo": "qwen25-7b",
+      "estrategia": "static",
+      "app": "a06-equipo",
+      "variante": "m03-kbd-activation-remove",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "operación mediante teclado",
+        "paso": 7
+      }
+    },
+    {
+      "id": "R28",
+      "modelo": "llama31-8b",
+      "estrategia": "state-diff",
+      "app": "a05-blog",
+      "variante": "m05-kbd-activation-pages",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": true,
+      "esperado": {
+        "regresion": true,
+        "categoria": "operación mediante teclado",
+        "paso": 8
+      }
+    },
+    {
+      "id": "R29",
+      "modelo": "llama31-8b",
+      "estrategia": "static",
+      "app": "a04-multipaso",
+      "variante": "p01-preexisting-cto-defect",
+      "clase": "preexisting",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R30",
+      "modelo": "phi35",
+      "estrategia": "static",
+      "app": "a01-landing",
+      "variante": "m01-kbd-activation",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "operación mediante teclado",
+        "paso": 5
+      }
+    },
+    {
+      "id": "R31",
+      "modelo": "llama31-8b",
+      "estrategia": "state-diff",
+      "app": "a07-perfil",
+      "variante": "n01-benign-better-label",
+      "clase": "benign-divergent",
+      "automatico": "false-positive",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R32",
+      "modelo": "mistral-nemo",
+      "estrategia": "state-diff",
+      "app": "a10-tramites",
+      "variante": "m02-cto-nav-tab-order",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 4
+      }
+    },
+    {
+      "id": "R33",
+      "modelo": "qwen25-7b",
+      "estrategia": "static",
+      "app": "a05-blog",
+      "variante": "m03-focus-loss-pagination",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 8
+      }
+    },
+    {
+      "id": "R34",
+      "modelo": "mistral-nemo",
+      "estrategia": "trace-diff",
+      "app": "a10-tramites",
+      "variante": "m03-kbd-activation-detail",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": true,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "operación mediante teclado",
+        "paso": 11
+      }
+    },
+    {
+      "id": "R35",
+      "modelo": "mistral-nemo",
+      "estrategia": "trace-diff",
+      "app": "a07-perfil",
+      "variante": "m01-ccb-autosave-on-blur",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 9
+      }
+    },
+    {
+      "id": "R36",
+      "modelo": "llama31-8b",
+      "estrategia": "trace-diff",
+      "app": "a06-equipo",
+      "variante": "m03-kbd-activation-remove",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": true,
+      "esperado": {
+        "regresion": true,
+        "categoria": "operación mediante teclado",
+        "paso": 7
+      }
+    },
+    {
+      "id": "R37",
+      "modelo": "llama31-8b",
+      "estrategia": "static",
+      "app": "a04-multipaso",
+      "variante": "m04-cto-back-tab-order",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 8
+      }
+    },
+    {
+      "id": "R38",
+      "modelo": "mistral-nemo",
+      "estrategia": "trace-diff",
+      "app": "a05-blog",
+      "variante": "m01-status-silent-search",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "comunicación accesible de actualizaciones dinámicas",
+        "paso": 13
+      }
+    },
+    {
+      "id": "R39",
+      "modelo": "llama31-8b",
+      "estrategia": "static",
+      "app": "a02-piscina",
+      "variante": "m02-focus-loss-confirmation",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 8
+      }
+    },
+    {
+      "id": "R40",
+      "modelo": "mistral-nemo",
+      "estrategia": "trace-diff",
+      "app": "a03-panel",
+      "variante": "p01-preexisting-kbd-defect",
+      "clase": "preexisting",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R41",
+      "modelo": "phi35",
+      "estrategia": "state-diff",
+      "app": "a03-panel",
+      "variante": "m01-kbd-activation-mouse-only",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": false,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "operación mediante teclado",
+        "paso": 3
+      }
+    },
+    {
+      "id": "R42",
+      "modelo": "mistral-nemo",
+      "estrategia": "static",
+      "app": "a09-tienda",
+      "variante": "m01-ccs-context-on-selection",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 9
+      }
+    },
+    {
+      "id": "R43",
+      "modelo": "mistral-nemo",
+      "estrategia": "static",
+      "app": "a10-tramites",
+      "variante": "m09-neutral-text-join",
+      "clase": "negative",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R44",
+      "modelo": "phi35",
+      "estrategia": "trace-diff",
+      "app": "a08-contacto",
+      "variante": "m02-cto-extra-unreachable",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": true,
+      "automatico_paso_exacto": false,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 10
+      }
+    },
+    {
+      "id": "R45",
+      "modelo": "qwen25-7b",
+      "estrategia": "static",
+      "app": "a03-panel",
+      "variante": "m05-status-silent",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "comunicación accesible de actualizaciones dinámicas",
+        "paso": 3
+      }
+    },
+    {
+      "id": "R46",
+      "modelo": "phi35",
+      "estrategia": "state-diff",
+      "app": "a02-piscina",
+      "variante": "m02-focus-loss-confirmation",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": true,
+      "automatico_paso_exacto": true,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 8
+      }
+    },
+    {
+      "id": "R47",
+      "modelo": "llama31-8b",
+      "estrategia": "state-diff",
+      "app": "a02-piscina",
+      "variante": "m02-focus-loss-confirmation",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": true,
+      "automatico_paso_exacto": true,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 8
+      }
+    },
+    {
+      "id": "R48",
+      "modelo": "qwen25-7b",
+      "estrategia": "state-diff",
+      "app": "a06-equipo",
+      "variante": "m01-focus-loss-row-removal",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 7
+      }
+    },
+    {
+      "id": "R49",
+      "modelo": "phi35",
+      "estrategia": "state-diff",
+      "app": "a06-equipo",
+      "variante": "p01-preexisting-focus-defect",
+      "clase": "preexisting",
+      "automatico": "false-positive",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R50",
+      "modelo": "qwen25-7b",
+      "estrategia": "trace-diff",
+      "app": "a07-perfil",
+      "variante": "m01-ccb-autosave-on-blur",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 9
+      }
+    },
+    {
+      "id": "R51",
+      "modelo": "mistral-nemo",
+      "estrategia": "static",
+      "app": "a10-tramites",
+      "variante": "m08-neutral-table-refactor",
+      "clase": "negative",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R52",
+      "modelo": "mistral-nemo",
+      "estrategia": "state-diff",
+      "app": "a10-tramites",
+      "variante": "p01-preexisting-cto-defect",
+      "clase": "preexisting",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R53",
+      "modelo": "qwen25-7b",
+      "estrategia": "state-diff",
+      "app": "a10-tramites",
+      "variante": "m06-status-silent",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "comunicación accesible de actualizaciones dinámicas",
+        "paso": 1
+      }
+    },
+    {
+      "id": "R54",
+      "modelo": "llama31-8b",
+      "estrategia": "trace-diff",
+      "app": "a10-tramites",
+      "variante": "m01-focus-loss-view-change",
+      "clase": "positive",
+      "automatico": "true-positive",
+      "automatico_categoria_correcta": true,
+      "automatico_paso_exacto": true,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 11
+      }
+    },
+    {
+      "id": "R55",
+      "modelo": "phi35",
+      "estrategia": "static",
+      "app": "a10-tramites",
+      "variante": "m05-ccb-confirm-on-blur",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "cambios inesperados de contexto",
+        "paso": 20
+      }
+    },
+    {
+      "id": "R56",
+      "modelo": "phi35",
+      "estrategia": "trace-diff",
+      "app": "a06-equipo",
+      "variante": "p01-preexisting-focus-defect",
+      "clase": "preexisting",
+      "automatico": "false-positive",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R57",
+      "modelo": "phi35",
+      "estrategia": "trace-diff",
+      "app": "a05-blog",
+      "variante": "p01-preexisting-focus-defect",
+      "clase": "preexisting",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    },
+    {
+      "id": "R58",
+      "modelo": "mistral-nemo",
+      "estrategia": "state-diff",
+      "app": "a08-contacto",
+      "variante": "m02-cto-extra-unreachable",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 10
+      }
+    },
+    {
+      "id": "R59",
+      "modelo": "llama31-8b",
+      "estrategia": "static",
+      "app": "a09-tienda",
+      "variante": "m02-focus-loss-view-change",
+      "clase": "positive",
+      "automatico": "false-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": true,
+        "categoria": "orden y continuidad del foco",
+        "paso": 13
+      }
+    },
+    {
+      "id": "R60",
+      "modelo": "qwen25-7b",
+      "estrategia": "static",
+      "app": "a03-panel",
+      "variante": "n01-benign-added-total",
+      "clase": "benign-divergent",
+      "automatico": "true-negative",
+      "automatico_categoria_correcta": null,
+      "automatico_paso_exacto": null,
+      "esperado": {
+        "regresion": false,
+        "categoria": null,
+        "paso": null
+      }
+    }
+  ]
+}

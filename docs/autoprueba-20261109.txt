@@ -1,0 +1,20 @@
+Ejecución de pr-selftest hecha por el investigador el 9 de noviembre de 2026, dentro del contenedor Docker del proyecto (docker compose run --rm lab bash), rama main.
+Comando: pnpm --filter @a11y-lab/benchmark pr-selftest a01-landing m01-kbd-activation
+git rev-parse --short HEAD -> 14b2e74   (mismo commit de la etiqueta estudio-v1)
+node -v -> v22.23.4
+Salida (fragmento final pegado por el investigador; el resto de la salida no fue conservado):
+
+<sub>Comparación `HEAD` contra `HEAD + m01-kbd-activation` · estrategia diferencial de trazas con contexto temporal · modelo Llama 3.1 8B · Chromium 130.0.6723.31</sub>
+
+======================================================================
+CONTRASTE CONTRA LA VERDAD DE TERRENO
+======================================================================
+  divergencia observable      PASA   (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+  el paso esperado divergió   PASA   (esperado 5)
+  detección                   PASA   (dijo true)
+  categoría                   FALLA   (dijo orden y continuidad del foco)
+  localización estricta       PASA   (dijo 5)
+
+El flujo de Pull Requests reproduce la verdad de terreno de este par.
+
+Las dimensiones de categoría y localización se informan y no hacen fallar la prueba: son desempeño del modelo, medido en el Capítulo 4, y no corrección del flujo.

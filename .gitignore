@@ -36,6 +36,3 @@ analysis/out/*
 !analysis/out/reporte-*.json
 !analysis/out/confirmatorio-*.txt
 !analysis/out/confirmatorio-*.json
-
-# Clave del doble etiquetado: no se sube hasta que ambos etiquetadores entreguen su hoja
-analysis/doble_etiquetado/clave-muestra.json
