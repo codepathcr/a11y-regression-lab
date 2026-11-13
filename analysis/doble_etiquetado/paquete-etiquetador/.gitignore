@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+~$*
+.~lock*
+.DS_Store
+# La clave de la muestra NO debe estar nunca en este repositorio
+clave-muestra.json
+**/clave*.json

@@ -27,6 +27,21 @@ sale de acá, no va al documento.
 python3 analysis/confirmatorio.py
 ```
 
+- `exploratorio.py` reúne los **cálculos complementarios** (los que el capítulo 4
+  presentaba como cálculo posterior sobre la bitácora) y los **análisis
+  exploratorios** de la revisión del capítulo: referencias sin modelo, precisión
+  según la prevalencia, proporción de respuestas afirmativas, acierto según los
+  tokens de entrada, muestra de la lectura cualitativa y regresión logística
+  mixta. Nada de lo que produce es confirmatorio. Salida en
+  `out/exploratorio-full.txt`, `.json` y `out/exploratorio-muestra-cualitativa.txt`.
+  El análisis mixto requiere `numpy` y `scipy`; sin ellos, esa sección se omite
+  y el resto se calcula igual.
+
+```bash
+pip install numpy scipy
+python3 analysis/exploratorio.py
+```
+
 ## Qué calcula
 
 | sección del reporte | qué responde |

@@ -1,0 +1,53 @@
+
+> @a11y-lab/benchmark@0.1.0 pr-selftest /app/packages/benchmark
+> tsx scripts/pr-selftest.ts "a02-piscina" "m01-cto-slot-tab-order"
+
+Exportando HEAD a /tmp/a11y-selftest-H5Fnix
+Aplicación: a02-piscina · Reserva de carril en una piscina municipal
+Variante inyectada: m01-cto-slot-tab-order
+Verdad de terreno: regresión=true · categoría=orden y continuidad del foco · paso=3
+
+Instalando dependencias
+Compilando el lado base
+Inyectando m01-cto-slot-tab-order en la composición base
+Compilando el lado modificado
+
+Modelo: Llama 3.1 8B
+
+Entorno: chromium 130.0.6723.31 · viewport 1280x900 · settle 150 ms
+Entorno de referencia: coincide. Las cifras de magnitud son comparables.
+### Accesibilidad dinámica: una regresión
+
+| Aplicación | Veredicto | Transición | Categoría |
+| --- | --- | --- | --- |
+| `a02-piscina` | **Regresión** | paso 4 | orden y continuidad del foco |
+
+<details>
+<summary>Evidencia de <code>a02-piscina</code></summary>
+
+**Lo que observó el modelo.** En el paso 4, el foco se desplaza a un input en la versión modificada, pero en la versión base se desplaza a un button. Esto rompe la continuidad del foco.
+
+Divergencia de eventos 25.9 % · de árbol de accesibilidad 0.8 % · pasos 3, 4, 5
+
+La magnitud de la divergencia no es un criterio de decisión y no debe usarse como umbral: depende de la versión del navegador y se infla en cascada cuando el defecto ocurre temprano. Se muestra para situar el cambio, no para juzgarlo.
+
+```json
+{"formato":{"nodo":["rol","nombre","profundidad","valor?","live?","enfocado?"],"nota":"Los nodos del arbol de accesibilidad vienen como tuplas en ese orden. Los tres ultimos campos se omiten cuando no aplican."},"pasos":[{"paso":3,"accion":"press tecla Tab","arbol":{"soloEnBase":[["button","Reservar de 09:00 a 10:00",6,null,null,true],["button","Reservar de 10:00 a 11:00",6]],"soloEnModificada":[["button","Reservar de 09:00 a 10:00",6],["button","Reservar de 10:00 a 11:00",6,null,null,true]]},"eventos":{"soloEnBase":[{"kind":"key","phase":"up","key":"Tab","target":{"path":"body/div/div/div/main/div[1]/ul/li[3]/button","role":"button","name":"Reservar de 09:00 a 10:00"}},{"kind":"focus","target":{"path":"body/div/div/div/main/div[1]/ul/li[3]/button","role":"button","name":"Reservar de 09:00 a 10:00"}}],"soloEnModificada":[{"kind":"key","phase":"up","key":"Tab","target":{"path":"body/div/div/div/main/div[1]/ul/li[4]/button","role":"button","name":"Reservar de 10:00 a 11:00"}},{"kind":"focus","target":{"path":"body/div/div/div/main/div[1]/ul/li[4]/button","role":"button","name":"Reservar de 10:00 a 11:00"}}]}},{"paso":4,"accion":"press tecla Tab","arbol":{"soloEnBase":[["button","Reservar de 10:00 a 11:00",6,null,null,true],["textbox","Nombre completo",4]],"soloEnModificada":[["button","Reservar de 10:00 a 11:00",6],["textbox","Nombre completo",4,null,null,true]]},"eventos":{"soloEnBase":[{"kind":"key","phase":"down","key":"Tab","target":{"path":"body/div/div/div/main/div[1]/ul/li[3]/button","role":"button","name":"Reservar de 09:00 a 10:00"}},{"kind":"key","phase":"up","key":"Tab","target":{"path":"body/div/div/div/main/div[1]/ul/li[4]/button","role":"button","name":"Reservar de 10:00 a 11:00"}},{"kind":"blur","target":{"path":"body/div/div/div/main/div[1]/ul/li[3]/button","role":"button","name":"Reservar de 09:00 a 10:00"}},{"kind":"focus","target":{"path":"body/div/div/div/main/div[1]/ul/li[4]/button","role":"button","name":"Reservar de 10:00 a 11:00"}}],"soloEnModificada":[{"kind":"key","phase":"down","key":"Tab","target":{"path":"body/div/div/div/main/div[1]/ul/li[4]/button","role":"button","name":"Reservar de 10:00 a 11:00"}},{"kind":"key","phase":"up","key":"Tab","target":{"path":"body/div/div/div/main/form/div/input","role":"textbox","name":"Nombre completo"}},{"kind":"blur","target":{"path":"body/div/div/div/main/div[1]/ul/li[4]/button","role":"button","name":"Reservar de 10:00 a 11:00"}},{"kind":"focus","target":{"path":"body/div/div/div/main/form/div/input","role":"textbox","name":"Nombre completo"}}]}},{"paso":5,"accion":"click [data-testid=horario-s09]","arbol":{"soloEnBase":[],"soloEnModificada":[]},"eventos":{"soloEnBase":[{"kind":"blur","target":{"path":"body/div/div/div/main/div[1]/ul/li[4]/button","role":"button","name":"Reservar de 10:00 a 11:00"}}],"soloEnModificada":[{"kind":"blur","target":{"path":"body/div/div/div/main/form/div/input","role":"textbox","name":"Nombre completo"}}]}}]}
+```
+</details>
+
+<sub>Comparación `HEAD` contra `HEAD + m01-cto-slot-tab-order` · estrategia diferencial de trazas con contexto temporal · modelo Llama 3.1 8B · Chromium 130.0.6723.31</sub>
+
+======================================================================
+CONTRASTE CONTRA LA VERDAD DE TERRENO
+======================================================================
+  divergencia observable      PASA   (3, 4, 5)
+  el paso esperado divergió   PASA   (esperado 3)
+  detección                   PASA   (dijo true)
+  categoría                   PASA   (dijo orden y continuidad del foco)
+  localización estricta       FALLA   (dijo 4)
+
+El flujo de Pull Requests reproduce la verdad de terreno de este par.
+
+Las dimensiones de categoría y localización se informan y no hacen fallar la prueba: son desempeño del modelo, medido en el Capítulo 4, y no corrección del flujo.
+codigo de salida: 0
