@@ -138,7 +138,7 @@ Los dos desacuerdos de campo (regresion y categoria) proceden de esa única resp
 | R23 | sí / comunicación accesible de actualizaciones dinámicas / 17 (idénticas) | segun evidence, parece que no sabe si es una regresion introducida en el cambio o si el problema de accesibilidad existia previamente | phi35, static, a10-tramites/m07-status-no-busy, clase positive; automática: true-positive | No de aplicación: la regla (secc. 3) ordena decidir solo por la clave `regression` e ignorar `evidence`, y ambos la aplicaron igual. Sí señala un límite de constructo: la justificación del modelo no describe con claridad una regresión nueva aunque el campo la afirma, y la rúbrica cuenta la respuesta como detección. |
 | R25 | sí / comunicación accesible de actualizaciones dinámicas / 18 (idénticas) | segun evidence, pareciera que en lugar de una regresion, se introdujo en realidad una solucion de accesibilidad. | phi35, trace-diff, a09-tienda/m01-ccs-context-on-selection, clase positive; automática: true-positive | No de aplicación: la regla (secc. 3) ordena decidir solo por la clave `regression` e ignorar `evidence`, y ambos la aplicaron igual. Sí señala un límite de constructo: la justificación del modelo no describe con claridad una regresión nueva aunque el campo la afirma, y la rúbrica cuenta la respuesta como detección. |
 
-Estas dos notas no afectan la kappa. Son la única evidencia en las hojas de una posible ampliación o aclaración de la regla (por ejemplo, dejar escrito que la incoherencia entre `regression` y `evidence` se registra en notas y no cambia la etiqueta, lo que la regla ya dice en la sección 3). Si la sesión de resolución agregó alguna frase a `RUBRICA.md`, no consta.
+Estas dos notas no afectan la kappa. Son la única evidencia en las hojas de una posible ampliación o aclaración de la regla (por ejemplo, dejar escrito que la incoherencia entre `regression` y `evidence` se registra en notas y no cambia la etiqueta, lo que la regla ya dice en la sección 3). La sesión de resolución no agregó ninguna frase a RUBRICA.md (ver `acta-resolucion-R06.md`).
 
 ## 7. Acuerdo con la lectura automática (clave)
 
@@ -162,5 +162,5 @@ Verificación adicional propia (no es la rúbrica del laboratorio): una aplicaci
 
 ## 9. Conclusión frente al Cap. 3
 
-Los tres campos superan el umbral de 0,80 (regresión 0,965; categoría 0,970; paso 1,000), por lo que no procede la repetición con respuestas no usadas que el Cap. 3 prevé para un coeficiente inferior. Queda pendiente, porque no consta en ningún archivo: la sesión de resolución del desacuerdo de R06 (fecha, decisión) y, si la hubo, la frase agregada a la regla escrita.
+Los tres campos superan el umbral de 0,80 (regresión 0,965; categoría 0,970; paso 1,000), por lo que no procede la repetición con respuestas no usadas que el Cap. 3 prevé para un coeficiente inferior. La sesión de resolución del desacuerdo de R06 se realizó el 9 de noviembre de 2026 y consta en acta-resolucion-R06.md: se atribuyó a un error de registro, la clasificación consensuada es sí / orden y continuidad del foco / paso 9, y no se modificó la rúbrica ni las hojas originales.
 
