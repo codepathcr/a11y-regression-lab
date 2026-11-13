@@ -36,3 +36,5 @@ analysis/out/*
 !analysis/out/reporte-*.json
 !analysis/out/confirmatorio-*.txt
 !analysis/out/confirmatorio-*.json
+!analysis/out/exploratorio-*.txt
+!analysis/out/exploratorio-*.json

@@ -1,0 +1,51 @@
+
+> @a11y-lab/benchmark@0.1.0 pr-selftest /app/packages/benchmark
+> tsx scripts/pr-selftest.ts "a01-landing" "n01-benign-rewording"
+
+Exportando HEAD a /tmp/a11y-selftest-ChesmC
+Aplicación: a01-landing · Landing informativa de una consultoría de accesibilidad
+Variante inyectada: n01-benign-rewording
+Verdad de terreno: regresión=false · categoría=ninguna · paso=ninguno
+
+Instalando dependencias
+Compilando el lado base
+Inyectando n01-benign-rewording en la composición base
+Compilando el lado modificado
+
+Modelo: Llama 3.1 8B
+
+Entorno: chromium 130.0.6723.31 · viewport 1280x900 · settle 150 ms
+Entorno de referencia: coincide. Las cifras de magnitud son comparables.
+### Accesibilidad dinámica: sin regresiones
+
+| Aplicación | Veredicto | Transición | Categoría |
+| --- | --- | --- | --- |
+| `a01-landing` | Sin regresión | pasos 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 con diferencias, interpretadas como cambio inocuo | |
+
+<details>
+<summary>Diferencias observadas en <code>a01-landing</code></summary>
+
+**Lo que observó el modelo.** No se observan diferencias en el árbol de accesibilidad ni en los eventos durante el recorrido de interacción.
+
+Divergencia de eventos 0.0 % · de árbol de accesibilidad 13.3 % · pasos 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+
+La magnitud de la divergencia no es un criterio de decisión y no debe usarse como umbral: depende de la versión del navegador y se infla en cascada cuando el defecto ocurre temprano. Se muestra para situar el cambio, no para juzgarlo.
+
+```json
+{"formato":{"nodo":["rol","nombre","profundidad","valor?","live?","enfocado?"],"nota":"Los nodos del arbol de accesibilidad vienen como tuplas en ese orden. Los tres ultimos campos se omiten cuando no aplican."},"pasos":[{"paso":0,"accion":"montaje de la página","arbol":{"soloEnBase":[["heading","Auditoría de accesibilidad",6],["StaticText","Auditoría de accesibilidad",7],["StaticText","Revisión manual y automatizada contra WCAG 2.2.",7],["heading","Formación de equipos",6],["StaticText","Formación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo y diseño.",7],["heading","Remediación",6],["StaticText","Remediación",7],["StaticText","Acompañamiento en la corrección de barreras detectadas.",7]],"soloEnModificada":[["heading","Auditorías de accesibilidad",6],["StaticText","Auditorías de accesibilidad",7],["StaticText","Revisión manual y automatizada contra las WCAG 2.2, nivel AA.",7],["heading","Capacitación de equipos",6],["StaticText","Capacitación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo, diseño y producto.",7],["heading","Remediación guiada",6],["StaticText","Remediación guiada",7],["StaticText","Acompañamiento técnico en la corrección de las barreras detectadas.",7]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":1,"accion":"press tecla Tab","arbol":{"soloEnBase":[["heading","Auditoría de accesibilidad",6],["StaticText","Auditoría de accesibilidad",7],["StaticText","Revisión manual y automatizada contra WCAG 2.2.",7],["heading","Formación de equipos",6],["StaticText","Formación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo y diseño.",7],["heading","Remediación",6],["StaticText","Remediación",7],["StaticText","Acompañamiento en la corrección de barreras detectadas.",7]],"soloEnModificada":[["heading","Auditorías de accesibilidad",6],["StaticText","Auditorías de accesibilidad",7],["StaticText","Revisión manual y automatizada contra las WCAG 2.2, nivel AA.",7],["heading","Capacitación de equipos",6],["StaticText","Capacitación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo, diseño y producto.",7],["heading","Remediación guiada",6],["StaticText","Remediación guiada",7],["StaticText","Acompañamiento técnico en la corrección de las barreras detectadas.",7]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":2,"accion":"press tecla Tab","arbol":{"soloEnBase":[["heading","Auditoría de accesibilidad",6],["StaticText","Auditoría de accesibilidad",7],["StaticText","Revisión manual y automatizada contra WCAG 2.2.",7],["heading","Formación de equipos",6],["StaticText","Formación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo y diseño.",7],["heading","Remediación",6],["StaticText","Remediación",7],["StaticText","Acompañamiento en la corrección de barreras detectadas.",7]],"soloEnModificada":[["heading","Auditorías de accesibilidad",6],["StaticText","Auditorías de accesibilidad",7],["StaticText","Revisión manual y automatizada contra las WCAG 2.2, nivel AA.",7],["heading","Capacitación de equipos",6],["StaticText","Capacitación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo, diseño y producto.",7],["heading","Remediación guiada",6],["StaticText","Remediación guiada",7],["StaticText","Acompañamiento técnico en la corrección de las barreras detectadas.",7]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":3,"accion":"press tecla Tab","arbol":{"soloEnBase":[["heading","Auditoría de accesibilidad",6],["StaticText","Auditoría de accesibilidad",7],["StaticText","Revisión manual y automatizada contra WCAG 2.2.",7],["heading","Formación de equipos",6],["StaticText","Formación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo y diseño.",7],["heading","Remediación",6],["StaticText","Remediación",7],["StaticText","Acompañamiento en la corrección de barreras detectadas.",7]],"soloEnModificada":[["heading","Auditorías de accesibilidad",6],["StaticText","Auditorías de accesibilidad",7],["StaticText","Revisión manual y automatizada contra las WCAG 2.2, nivel AA.",7],["heading","Capacitación de equipos",6],["StaticText","Capacitación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo, diseño y producto.",7],["heading","Remediación guiada",6],["StaticText","Remediación guiada",7],["StaticText","Acompañamiento técnico en la corrección de las barreras detectadas.",7]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":4,"accion":"press tecla Tab","arbol":{"soloEnBase":[["heading","Auditoría de accesibilidad",6],["StaticText","Auditoría de accesibilidad",7],["StaticText","Revisión manual y automatizada contra WCAG 2.2.",7],["heading","Formación de equipos",6],["StaticText","Formación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo y diseño.",7],["heading","Remediación",6],["StaticText","Remediación",7],["StaticText","Acompañamiento en la corrección de barreras detectadas.",7]],"soloEnModificada":[["heading","Auditorías de accesibilidad",6],["StaticText","Auditorías de accesibilidad",7],["StaticText","Revisión manual y automatizada contra las WCAG 2.2, nivel AA.",7],["heading","Capacitación de equipos",6],["StaticText","Capacitación de equipos",7],["StaticText","Talleres prácticos para equipos de desarrollo, diseño y producto.",7],["heading","Remediación guiada",6],["StaticText","Remediación guiada",7],["StaticText","Acompañamiento técnico en la corrección de las barreras detectadas.",7]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":5,"accion":"click #preguntas .a11y-disclosure:first-of-type > *:first-child","arbol":{"soloEnBase":[["heading","Auditoría de accesibilidad",6],["StaticText","Auditoría de accesibilidad",7],["StaticText","Revisión manual y automatizada contra WCAG 2.2.",7],["heading","Formación de equipos",6],["StaticText","Formación de equipos",7],["StaticText","Talleres prácticos para equipos de des
+… evidencia recortada para el comentario
+```
+</details>
+
+<sub>Comparación `HEAD` contra `HEAD + n01-benign-rewording` · estrategia diferencial de trazas con contexto temporal · modelo Llama 3.1 8B · Chromium 130.0.6723.31</sub>
+
+======================================================================
+CONTRASTE CONTRA LA VERDAD DE TERRENO
+======================================================================
+  divergencia observable      PASA   (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+  detección                   PASA   (dijo false)
+
+El flujo de Pull Requests reproduce la verdad de terreno de este par.
+
+Las dimensiones de categoría y localización se informan y no hacen fallar la prueba: son desempeño del modelo, medido en el Capítulo 4, y no corrección del flujo.
+codigo de salida: 0

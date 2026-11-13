@@ -1,0 +1,94 @@
+MUESTRA PARA LA LECTURA CUALITATIVA (semilla 7)
+
+Qwen 2.5, falsos negativos, version modificada unicamente
+---------------------------------------------------------
+a05-blog/m01-status-silent-search [static] regresion=False categoria=None paso=None
+    None
+a03-panel/m02-cto-tab-order [static] regresion=False categoria=None paso=None
+    No se observa ninguna regresión en el flujo de interacción proporcionado.
+a06-equipo/m04-ccb-send-on-blur [static] regresion=False categoria=None paso=None
+    No se observa ninguna regresión en las cuatro categorías de accesibilidad revisadas.
+a10-tramites/m07-status-no-busy [static] regresion=False categoria=None paso=None
+    None
+a10-tramites/m06-status-silent [static] regresion=False categoria=None paso=None
+    None
+a05-blog/m03-focus-loss-pagination [static] regresion=False categoria=None paso=None
+    None
+a04-multipaso/m02-kbd-activation-mouse-only [static] regresion=False categoria=None paso=None
+    El formulario se completa correctamente y no se observan cambios inesperados de contexto ni problemas con el foco ni la operación mediante teclado. El paso 14 no introduce ningún cambio relevante.
+a05-blog/m02-ccb-search-on-blur [static] regresion=False categoria=None paso=None
+    None
+a04-multipaso/m03-ccb-advance-on-blur [static] regresion=False categoria=None paso=None
+    El árbol de accesibilidad no presenta cambios que indiquen regresiones en las cuatro categorías revisadas.
+
+Qwen 2.5, falsos negativos, estrategias diferenciales
+-----------------------------------------------------
+a09-tienda/m01-ccs-context-on-selection [trace-diff] regresion=False categoria=None paso=None
+    El recorrido no muestra ninguna regresión en las categorías de accesibilidad revisadas.
+a06-equipo/m01-focus-loss-row-removal [state-diff] regresion=False categoria=None paso=None
+    No se observa ninguna regresión en los pasos proporcionados.
+a10-tramites/m05-ccb-confirm-on-blur [state-diff] regresion=False categoria=None paso=None
+    No se observan cambios en el orden o continuidad del foco, operación mediante teclado, cambios inesperados de contexto ni comunicación accesible de actualizaciones dinámicas entre las versiones base y modificada.
+a05-blog/m04-cto-pagination [trace-diff] regresion=False categoria=None paso=None
+    No se observa ninguna regresión en los pasos analizados.
+a03-panel/m05-status-silent [trace-diff] regresion=False categoria=None paso=None
+    No se observan cambios en el foco ni en la operación mediante teclado que indiquen una regresión.
+a05-blog/m01-status-silent-search [state-diff] regresion=False categoria=None paso=None
+    No se observan cambios en el orden o continuidad del foco, operación mediante teclado, cambios inesperados de contexto ni comunicación accesible de actualizaciones dinámicas en los pasos proporcionados.
+a06-equipo/m04-ccb-send-on-blur [state-diff] regresion=False categoria=None paso=None
+    El paso 12 muestra una diferencia significativa en el árbol de accesibilidad, donde la versión modificada incluye un menú principal y una sección de integrantes, mientras que la versión base mantiene el formulario de invitación. Sin embargo, el paso 13 no muestra ninguna diferencia en el árbol de accesibilidad, lo que sugiere que el cambio no ha introducido una regresión en ninguna de las categorías de accesibilidad mencionadas.
+a10-tramites/m03-kbd-activation-detail [trace-diff] regresion=False categoria=None paso=None
+    None
+
+Llama 3.1, falsos positivos, estrategias diferenciales
+------------------------------------------------------
+a06-equipo/p01-preexisting-focus-defect [trace-diff] regresion=True categoria=orden y continuidad del foco paso=9
+    En el paso 9, el foco se desplaza a un nodo diferente en la versión modificada, pero no en la versión base. Esto indica una regresión en la continuidad del foco.
+a08-contacto/n01-benign-label-rewording [trace-diff] regresion=True categoria=orden y continuidad del foco paso=8
+    En el paso 8, el foco se desplaza a un elemento diferente en la versión modificada, pero no en la versión base. Esto indica una posible regresión en la orden y continuidad del foco.
+a07-perfil/n01-benign-better-label [state-diff] regresion=True categoria=orden y continuidad del foco paso=11
+    En el paso 11, el foco se mueve a un botón con un rol diferente en la versión modificada ("Guardar cambios de la cuenta") en comparación con la versión base ("Guardar cambios"). Esto indica una regresión en la orden y continuidad del foco.
+a05-blog/p01-preexisting-focus-defect [trace-diff] regresion=True categoria=orden y continuidad del foco paso=13
+    En el paso 13, el foco se mueve a un elemento nuevo después de un click, pero el árbol de accesibilidad no muestra el cambio de foco. Esto indica una regresión en la continuidad del foco.
+a05-blog/n01-benign-reading-time [state-diff] regresion=True categoria=orden y continuidad del foco paso=13
+    En el paso 13, el foco se mueve a un nuevo nodo, pero en el paso 14, el árbol de accesibilidad no se actualiza correctamente, lo que indica una interrupción en la continuidad del foco.
+a05-blog/p01-preexisting-focus-defect [state-diff] regresion=True categoria=orden y continuidad del foco paso=13
+    En el paso 13, el foco se mueve a un nuevo nodo, pero en el paso 14, el árbol de accesibilidad no se actualiza correctamente, lo que indica una regresión en la continuidad del foco.
+a10-tramites/n01-benign-count-and-caption [state-diff] regresion=True categoria=orden y continuidad del foco paso=23
+    En el paso 23, el foco se desplaza a un elemento nuevo ('paragraph') en la versión modificada, pero no en la versión base. Esto rompe la continuidad del foco.
+a09-tienda/n01-benign-extra-disclosure [state-diff] regresion=True categoria=orden y continuidad del foco paso=6
+    En el paso 6, el foco se establece en un elemento con role=combobox, pero en la versión modificada no hay un cambio en el foco previo que explique este cambio. En la versión base, el foco se establece en un elemento con role=combobox en el paso 6, pero en la versión modificada, el foco se establece en el mismo elemento en el paso 6, sin cambios previos en el foco.
+a09-tienda/p01-preexisting-cto-defect [state-diff] regresion=True categoria=orden y continuidad del foco paso=6
+    En el paso 6, el foco se establece en un elemento con role=combobox, pero no se puede determinar si el foco se mantiene en el siguiente paso (paso 7). Esto podría indicar una regresión en la continuidad del foco.
+a02-piscina/n01-benign-rewording [state-diff] regresion=True categoria=orden y continuidad del foco paso=6
+    En el paso 6, el foco se mueve a [data-testid=nombre] pero el árbol de accesibilidad sigue mostrando los botones de la versión base. Esto indica que el foco no sigue el orden correcto en la versión modificada.
+a04-multipaso/n01-benign-indicator-rewording [state-diff] regresion=True categoria=orden y continuidad del foco paso=4
+    En el paso 4, se ejecutó la acción 'press tecla Tab' y en el árbol de accesibilidad, los nodos 'StaticText' con texto 'Etapa 1 de 3', 'Etapa 2 de 3' y 'Etapa 3 de 3' aparecen solo en la versión modificada, lo que indica que el foco no se mantiene en el orden correcto.
+
+Phi 3.5, falsos positivos, tres estrategias
+-------------------------------------------
+a10-tramites/p01-preexisting-cto-defect [state-diff] regresion=True categoria=orden y continuidad del foco paso=23
+    En el paso 23, el movimiento del foco de un 'StaticText' a un 'paragraph' sin pasar por el 'table' pertinente, lo cual rompe la secuencia esperada establecida en la versión base donde el foco se movía de un 
+a10-tramites/p01-preexisting-cto-defect [static] regresion=True categoria=comunicación accesible de actualizaciones dinámicas paso=11
+    En el paso 11, la acción es 'press tecla Enter' y el arbol de accesibilidad muestra un 'button' con el texto 'Presentar solicitud' y un 'StaticText' con el texto 'Presentar solicitud'. Esto sugiere que al presionar Enter, se espera que se presente una solicitud, pero no hay indicación clara de un mecanismo para comunicar esta acción dinámica, lo que podría dificultar la accesibilidad para usuarios que dependen de lectores de pantalla o otros dispositivos de asistencia.
+a02-piscina/n01-benign-rewording [static] regresion=True categoria=operación mediante teclado paso=7
+    None
+a10-tramites/m09-neutral-text-join [static] regresion=True categoria=comunicación accesible de actualizaciones dinámicas paso=11
+    En el paso 11, la acción es 'press tecla Enter' y el arbol de accesibilidad muestra un 'button' con el texto 'Presentar solicitud' y un 'StaticText' con el texto 'Presentar solicitud'. Esto sugiere que al presionar Enter, se espera que se presente una solicitud, pero no hay indicación clara de un mecanismo para comunicar esta acción dinámica, lo que podría dificultar la accesibilidad para usuarios que dependen de lectores de pantalla o otros dispositivos de asistencia.
+a10-tramites/n01-benign-count-and-caption [static] regresion=True categoria=comunicación accesible de actualizaciones dinámicas paso=11
+    En el paso 11, la acción es 'fill [data-testid=solicitud-nombre] valor "Ana Pérez"', lo que implica una actualización dinámica del contenido de un campo. Si la aplicación no maneja esta actualización accesible, podría causar una regresión en la comunicación de actualizaciones dinámicas.
+a10-tramites/n01-benign-count-and-caption [trace-diff] regresion=True categoria=orden y continuidad del foco paso=22
+    En el paso 22, el evento 'click [data-testid=confirmar-presentar]' cambió el árbol de accesibilidad de tener un nodo 'table' y 'StaticText' para describir el estado de los trámites presentados a tener un 'paragraph' y un 'StaticText', lo que indica un cambio en la estructura y posiblemente en la secuencia de elementos, afectando la continuidad del foco y la comprensión del estado por parte de los usuarios dependientes del teclado.
+a10-tramites/p01-preexisting-cto-defect [trace-diff] regresion=True categoria=orden y continuidad del foco paso=22
+    En el paso 22, el evento 'click [data-testid=confirmar-presentar]' cambió la estructura del árbol de accesibilidad de tener una tabla y un StaticText para describir los trámites presentados y su estado, a tener un paragraph y un StaticText para el mismo propósito. Esto puede interrumpir la continuidad del foco y la comprensión esperada del usuario, ya que los elementos esperados no son secuenciales ni lógicamente relacionados en la estructura actualizada.
+a07-perfil/n01-benign-better-label [state-diff] regresion=True categoria=orden y continuidad del foco paso=11
+    None
+a05-blog/p01-preexisting-focus-defect [state-diff] regresion=True categoria=operación mediante teclado paso=10
+    En el paso 10, se realiza un foco en un elemento con el atributo data-testid='busqueda', que no estaba presente en la versión base, afectando potencialmente la operación mediante teclado si esta funcionalidad estaba destinada a interactuar con la entrada o navegación a través de la página de manera basada en teclado.
+a06-equipo/n01-benign-better-label [state-diff] regresion=True categoria=operación mediante teclado paso=1
+    None
+a06-equipo/p01-preexisting-focus-defect [trace-diff] regresion=True categoria=orden y continuidad del foco paso=6
+    None
+a10-tramites/m10-neutral-detail-refactor [static] regresion=True categoria=comunicación accesible de actualizaciones dinámicas paso=11
+    En el paso 11, la acción es 'press tecla Enter' y el arbol de accesibilidad muestra un 'button' con el texto 'Presentar solicitud' y un 'StaticText' con el texto 'Presentar solicitud'. Esto sugiere que al presionar Enter, se espera que se presente una solicitud, pero no hay indicación clara de un mecanismo para comunicar esta acción dinámica, lo que podría dificultar la accesibilidad para usuarios que dependen de lectores de pantalla o otros dispositivos de asistencia.
+
