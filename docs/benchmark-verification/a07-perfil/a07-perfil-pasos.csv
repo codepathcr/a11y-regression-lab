@@ -1,0 +1,13 @@
+paso,accion,base,m01-ccb-autosave-on-blur,m02-status-removed,m03-neutral-savebar-refactor,n01-benign-better-label
+1,"Presionar Tab.","Foco avanza al primer control de la interfaz.","Como base.","Como base.","Sin regresion esperada.","Como base; nombre accesible de Guardar es mas descriptivo."
+2,"Presionar ArrowRight.","Cambia a la pestaña siguiente.","Como base.","Como base.","Sin regresion esperada.","Como base."
+3,"Presionar Enter.","Activa la pestaña enfocada y muestra su panel.","Como base.","Como base.","Sin regresion esperada.","Como base."
+4,"Hacer clic en el resumen Avisos (data-testid=avisos-resumen).","Se abre el resumen y expone su contenido.","Como base.","Como base.","Sin regresion esperada.","Como base."
+5,"Hacer clic en la tercera pestaña del perfil.","Se muestra el panel de la tercera pestaña.","Como base.","Como base.","Sin regresion esperada.","Como base."
+6,"Hacer clic en Perfil público (data-testid=perfil-publico).","Se muestra o actualiza el panel público.","Como base.","Como base.","Sin regresion esperada.","Como base."
+7,"Hacer clic en la primera pestaña del perfil.","Se muestra el panel con los datos editables.","Como base.","Como base.","Sin regresion esperada.","Como base."
+8,"Escribir Ana P. Rojas en Nombre (data-testid=perfil-nombre).","El nombre queda editado; todavía no se guarda.","Como base.","Como base.","Sin regresion esperada.","Como base."
+9,"Presionar Tab para salir del campo Nombre.","El campo pierde foco, pero no se guarda automáticamente; Guardar continúa disponible.","Se guardan los cambios al salir del campo; Guardar se deshabilita antes de activarlo.","Como base.","Sin regresion esperada.","Como base; el texto de estado también se reescribe benignamente."
+10,"Enfocar Guardar (data-testid=guardar).","El botón Guardar recibe el foco y queda disponible.","Guardar ya se deshabilitó por el autosave; no debería enfocarse como acción pendiente.","Como base.","Sin regresion esperada.","El botón tiene nombre accesible más descriptivo e incluye el texto visible."
+11,"Presionar Enter para guardar.","Se guardan los cambios y la región de estado anuncia el resultado.","El guardado ya ocurrió al salir del campo; registrar que Enter no es necesario.","El guardado ocurre, pero el estado no se anuncia automáticamente; el texto permanece en el DOM.","Sin regresion esperada.","Se guarda y se anuncia el estado con la redacción benigna."
+12,"Esperar 250 ms sin interactuar.","Se conserva el perfil guardado; registrar foco y mensaje.","Cambios guardados prematuramente en el paso 9.","El texto de estado sigue visible, sin anuncio live.","Sin regresion esperada.","Sin regresión; texto de estado y nombre accesible son cambios benignos."
