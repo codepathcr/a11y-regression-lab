@@ -1,0 +1,54 @@
+
+> @a11y-lab/benchmark@0.1.0 pr-selftest /app/packages/benchmark
+> tsx scripts/pr-selftest.ts "a04-multipaso" "m03-ccb-advance-on-blur"
+
+Exportando HEAD a /tmp/a11y-selftest-0mDH90
+Aplicación: a04-multipaso · Formulario multipaso de postulación
+Variante inyectada: m03-ccb-advance-on-blur
+Verdad de terreno: regresión=true · categoría=cambios inesperados de contexto · paso=4
+
+Instalando dependencias
+Compilando el lado base
+Inyectando m03-ccb-advance-on-blur en la composición base
+Compilando el lado modificado
+
+Modelo: Llama 3.1 8B
+
+Entorno: chromium 130.0.6723.31 · viewport 1280x900 · settle 150 ms
+Entorno de referencia: coincide. Las cifras de magnitud son comparables.
+### Accesibilidad dinámica: una regresión
+
+| Aplicación | Veredicto | Transición | Categoría |
+| --- | --- | --- | --- |
+| `a04-multipaso` | **Regresión** | paso 11 | cambios inesperados de contexto |
+
+<details>
+<summary>Evidencia de <code>a04-multipaso</code></summary>
+
+**Lo que observó el modelo.** El paso 11 muestra que el elemento no disponible es el botón 'Continuar', lo que indica un cambio inesperado de contexto. Además, el mensaje 'step-failed elemento no disponible' sugiere que el sistema no está preparado para el siguiente paso.
+
+Divergencia de eventos 59.1 % · de árbol de accesibilidad 17.2 % · pasos 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+
+La magnitud de la divergencia no es un criterio de decisión y no debe usarse como umbral: depende de la versión del navegador y se infla en cascada cuando el defecto ocurre temprano. Se muestra para situar el cambio, no para juzgarlo.
+
+```json
+{"formato":{"nodo":["rol","nombre","profundidad","valor?","live?","enfocado?"],"nota":"Los nodos del arbol de accesibilidad vienen como tuplas en ese orden. Los tres ultimos campos se omiten cuando no aplican."},"pasos":[{"paso":4,"accion":"press tecla Tab","arbol":{"soloEnBase":[["heading","Tus datos",4],["StaticText","Tus datos",5],["StaticText","Nombre completo",5],["textbox","Nombre completo",4,"Ana Pérez",null,null],["StaticText","Ana Pérez",6],["StaticText","Correo electrónico",5],["textbox","Correo electrónico",4,"ana@ejemplo.com",null,null],["StaticText","ana@ejemplo.com",6],["StaticText","El nombre es obligatorio.",5],["StaticText","El nombre es obligatorio.",4]],"soloEnModificada":[["heading","Tu propuesta",4],["StaticText","Tu propuesta",5],["StaticText","Institución",5],["paragraph","",4],["StaticText","Opcional.",5],["textbox","Institución",4],["StaticText","Tema de la propuesta",5],["textbox","Tema de la propuesta",4],["StaticText","Paso 2 de 3: Tu propuesta.",4]]},"eventos":{"soloEnBase":[],"soloEnModificada":[{"kind":"aria-change","target":{"path":"body/div/div/div/main/nav/ol/li[1]","role":"listitem","name":""},"attribute":"aria-current","from":"step","to":null},{"kind":"aria-change","target":{"path":"body/div/div/div/main/nav/ol/li[2]","role":"listitem","name":""},"attribute":"aria-current","from":null,"to":"step"},{"kind":"dom-remove","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"div/input","role":"textbox","name":""}},{"kind":"dom-remove","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"div/input","role":"textbox","name":""}},{"kind":"dom-add","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"body/div/div/div/main/section/div[1]/p","role":"paragraph","name":"Opcional."}},{"kind":"dom-add","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"body/div/div/div/main/section/div[2]/input","role":"textbox","name":"Tema de la propuesta"}},{"kind":"aria-change","target":{"path":"body/div/div/div/main/div[1]/button[1]","role":"button","name":"Atrás"},"attribute":"disabled","from":"","to":null},{"kind":"announcement","target":{"path":"body/div/div/div/main/div[2]","role":"status","name":""},"politeness":"polite","text":"Paso 2 de 3: Tu propuesta."}]}},{"paso":5,"accion":"press tecla Enter","arbol":{"soloEnBase":[["heading","Tu propuesta",4,null,null,true],["button","Continuar",3],["StaticText","Paso 2 de 3: Tu propuesta.",4]],"soloEnModificada":[["heading","Tu propuesta",4],["StaticText","Indicá el tema de tu propuesta.",5],["button","Continuar",3,null,null,true],["StaticText","Indicá el tema de tu propuesta.",4]]},"eventos":{"soloEnBase":[{"kind":"key","phase":"up","key":"Enter","target":{"path":"body/div/div/div/main/section/h2","role":"heading","name":"Tu propuesta"}},{"kind":"blur","target":{"path":"body/div/div/div/main/div[1]/button[2]","role":"button","name":"Continuar"}},{"kind":"focus","target":{"path":"body/div/div/div/main/section/h2","role":"heading","name":"Tu propuesta"}},{"kind":"aria-change","target":{"path":"body/div/div/div/main/nav/ol/li[1]","role":"listitem","name":""},"attribute":"aria-current","from":"step","to":null},{"kind":"aria-change","target":{"path":"body/div/div/div/main/nav/ol/li[2]","role":"listitem","name":""},"attribute":"aria-current","from":null,"to":"step"},{"kind":"dom-remove","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"div/input","role":"textbox","name":""}},{"kind":"dom-remove","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"div/input","role":"textbox","name":""}},{"kind":"dom-add","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"body/div/div/div/main/section/div[1]/p","role":"paragraph","name":"Opcional."}},{"kind":"dom-add","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"body/div/div/div/main/section/div[2]/input","role":"textbox","name":"Tema de la propuesta"}},{"kind":"aria-change","target":{"path":"body/div/div/div/main/div[1]/button[1]","role":"button","name":"Atrás"},"attribute":"disabled","from":"","to":null},{"kind":"announcement","target":{"path":"body/div/div/div/main/div[2]","role":"status","name":""},"politeness":"polite","text":"Paso 2 de 3: Tu propuesta."}],"soloEnModificada":[{"kind":"key","phase":"up","key":"Enter","target":{"path":"body/div/div/div/main/div[1]/button[2]","role":"button","name":"Continuar"}},{"kind":"aria-change","target":{"path":"body/div/div/div/main/section/div[2]/input","role":"textbox","name":"Tema de la propuesta"},"attribute":"aria-invalid","from":null,"to":"true"},{"kind":"aria-change","target":{"path":"body/div/div/div/main/section/div[2]/input","role":"textbox","name":"Tema de la propuesta"},"attribute":"aria-describedby","from":null,"to":":r3:-error"},{"kind":"announcement","target":{"path":"body/div/div/div/main/section/div[2]/div","role":"alert","name":""},"politeness":"assertive","text":"Indicá el tema de tu propuesta."},{"kind":"announcement","target":{"path":"body/div/div/div/main/div[2]","role":"status","name":""},"politeness":"polite","text":"Indicá el tema de tu propuesta."}]}},{"paso":6,"accion":"press tecla Tab","arbol":{"soloEnBase":[["RootWebArea","Harness del benchmark",0,null,null,true],["textbox","Institución",4,null,null,true],["StaticText","Paso 2 de 3: Tu propuesta.",4]],"soloEnModificada":[["RootWebArea","Harness del benchmark",0],["textbox","Institución",4],["StaticText","Indicá el tema de tu propuesta.",5],["StaticText","Indicá el tema de tu propuesta.",4]]},"eventos":{"soloEnBase":[{"kind":"key","phase":"down","key":"Tab","target":{"path":"body/div/div/div/main/section/h2","role":"heading","name":"Tu propuesta"}},{"kind":"key","phase":"up","key":"Tab","target":{"path":"body/div/div/div/main/section/div[1]/input","role":"textbox","name":"Institución"}},{"kind":"blur","target":{"path":"body/div/div/div/main/sec
+… evidencia recortada para el comentario
+```
+</details>
+
+<sub>Comparación `HEAD` contra `HEAD + m03-ccb-advance-on-blur` · estrategia diferencial de trazas con contexto temporal · modelo Llama 3.1 8B · Chromium 130.0.6723.31</sub>
+
+======================================================================
+CONTRASTE CONTRA LA VERDAD DE TERRENO
+======================================================================
+  divergencia observable      PASA   (4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+  el paso esperado divergió   PASA   (esperado 4)
+  detección                   PASA   (dijo true)
+  categoría                   PASA   (dijo cambios inesperados de contexto)
+  localización estricta       FALLA   (dijo 11)
+
+El flujo de Pull Requests reproduce la verdad de terreno de este par.
+
+Las dimensiones de categoría y localización se informan y no hacen fallar la prueba: son desempeño del modelo, medido en el Capítulo 4, y no corrección del flujo.
+codigo de salida: 0

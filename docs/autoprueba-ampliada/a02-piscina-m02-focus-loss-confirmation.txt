@@ -1,0 +1,53 @@
+
+> @a11y-lab/benchmark@0.1.0 pr-selftest /app/packages/benchmark
+> tsx scripts/pr-selftest.ts "a02-piscina" "m02-focus-loss-confirmation"
+
+Exportando HEAD a /tmp/a11y-selftest-1tiCGZ
+Aplicación: a02-piscina · Reserva de carril en una piscina municipal
+Variante inyectada: m02-focus-loss-confirmation
+Verdad de terreno: regresión=true · categoría=orden y continuidad del foco · paso=8
+
+Instalando dependencias
+Compilando el lado base
+Inyectando m02-focus-loss-confirmation en la composición base
+Compilando el lado modificado
+
+Modelo: Llama 3.1 8B
+
+Entorno: chromium 130.0.6723.31 · viewport 1280x900 · settle 150 ms
+Entorno de referencia: coincide. Las cifras de magnitud son comparables.
+### Accesibilidad dinámica: una regresión
+
+| Aplicación | Veredicto | Transición | Categoría |
+| --- | --- | --- | --- |
+| `a02-piscina` | **Regresión** | paso 8 | orden y continuidad del foco |
+
+<details>
+<summary>Evidencia de <code>a02-piscina</code></summary>
+
+**Lo que observó el modelo.** En el paso 8, el foco se mueve a un nodo de tipo 'heading' en la versión modificada, pero en la versión base se mueve a un nodo de tipo 'generic' y luego a un nodo de tipo 'heading'. Esto indica una discontinuidad en el orden del foco.
+
+Divergencia de eventos 3.8 % · de árbol de accesibilidad 1.9 % · pasos 8, 9
+
+La magnitud de la divergencia no es un criterio de decisión y no debe usarse como umbral: depende de la versión del navegador y se infla en cascada cuando el defecto ocurre temprano. Se muestra para situar el cambio, no para juzgarlo.
+
+```json
+{"formato":{"nodo":["rol","nombre","profundidad","valor?","live?","enfocado?"],"nota":"Los nodos del arbol de accesibilidad vienen como tuplas en ese orden. Los tres ultimos campos se omiten cuando no aplican."},"pasos":[{"paso":8,"accion":"click [data-testid=confirmar]","arbol":{"soloEnBase":[["generic","Reserva confirmada Te esperamos de 09:00 a 10:00. Presentá tu documento en recepción quince minutos antes.",3,null,null,true],["heading","Reserva confirmada",4],["StaticText","Reserva confirmada",5],["paragraph","",4],["StaticText","Te esperamos de 09:00 a 10:00. Presentá tu documento en recepción quince minutos antes.",5]],"soloEnModificada":[["heading","Reserva confirmada",3],["StaticText","Reserva confirmada",4],["paragraph","",3],["StaticText","Te esperamos de 09:00 a 10:00. Presentá tu documento en recepción quince minutos antes.",4]]},"eventos":{"soloEnBase":[{"kind":"focus","target":{"path":"body/div/div/div/main","role":"main","name":""}},{"kind":"dom-add","parent":{"path":"body/div/div/div/main","role":"main","name":""},"node":{"path":"body/div/div/div/main/div[2]/h2","role":"heading","name":"Reserva confirmada"}}],"soloEnModificada":[]}},{"paso":9,"accion":"settle 250 ms","arbol":{"soloEnBase":[["generic","Reserva confirmada Te esperamos de 09:00 a 10:00. Presentá tu documento en recepción quince minutos antes.",3,null,null,true],["heading","Reserva confirmada",4],["StaticText","Reserva confirmada",5],["paragraph","",4],["StaticText","Te esperamos de 09:00 a 10:00. Presentá tu documento en recepción quince minutos antes.",5]],"soloEnModificada":[["heading","Reserva confirmada",3],["StaticText","Reserva confirmada",4],["paragraph","",3],["StaticText","Te esperamos de 09:00 a 10:00. Presentá tu documento en recepción quince minutos antes.",4]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}}]}
+```
+</details>
+
+<sub>Comparación `HEAD` contra `HEAD + m02-focus-loss-confirmation` · estrategia diferencial de trazas con contexto temporal · modelo Llama 3.1 8B · Chromium 130.0.6723.31</sub>
+
+======================================================================
+CONTRASTE CONTRA LA VERDAD DE TERRENO
+======================================================================
+  divergencia observable      PASA   (8, 9)
+  el paso esperado divergió   PASA   (esperado 8)
+  detección                   PASA   (dijo true)
+  categoría                   PASA   (dijo orden y continuidad del foco)
+  localización estricta       PASA   (dijo 8)
+
+El flujo de Pull Requests reproduce la verdad de terreno de este par.
+
+Las dimensiones de categoría y localización se informan y no hacen fallar la prueba: son desempeño del modelo, medido en el Capítulo 4, y no corrección del flujo.
+codigo de salida: 0

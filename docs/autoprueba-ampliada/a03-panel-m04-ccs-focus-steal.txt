@@ -1,0 +1,53 @@
+
+> @a11y-lab/benchmark@0.1.0 pr-selftest /app/packages/benchmark
+> tsx scripts/pr-selftest.ts "a03-panel" "m04-ccs-focus-steal"
+
+Exportando HEAD a /tmp/a11y-selftest-DZDXBW
+Aplicación: a03-panel · Panel de incidencias con filtros y tabla ordenable
+Variante inyectada: m04-ccs-focus-steal
+Verdad de terreno: regresión=true · categoría=cambios inesperados de contexto · paso=10
+
+Instalando dependencias
+Compilando el lado base
+Inyectando m04-ccs-focus-steal en la composición base
+Compilando el lado modificado
+
+Modelo: Llama 3.1 8B
+
+Entorno: chromium 130.0.6723.31 · viewport 1280x900 · settle 150 ms
+Entorno de referencia: coincide. Las cifras de magnitud son comparables.
+### Accesibilidad dinámica: una regresión
+
+| Aplicación | Veredicto | Transición | Categoría |
+| --- | --- | --- | --- |
+| `a03-panel` | **Regresión** | paso 10 | orden y continuidad del foco |
+
+<details>
+<summary>Evidencia de <code>a03-panel</code></summary>
+
+**Lo que observó el modelo.** En el paso 10, el foco se desplaza a la sección de 'Incidencias' cuando se presiona Enter, pero en la versión modificada, el foco se desplaza a la sección de 'Incidencias' y luego se pierde el foco en la sección de 'Estado de la incidencia'. Esto indica una interrupción en la continuidad del foco.
+
+Divergencia de eventos 8.2 % · de árbol de accesibilidad 0.2 % · pasos 10, 11
+
+La magnitud de la divergencia no es un criterio de decisión y no debe usarse como umbral: depende de la versión del navegador y se infla en cascada cuando el defecto ocurre temprano. Se muestra para situar el cambio, no para juzgarlo.
+
+```json
+{"formato":{"nodo":["rol","nombre","profundidad","valor?","live?","enfocado?"],"nota":"Los nodos del arbol de accesibilidad vienen como tuplas en ese orden. Los tres ultimos campos se omiten cuando no aplican."},"pasos":[{"paso":10,"accion":"press tecla Enter","arbol":{"soloEnBase":[["combobox","Estado de la incidencia",5,"Abierto",null,true],["heading","Incidencias",4]],"soloEnModificada":[["combobox","Estado de la incidencia",5,"Abierto",null,null],["heading","Incidencias",4,null,null,true]]},"eventos":{"soloEnBase":[{"kind":"key","phase":"up","key":"Enter","target":{"path":"body/div/div/div/main/section[2]/div/input","role":"combobox","name":"Estado de la incidencia"}}],"soloEnModificada":[{"kind":"key","phase":"up","key":"Enter","target":{"path":"body/div/div/div/main/section[3]/h2","role":"heading","name":"Incidencias"}},{"kind":"blur","target":{"path":"body/div/div/div/main/section[2]/div/input","role":"combobox","name":"Estado de la incidencia"}},{"kind":"focus","target":{"path":"body/div/div/div/main/section[3]/h2","role":"heading","name":"Incidencias"}},{"kind":"aria-change","target":{"path":"body/div/div/div/main/section[3]/h2","role":"heading","name":"Incidencias"},"attribute":"tabindex","from":null,"to":"-1"}]}},{"paso":11,"accion":"click [data-testid=orden-title]","arbol":{"soloEnBase":[],"soloEnModificada":[]},"eventos":{"soloEnBase":[{"kind":"blur","target":{"path":"body/div/div/div/main/section[2]/div/input","role":"combobox","name":"Estado de la incidencia"}}],"soloEnModificada":[{"kind":"blur","target":{"path":"body/div/div/div/main/section[3]/h2","role":"heading","name":"Incidencias"}}]}}]}
+```
+</details>
+
+<sub>Comparación `HEAD` contra `HEAD + m04-ccs-focus-steal` · estrategia diferencial de trazas con contexto temporal · modelo Llama 3.1 8B · Chromium 130.0.6723.31</sub>
+
+======================================================================
+CONTRASTE CONTRA LA VERDAD DE TERRENO
+======================================================================
+  divergencia observable      PASA   (10, 11)
+  el paso esperado divergió   PASA   (esperado 10)
+  detección                   PASA   (dijo true)
+  categoría                   FALLA   (dijo orden y continuidad del foco)
+  localización estricta       PASA   (dijo 10)
+
+El flujo de Pull Requests reproduce la verdad de terreno de este par.
+
+Las dimensiones de categoría y localización se informan y no hacen fallar la prueba: son desempeño del modelo, medido en el Capítulo 4, y no corrección del flujo.
+codigo de salida: 0

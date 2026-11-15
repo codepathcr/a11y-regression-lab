@@ -1,0 +1,54 @@
+
+> @a11y-lab/benchmark@0.1.0 pr-selftest /app/packages/benchmark
+> tsx scripts/pr-selftest.ts "a01-landing" "m01-kbd-activation"
+
+Exportando HEAD a /tmp/a11y-selftest-kkfSLi
+Aplicación: a01-landing · Landing informativa de una consultoría de accesibilidad
+Variante inyectada: m01-kbd-activation
+Verdad de terreno: regresión=true · categoría=operación mediante teclado · paso=5
+
+Instalando dependencias
+Compilando el lado base
+Inyectando m01-kbd-activation en la composición base
+Compilando el lado modificado
+
+Modelo: Llama 3.1 8B
+
+Entorno: chromium 130.0.6723.31 · viewport 1280x900 · settle 150 ms
+Entorno de referencia: coincide. Las cifras de magnitud son comparables.
+### Accesibilidad dinámica: una regresión
+
+| Aplicación | Veredicto | Transición | Categoría |
+| --- | --- | --- | --- |
+| `a01-landing` | **Regresión** | paso 5 | orden y continuidad del foco |
+
+<details>
+<summary>Evidencia de <code>a01-landing</code></summary>
+
+**Lo que observó el modelo.** En el paso 5, el foco se desplaza a un nodo con rol 'generic' en lugar de un nodo con rol 'button', lo que indica una interrupción en la secuencia de foco. Esto se debe a que el evento de click en el botón de preguntas desencadena la expansión de un elemento con rol 'generic' en lugar de un elemento con rol 'button'.
+
+Divergencia de eventos 4.6 % · de árbol de accesibilidad 6.3 % · pasos 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+
+La magnitud de la divergencia no es un criterio de decisión y no debe usarse como umbral: depende de la versión del navegador y se infla en cascada cuando el defecto ocurre temprano. Se muestra para situar el cambio, no para juzgarlo.
+
+```json
+{"formato":{"nodo":["rol","nombre","profundidad","valor?","live?","enfocado?"],"nota":"Los nodos del arbol de accesibilidad vienen como tuplas en ese orden. Los tres ultimos campos se omiten cuando no aplican."},"pasos":[{"paso":0,"accion":"montaje de la página","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",5],["StaticText","¿Cuánto tarda una auditoría?",6],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["StaticText","¿Cuánto tarda una auditoría?",5],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":1,"accion":"press tecla Tab","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",5],["StaticText","¿Cuánto tarda una auditoría?",6],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["StaticText","¿Cuánto tarda una auditoría?",5],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":2,"accion":"press tecla Tab","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",5],["StaticText","¿Cuánto tarda una auditoría?",6],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["StaticText","¿Cuánto tarda una auditoría?",5],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":3,"accion":"press tecla Tab","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",5],["StaticText","¿Cuánto tarda una auditoría?",6],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["StaticText","¿Cuánto tarda una auditoría?",5],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":4,"accion":"press tecla Tab","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",5],["StaticText","¿Cuánto tarda una auditoría?",6],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["StaticText","¿Cuánto tarda una auditoría?",5],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":5,"accion":"click #preguntas .a11y-disclosure:first-of-type > *:first-child","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",4,null,null,true],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["generic","",4],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[{"kind":"focus","target":{"path":"body/div/div/div/main/section[2]/div[1]/button","role":"button","name":"¿Cuánto tarda una auditoría?"}},{"kind":"aria-change","target":{"path":"body/div/div/div/main/section[2]/div[1]/button","role":"button","name":"¿Cuánto tarda una auditoría?"},"attribute":"aria-expanded","from":"false","to":"true"}],"soloEnModificada":[]}},{"paso":6,"accion":"focus [data-testid=email]","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",4],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["generic","",4],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[{"kind":"blur","target":{"path":"body/div/div/div/main/section[2]/div[1]/button","role":"button","name":"¿Cuánto tarda una auditoría?"}}],"soloEnModificada":[]}},{"paso":7,"accion":"fill [data-testid=email] valor \"correo-sin-arroba\"","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",4],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["generic","",4],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":8,"accion":"click [data-testid=enviar]","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",4],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["generic","",4],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":9,"accion":"fill [data-testid=email] valor \"persona@ejemplo.com\"","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",4],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué criterios se revisan?",6],["button","¿Qué incluye el informe?",5],["StaticText","¿Qué incluye el informe?",6]],"soloEnModificada":[["generic","",4],["StaticText","¿Qué criterios se revisan?",5],["StaticText","¿Qué incluye el informe?",5]]},"eventos":{"soloEnBase":[],"soloEnModificada":[]}},{"paso":10,"accion":"click [data-testid=enviar]","arbol":{"soloEnBase":[["button","¿Cuánto tarda una auditoría?",4],["button","¿Qué criterios se revisan?",5],["StaticText","¿Qué
+… evidencia recortada para el comentario
+```
+</details>
+
+<sub>Comparación `HEAD` contra `HEAD + m01-kbd-activation` · estrategia diferencial de trazas con contexto temporal · modelo Llama 3.1 8B · Chromium 130.0.6723.31</sub>
+
+======================================================================
+CONTRASTE CONTRA LA VERDAD DE TERRENO
+======================================================================
+  divergencia observable      PASA   (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+  el paso esperado divergió   PASA   (esperado 5)
+  detección                   PASA   (dijo true)
+  categoría                   FALLA   (dijo orden y continuidad del foco)
+  localización estricta       PASA   (dijo 5)
+
+El flujo de Pull Requests reproduce la verdad de terreno de este par.
+
+Las dimensiones de categoría y localización se informan y no hacen fallar la prueba: son desempeño del modelo, medido en el Capítulo 4, y no corrección del flujo.
+codigo de salida: 0

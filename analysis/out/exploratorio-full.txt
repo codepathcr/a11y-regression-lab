@@ -1,0 +1,238 @@
+CALCULOS COMPLEMENTARIOS Y ANALISIS EXPLORATORIOS (bloque full)
+912 registros, 76 pares, 58 con divergencia, 42 positivos
+
+==============================================================================
+A1. COMPOSICION DEL BENCHMARK POR APLICACION Y CLASE DE PAR
+==============================================================================
+  a01-landing    small   positivos  2  nula  1  benigna  1  preexistente  0  total  4
+  a02-piscina    small   positivos  2  nula  1  benigna  1  preexistente  0  total  4
+  a03-panel      medium  positivos  5  nula  2  benigna  1  preexistente  1  total  9
+  a04-multipaso  medium  positivos  5  nula  2  benigna  1  preexistente  1  total  9
+  a05-blog       medium  positivos  5  nula  2  benigna  1  preexistente  1  total  9
+  a06-equipo     medium  positivos  5  nula  2  benigna  1  preexistente  1  total  9
+  a07-perfil     small   positivos  2  nula  1  benigna  1  preexistente  0  total  4
+  a08-contacto   small   positivos  2  nula  1  benigna  1  preexistente  0  total  4
+  a09-tienda     large   positivos  7  nula  3  benigna  1  preexistente  1  total 12
+  a10-tramites   large   positivos  7  nula  3  benigna  1  preexistente  1  total 12
+
+==============================================================================
+A2. F1 CON INTERVALO POR CONGLOMERADO (4 000 replicas, semilla 7)
+==============================================================================
+  agregado       static      F1 0.315  [0.203; 0.403]
+  agregado       state-diff  F1 0.690  [0.641; 0.738]
+  agregado       trace-diff  F1 0.764  [0.729; 0.797]
+  llama31-8b     static      F1 0.295  [0.125; 0.457]
+  llama31-8b     state-diff  F1 0.767  [0.652; 0.892]
+  llama31-8b     trace-diff  F1 0.857  [0.800; 0.915]
+  mistral-nemo   static      F1 0.324  [0.107; 0.474]
+  mistral-nemo   state-diff  F1 0.444  [0.211; 0.625]
+  mistral-nemo   trace-diff  F1 0.656  [0.524; 0.740]
+  phi35          static      F1 0.529  [0.293; 0.644]
+  phi35          state-diff  F1 0.867  [0.800; 0.925]
+  phi35          trace-diff  F1 0.909  [0.866; 0.956]
+  qwen25-7b      static      F1 0.000  [0.000; 0.000]
+  qwen25-7b      state-diff  F1 0.533  [0.444; 0.627]
+  qwen25-7b      trace-diff  F1 0.533  [0.381; 0.677]
+
+==============================================================================
+A3. SENSIBILIDAD POR ESTRATO Y POR APLICACION (respuestas puntuadas)
+==============================================================================
+  large          static 5/50 = 0.100   state-diff 30/55 = 0.545   trace-diff 37/56 = 0.661
+  medium         static 26/80 = 0.325   state-diff 52/80 = 0.650   trace-diff 56/78 = 0.718
+  small          static 7/32 = 0.219   state-diff 18/31 = 0.581   trace-diff 20/32 = 0.625
+  a01-landing    static 0/8 = 0.000   state-diff 5/8 = 0.625   trace-diff 5/8 = 0.625
+  a02-piscina    static 2/8 = 0.250   state-diff 5/8 = 0.625   trace-diff 4/8 = 0.500
+  a03-panel      static 8/20 = 0.400   state-diff 12/20 = 0.600   trace-diff 14/20 = 0.700
+  a04-multipaso  static 2/20 = 0.100   state-diff 15/20 = 0.750   trace-diff 15/20 = 0.750
+  a05-blog       static 10/20 = 0.500   state-diff 13/20 = 0.650   trace-diff 13/18 = 0.722
+  a06-equipo     static 6/20 = 0.300   state-diff 12/20 = 0.600   trace-diff 14/20 = 0.700
+  a07-perfil     static 2/8 = 0.250   state-diff 5/8 = 0.625   trace-diff 6/8 = 0.750
+  a08-contacto   static 3/8 = 0.375   state-diff 3/7 = 0.429   trace-diff 5/8 = 0.625
+  a09-tienda     static 0/22 = 0.000   state-diff 13/27 = 0.481   trace-diff 18/28 = 0.643
+  a10-tramites   static 5/28 = 0.179   state-diff 17/28 = 0.607   trace-diff 19/28 = 0.679
+
+==============================================================================
+A4. RAZON DE MOMIOS PAREADA DE H0-1 Y H0-2 (58 pares)
+==============================================================================
+  OR = pares que acierta solo b / pares que acierta solo a. IC 95 % exacto
+  (Clopper-Pearson sobre la proporcion de discordantes a favor de b).
+  llama31-8b     H0-1  solo a  9  solo b 25  OR  2.78  [1.25; 6.76]
+  llama31-8b     H0-2  solo a  6  solo b 14  OR  2.33  [0.84; 7.41]
+  mistral-nemo   H0-1  solo a 10  solo b 19  OR  1.90  [0.84; 4.57]
+  mistral-nemo   H0-2  solo a  6  solo b 14  OR  2.33  [0.84; 7.41]
+  phi35          H0-1  solo a  4  solo b 23  OR  5.75  [1.96; 22.87]
+  phi35          H0-2  solo a  4  solo b  6  OR  1.50  [0.36; 7.23]
+  qwen25-7b      H0-1  solo a  2  solo b 18  OR  9.00  [2.15; 79.98]
+  qwen25-7b      H0-2  solo a  7  solo b  7  OR  1.00  [0.30; 3.34]
+
+==============================================================================
+A5. TOKENS DE SALIDA, LATENCIA ACUMULADA Y PERCENTIL 95
+==============================================================================
+  static      mediana de tokens de salida 50
+  state-diff  mediana de tokens de salida 71
+  trace-diff  mediana de tokens de salida 74
+  latencia acumulada de las 768 consultas: 66.1 min
+    llama31-8b     5.7 min
+    mistral-nemo   11.3 min
+    phi35          44.4 min
+    qwen25-7b      4.6 min
+  latencia acumulada de las 648 consultas del bloque de consistencia: 43.9 min
+  delta de Cliff de la latencia, static frente a trace-diff (todas las llamadas): +0.478
+  delta de Cliff de la latencia, static frente a trace-diff (sin las fallidas): +0.471
+  llama31-8b     static      n 76  mediana  2.18 s  p95   6.83 s  cumple
+  llama31-8b     state-diff  n 58  mediana  1.16 s  p95   2.82 s  cumple
+  llama31-8b     trace-diff  n 58  mediana  1.09 s  p95   2.69 s  cumple
+  mistral-nemo   static      n 76  mediana  4.14 s  p95  13.67 s  cumple
+  mistral-nemo   state-diff  n 58  mediana  1.88 s  p95   4.24 s  cumple
+  mistral-nemo   trace-diff  n 58  mediana  1.96 s  p95   5.63 s  cumple
+  phi35          static      n 64  mediana 22.44 s  p95  39.01 s  NO cumple
+  phi35          state-diff  n 55  mediana  3.93 s  p95   9.58 s  cumple
+  phi35          trace-diff  n 53  mediana  4.57 s  p95  18.12 s  cumple
+  qwen25-7b      static      n 76  mediana  1.56 s  p95   6.11 s  cumple
+  qwen25-7b      state-diff  n 58  mediana  0.85 s  p95   1.85 s  cumple
+  qwen25-7b      trace-diff  n 58  mediana  0.91 s  p95   2.01 s  cumple
+
+==============================================================================
+B1. REFERENCIAS SIN MODELO
+==============================================================================
+  Responder siempre que si, 76 pares:   precision 0.553  recall 1,000  F1 0.712  TFP 1.000
+  Regla de la compuerta, 76 pares:      precision 0.724  recall 1,000  F1 0.840  TFP 0.471
+    (declara regresion siempre que la compuerta encuentra divergencia)
+  Responder siempre que si, 58 pares:   42/58 aciertos = 0.724
+  Aciertos de deteccion sobre los 58 pares por modelo y estrategia:
+    llama31-8b     static 22/58  state-diff 38/58  trace-diff 46/58
+    mistral-nemo   static 19/58  state-diff 28/58  trace-diff 36/58
+    phi35          static 24/58  state-diff 43/58  trace-diff 45/58
+    qwen25-7b      static 14/58  state-diff 30/58  trace-diff 30/58
+  Combinaciones que superan 42/58: 3 de 12
+
+==============================================================================
+B2. PRECISION ESPERADA SEGUN LA PREVALENCIA (pares con divergencia)
+==============================================================================
+  precision = S*pi / (S*pi + T*(1 - pi)); S = sensibilidad y T = tasa de falsos
+  positivos, ambas sobre las respuestas puntuadas de los 58 pares con divergencia.
+                              S      T      pi=0.72  pi=0.50  pi=0.20  pi=0.10  pi=0.05  pi=0.01
+  agregado       static       0.235  0.328    0.653    0.417    0.152    0.074    0.036    0.007
+  agregado       state-diff   0.602  0.381    0.806    0.613    0.283    0.149    0.077    0.016
+  agregado       trace-diff   0.681  0.279    0.865    0.710    0.379    0.213    0.114    0.024
+  llama31-8b     static       0.214  0.188    0.750    0.533    0.222    0.113    0.057    0.011
+  llama31-8b     state-diff   0.786  0.688    0.750    0.533    0.222    0.113    0.057    0.011
+  llama31-8b     trace-diff   0.857  0.375    0.857    0.696    0.364    0.203    0.107    0.023
+  mistral-nemo   static       0.262  0.500    0.579    0.344    0.116    0.055    0.027    0.005
+  mistral-nemo   state-diff   0.286  0.000    1.000    1.000    1.000    1.000    1.000    1.000
+  mistral-nemo   trace-diff   0.500  0.062    0.955    0.889    0.667    0.471    0.296    0.075
+  phi35          static       0.500  0.538    0.709    0.481    0.188    0.094    0.047    0.009
+  phi35          state-diff   0.975  0.733    0.777    0.571    0.249    0.129    0.065    0.013
+  phi35          trace-diff   1.000  0.615    0.810    0.619    0.289    0.153    0.079    0.016
+  qwen25-7b      static       0.000  0.125    0.000    0.000    0.000    0.000    0.000    0.000
+  qwen25-7b      state-diff   0.381  0.125    0.889    0.753    0.432    0.253    0.138    0.030
+  qwen25-7b      trace-diff   0.381  0.125    0.889    0.753    0.432    0.253    0.138    0.030
+  Regla de la compuerta: precision igual a la prevalencia (0.50, 0.20, 0.10, 0.05, 0.01).
+
+==============================================================================
+B3. PROPORCION DE RESPUESTAS AFIRMATIVAS (58 pares, respuestas puntuadas)
+==============================================================================
+  Proporcion real de regresiones en los 58 pares: 42/58 = 0.724
+  llama31-8b     static      12/58 = 0.207   en positivos 9/42   en pares sin regresion 3/16
+  llama31-8b     state-diff  44/58 = 0.759   en positivos 33/42   en pares sin regresion 11/16
+  llama31-8b     trace-diff  42/58 = 0.724   en positivos 36/42   en pares sin regresion 6/16
+  mistral-nemo   static      19/58 = 0.328   en positivos 11/42   en pares sin regresion 8/16
+  mistral-nemo   state-diff  12/58 = 0.207   en positivos 12/42   en pares sin regresion 0/16
+  mistral-nemo   trace-diff  22/58 = 0.379   en positivos 21/42   en pares sin regresion 1/16
+  phi35          static      25/49 = 0.510   en positivos 18/36   en pares sin regresion 7/13
+  phi35          state-diff  50/55 = 0.909   en positivos 39/40   en pares sin regresion 11/15
+  phi35          trace-diff  48/53 = 0.906   en positivos 40/40   en pares sin regresion 8/13
+  qwen25-7b      static       2/58 = 0.034   en positivos 0/42   en pares sin regresion 2/16
+  qwen25-7b      state-diff  18/58 = 0.310   en positivos 16/42   en pares sin regresion 2/16
+  qwen25-7b      trace-diff  18/58 = 0.310   en positivos 16/42   en pares sin regresion 2/16
+
+==============================================================================
+B4. ACIERTO SEGUN LOS TOKENS DE ENTRADA DE LA VERSION MODIFICADA UNICAMENTE
+==============================================================================
+  tercil 1 (4603 a 8691 tokens; 19 pares, 14 positivos)
+      static: sens 16/56 = 0.286, acierto 32/76, tokens 6432
+      state-diff: sens 35/56 = 0.625, acierto 47/76, tokens 1609
+      trace-diff: sens 35/56 = 0.625, acierto 50/76, tokens 2366
+  tercil 2 (8692 a 12570 tokens; 19 pares, 14 positivos)
+      static: sens 17/56 = 0.304, acierto 26/76, tokens 9703
+      state-diff: sens 35/56 = 0.625, acierto 48/76, tokens 1745
+      trace-diff: sens 41/56 = 0.732, acierto 54/76, tokens 2285
+  tercil 3 (12872 a 24253 tokens; 20 pares, 14 positivos)
+      static: sens 5/56 = 0.089, acierto 21/80, tokens 15384
+      state-diff: sens 30/56 = 0.536, acierto 44/80, tokens 1574
+      trace-diff: sens 37/56 = 0.661, acierto 53/80, tokens 1847
+
+==============================================================================
+B5. PARES SIN REGRESION CON DIVERGENCIA: MODELOS QUE DECLARAN REGRESION
+==============================================================================
+  Una letra por modelo (llama, mistral, phi, qwen): S declara regresion,
+  - la niega, ? sin veredicto.
+  a01-landing/n01-benign-rewording               benign-divergent  static -S--  state-diff --?-  trace-diff ----   1/12
+  a02-piscina/n01-benign-rewording               benign-divergent  static --S-  state-diff S-S-  trace-diff ----   3/12
+  a03-panel/n01-benign-added-total               benign-divergent  static -SS-  state-diff ----  trace-diff --?-   2/12
+  a03-panel/p01-preexisting-kbd-defect           preexisting       static -SS-  state-diff ----  trace-diff --?-   2/12
+  a04-multipaso/n01-benign-indicator-rewording   benign-divergent  static ----  state-diff S---  trace-diff ----   1/12
+  a04-multipaso/p01-preexisting-cto-defect       preexisting       static ----  state-diff S---  trace-diff ----   1/12
+  a05-blog/n01-benign-reading-time               benign-divergent  static SS?S  state-diff S-S-  trace-diff S-S-   7/12
+  a05-blog/p01-preexisting-focus-defect          preexisting       static -SSS  state-diff S-S-  trace-diff S---   6/12
+  a06-equipo/n01-benign-better-label             benign-divergent  static -SS-  state-diff --S-  trace-diff S-S-   5/12
+  a06-equipo/p01-preexisting-focus-defect        preexisting       static -S--  state-diff --S-  trace-diff S-S-   4/12
+  a07-perfil/n01-benign-better-label             benign-divergent  static S---  state-diff S-S-  trace-diff S-S-   5/12
+  a08-contacto/n01-benign-label-rewording        benign-divergent  static SS--  state-diff S-S-  trace-diff SSS-   7/12
+  a09-tienda/n01-benign-extra-disclosure         benign-divergent  static --?-  state-diff S-S-  trace-diff --S-   3/12
+  a09-tienda/p01-preexisting-cto-defect          preexisting       static --?-  state-diff S-S-  trace-diff --?-   2/12
+  a10-tramites/n01-benign-count-and-caption      benign-divergent  static --S-  state-diff S-SS  trace-diff --SS   6/12
+  a10-tramites/p01-preexisting-cto-defect        preexisting       static --S-  state-diff S-SS  trace-diff --SS   6/12
+
+==============================================================================
+B6. REGRESION LOGISTICA MIXTA CON LOS CUATRO MODELOS (EXPLORATORIO)
+==============================================================================
+  Respuesta: acierto de deteccion en los 58 pares con divergencia.
+  Efectos fijos: estrategia y modelo. Interceptos aleatorios: aplicacion y par.
+  H0-1: state-diff frente a static, 464 observaciones
+      OR 3.11  IC 95 % [2.09; 4.63]  p de Wald 0.0000
+      razon de verosimilitudes 33.32 (1 gl), p 0.0000
+      desviacion estandar: aplicacion 0.214, par 0.325
+      interaccion estrategia por modelo: 2.09 (3 gl), p 0.5548
+  H0-2: trace-diff frente a state-diff, 464 observaciones
+      OR 1.44  IC 95 % [0.97; 2.15]  p de Wald 0.0706
+      razon de verosimilitudes 3.29 (1 gl), p 0.0696
+      desviacion estandar: aplicacion 0.158, par 0.379
+      interaccion estrategia por modelo: 2.10 (3 gl), p 0.5514
+  McNemar combinado sobre los 58 pares (no independiente): solo trazas 41, solo estados 23, p 0.0328
+
+==============================================================================
+B7. LECTURA CUALITATIVA: MUESTRA Y CONTEOS DE APOYO
+==============================================================================
+  Falsos negativos con justificacion vacia o generica (niega sin citar pasos):
+    llama31-8b     static      33/33
+    llama31-8b     state-diff  8/9
+    llama31-8b     trace-diff  5/6
+    mistral-nemo   static      23/31
+    mistral-nemo   state-diff  14/30
+    mistral-nemo   trace-diff  6/21
+    phi35          static      5/18
+    phi35          state-diff  1/1
+    phi35          trace-diff  0/0
+    qwen25-7b      static      38/42
+    qwen25-7b      state-diff  25/26
+    qwen25-7b      trace-diff  20/26
+  Categoria declarada en los falsos positivos de pares con divergencia:
+    llama31-8b     static       3  orden y continuidad del foco: 3
+    llama31-8b     state-diff  11  orden y continuidad del foco: 11
+    llama31-8b     trace-diff   6  orden y continuidad del foco: 6
+    mistral-nemo   static       8  orden y continuidad del foco: 5; operación mediante teclado: 3
+    mistral-nemo   state-diff   0  
+    mistral-nemo   trace-diff   1  orden y continuidad del foco: 1
+    phi35          static       7  operación mediante teclado: 2; cambios inesperados de contexto: 2; comunicación accesible de actualizaciones dinámicas: 2; orden y continuidad del foco: 1
+    phi35          state-diff  11  orden y continuidad del foco: 8; operación mediante teclado: 3
+    phi35          trace-diff   8  orden y continuidad del foco: 4; operación mediante teclado: 3; comunicación accesible de actualizaciones dinámicas: 1
+    qwen25-7b      static       2  orden y continuidad del foco: 2
+    qwen25-7b      state-diff   2  orden y continuidad del foco: 2
+    qwen25-7b      trace-diff   2  operación mediante teclado: 2
+  Qwen 2.5, falsos negativos, version modificada unicamente: 9 de 42 respuestas
+  Qwen 2.5, falsos negativos, estrategias diferenciales: 8 de 52 respuestas
+  Llama 3.1, falsos positivos, estrategias diferenciales: 11 de 17 respuestas
+  Phi 3.5, falsos positivos, tres estrategias: 12 de 33 respuestas
+  La muestra completa esta en exploratorio-muestra-cualitativa.txt.
+
